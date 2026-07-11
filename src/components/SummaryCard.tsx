@@ -1,7 +1,8 @@
 import { useState } from "react";
-import ReactMarkdown from "react-markdown";
+
 import { jsPDF } from "jspdf";
 import toast from "react-hot-toast";
+import { parseSummary } from "../utils/parseSummary";
 import {
   Copy,
   Check,
@@ -26,7 +27,7 @@ export default function SummaryCard({
 }: SummaryCardProps) {
 
   const [copied, setCopied] = useState(false);
-
+const parsed = parseSummary(summary);
   async function handleCopy() {
 
     try {
@@ -292,138 +293,157 @@ toast.success("PDF downloaded!");
 
           </div>
 
-          {/* Summary */}
+         {/* Summary */}
 
-          <div className="rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 to-slate-50 p-8 shadow-inner">
+<div className="rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 to-slate-50 p-8 shadow-inner">
 
-            <ReactMarkdown
-             components={{
-  h1: ({ children }) => (
-    <div className="mb-8 rounded-2xl border-l-8 border-blue-600 bg-gradient-to-r from-blue-100 to-blue-50 px-6 py-5 shadow-sm">
-      <h1 className="text-3xl font-black text-blue-900">
-        {children}
-      </h1>
+  {/* Executive Summary Card */}
+
+  {parsed.executiveSummary && (
+  <div className="mb-8 rounded-3xl border border-blue-200 bg-gradient-to-r from-blue-50 via-white to-indigo-50 p-8 shadow-sm">
+
+    <div className="mb-4 flex items-center gap-3">
+
+      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-2xl text-white">
+        📄
+      </div>
+
+      <div>
+
+        <h3 className="text-2xl font-bold text-gray-900">
+          Executive Summary
+        </h3>
+
+        <p className="text-gray-500">
+          AI Generated Overview
+        </p>
+
+      </div>
+
     </div>
-  ),
 
-  h2: ({ children }) => (
-    <div className="mt-10 mb-5 flex items-center gap-3">
-      <div className="h-8 w-2 rounded-full bg-gradient-to-b from-blue-600 to-violet-600" />
-
-      <h2 className="text-2xl font-extrabold text-gray-900">
-        {children}
-      </h2>
-    </div>
-  ),
-
-  h3: ({ children }) => (
-    <h3 className="mt-8 mb-3 text-xl font-bold text-blue-700">
-      {children}
-    </h3>
-  ),
-
-  p: ({ children }) => (
-    <p className="mb-5 leading-8 text-[17px] text-gray-700">
-      {children}
+    <p className="leading-8 text-gray-700">
+      {parsed.executiveSummary}
     </p>
-  ),
 
-  ul: ({ children }) => (
-    <ul className="mb-8 space-y-4">
-      {children}
-    </ul>
-  ),
+  </div>
+)}
+{parsed.keyPoints.length > 0 && (
+  <div className="mb-8">
+    <h3 className="mb-5 text-2xl font-bold text-gray-900">
+      ⭐ Key Points
+    </h3>
 
-  li: ({ children }) => (
-    <li className="flex items-start gap-3 rounded-xl bg-white p-4 shadow-sm">
-      <span className="mt-1 text-blue-600">
-        ✓
-      </span>
+    <div className="space-y-4">
+      {parsed.keyPoints.map((point, index) => (
+        <div
+          key={index}
+          className="flex items-start gap-4 rounded-2xl border border-blue-100 bg-white p-5 shadow-sm transition hover:shadow-md"
+        >
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
+            {index + 1}
+          </div>
 
-      <span className="leading-7 text-gray-700">
-        {children}
-      </span>
-    </li>
-  ),
-
-  strong: ({ children }) => (
-    <strong className="font-bold text-gray-900">
-      {children}
-    </strong>
-  ),
-    blockquote: ({ children }) => (
-    <blockquote className="my-8 rounded-2xl border-l-4 border-yellow-500 bg-yellow-50 px-6 py-5 italic text-gray-700 shadow-sm">
-      {children}
-    </blockquote>
-  ),
-
-  hr: () => (
-    <hr className="my-10 border-0 border-t-2 border-gray-200" />
-  ),
-
-code({ children, className }) {
-
-  const isBlock = className?.includes("language-");
-
-  if (!isBlock) {
-    return (
-      <code className="rounded-md bg-gray-200 px-2 py-1 font-mono text-sm text-pink-600">
-        {children}
-      </code>
-    );
-  }
-
-  return (
-    <pre className="my-6 overflow-x-auto rounded-2xl bg-gray-900 p-5 text-gray-100 shadow-lg">
-      <code className={className}>
-        {children}
-      </code>
-    </pre>
-  );
-
-},
-
-  table: ({ children }) => (
-    <div className="my-8 overflow-x-auto rounded-2xl border border-gray-200 shadow-sm">
-      <table className="min-w-full border-collapse">
-        {children}
-      </table>
+          <p className="leading-7 text-gray-700">
+            {point}
+          </p>
+        </div>
+      ))}
     </div>
-  ),
+  </div>
+)}
+{parsed.keyTakeaways.length > 0 && (
+  <div className="mb-8">
+    <h3 className="mb-5 text-2xl font-bold text-gray-900">
+      💡 Key Takeaways
+    </h3>
 
-  thead: ({ children }) => (
-    <thead className="bg-blue-600 text-white">
-      {children}
-    </thead>
-  ),
+    <div className="grid gap-4 md:grid-cols-2">
+      {parsed.keyTakeaways.map((item, index) => (
+        <div
+          key={index}
+          className="rounded-2xl border border-amber-200 bg-gradient-to-br from-yellow-50 to-white p-5 shadow-sm transition hover:shadow-md"
+        >
+          <div className="mb-3 flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500 font-bold text-white">
+              ✓
+            </div>
 
-  tbody: ({ children }) => (
-    <tbody className="bg-white">
-      {children}
-    </tbody>
-  ),
+            <span className="font-semibold text-gray-800">
+              Takeaway {index + 1}
+            </span>
+          </div>
 
-  tr: ({ children }) => (
-    <tr className="border-b border-gray-200">
-      {children}
-    </tr>
-  ),
+          <p className="leading-7 text-gray-700">
+            {item}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+{parsed.quickSummary && (
+  <div className="mb-8 rounded-3xl border border-green-200 bg-gradient-to-r from-green-50 to-white p-6 shadow-sm">
 
-  th: ({ children }) => (
-    <th className="px-5 py-3 text-left font-semibold">
-      {children}
-    </th>
-  ),
+    <div className="mb-4 flex items-center gap-3">
 
-  td: ({ children }) => (
-    <td className="px-5 py-3 text-gray-700">
-      {children}
-    </td>
-  ),
-}}
-            >
-              {summary}
-            </ReactMarkdown>
+      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-600 text-white text-2xl">
+        ⚡
+      </div>
+
+      <div>
+
+        <h3 className="text-2xl font-bold text-gray-900">
+          Quick Summary
+        </h3>
+
+        <p className="text-gray-500">
+          Read this in under 30 seconds
+        </p>
+
+      </div>
+
+    </div>
+
+    <p className="leading-8 text-gray-700">
+      {parsed.quickSummary}
+    </p>
+
+  </div>
+)}
+{parsed.actionItems.length > 0 && (
+  <div className="mb-8">
+
+    <h3 className="mb-5 text-2xl font-bold text-gray-900">
+      🎯 Action Items
+    </h3>
+
+    <div className="space-y-4">
+
+      {parsed.actionItems.map((item, index) => (
+
+        <div
+          key={index}
+          className="flex items-start gap-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm transition hover:shadow-md"
+        >
+
+          <div className="mt-1 flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 font-bold text-white">
+            ✓
+          </div>
+
+          <p className="leading-7 text-gray-700">
+            {item}
+          </p>
+
+        </div>
+
+      ))}
+
+    </div>
+
+  </div>
+)}
+  
 
           </div>
                   </div>
