@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { pdf } from "@react-pdf/renderer";
+import PdfDocument from "../pdf/PdfDocument";
 
-import { jsPDF } from "jspdf";
 import toast from "react-hot-toast";
 import { parseSummary } from "../utils/parseSummary";
 import {
@@ -115,46 +116,58 @@ async function handleShare() {
     );
 toast.success("TXT downloaded!");
   }
+function handleDownloadMarkdown() {
+  downloadFile(
+    summary,
+    `${video.title}.md`,
+    "text/markdown;charset=utf-8"
+  );
 
-  function handleDownloadMarkdown() {
+  toast.success("Markdown downloaded!");
+}
+  async function handleDownloadPdf() {
+  try {
+    toast.loading("Generating PDF...", {
+      id: "pdf",
+    });
 
-    downloadFile(
+    const blob = await pdf(
+      <PdfDocument
+        video={video}
+        parsed={parsed}
+      />
+    ).toBlob();
 
-      summary,
+    const url = URL.createObjectURL(blob);
 
-      `${video.title}.md`,
+    const link = document.createElement("a");
 
-      "text/markdown;charset=utf-8"
+    link.href = url;
 
-    );
-toast.success("Markdown downloaded!");
+    link.download = `${video.title}.pdf`;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+
+    toast.success("PDF downloaded!", {
+      id: "pdf",
+    });
+
+  } catch (err) {
+
+    console.error(err);
+
+    toast.error("Failed to generate PDF", {
+      id: "pdf",
+    });
+
   }
-
-  function handleDownloadPdf() {
-
-    const doc = new jsPDF();
-
-    doc.setFontSize(18);
-
-    doc.setFont("helvetica", "bold");
-
-    doc.text(video.title, 15, 20);
-
-    doc.setFontSize(12);
-
-    doc.setFont("helvetica", "normal");
-
-    doc.text(`Channel: ${video.channel}`, 15, 30);
-
-    const lines = doc.splitTextToSize(summary, 180);
-
-    doc.text(lines, 15, 45);
-
-    doc.save(`${video.title}.pdf`);
-
-toast.success("PDF downloaded!");
-
-  }
+}
 
   return (
            <div className="animate-summary mx-auto mt-10 w-full max-w-6xl overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
