@@ -7,43 +7,68 @@ export type ParsedSummary = {
 };
 
 export function parseSummary(markdown: string): ParsedSummary {
-  const getSection = (title: string, next: string[]) => {
+  function getSection(possibleTitles: string[], nextTitles: string[]) {
+    const titleRegex = possibleTitles
+      .map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+      .join("|");
+
+    const nextRegex =
+      nextTitles.length > 0
+        ? nextTitles
+            .map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+            .join("|")
+        : "$";
+
     const regex = new RegExp(
-      `# ${title}\\s+([\\s\\S]*?)(?=${next.map(n => `# ${n}`).join("|")}|$)`,
+      `#\\s*(?:${titleRegex})\\s*([\\s\\S]*?)(?=#\\s*(?:${nextRegex})|$)`,
       "i"
     );
 
     const match = markdown.match(regex);
 
     return match ? match[1].trim() : "";
-  };
+  }
 
-  const executiveSummary = getSection("Executive Summary", [
-    "Key Points",
-  ]);
+  function parseBullets(text: string) {
+    return text
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(
+        (line) =>
+          line.startsWith("- ") ||
+          line.startsWith("* ") ||
+          line.startsWith("• ")
+      )
+      .map((line) => line.replace(/^[-*•]\s*/, ""));
+  }
 
-  const keyPoints = getSection("Key Points", [
-    "Key Takeaways",
-  ])
-    .split("\n")
-    .filter(line => line.startsWith("- "))
-    .map(line => line.replace("- ", ""));
+  const executiveSummary = getSection(
+    ["Executive Summary", "📌 Overview", "Overview"],
+    ["Key Points", "🎯 Key Points"]
+  );
 
-  const keyTakeaways = getSection("Key Takeaways", [
-    "Quick Summary",
-  ])
-    .split("\n")
-    .filter(line => line.startsWith("- "))
-    .map(line => line.replace("- ", ""));
+  const keyPoints = parseBullets(
+    getSection(
+      ["Key Points", "🎯 Key Points"],
+      ["Key Takeaways", "💡 Key Takeaways"]
+    )
+  );
 
-  const quickSummary = getSection("Quick Summary", [
-    "Action Items",
-  ]);
+  const keyTakeaways = parseBullets(
+    getSection(
+      ["Key Takeaways", "💡 Key Takeaways"],
+      ["Quick Summary", "⚡ 30-Second Summary", "Action Items"]
+    )
+  );
 
-  const actionItems = getSection("Action Items", [])
-    .split("\n")
-    .filter(line => line.startsWith("- "))
-    .map(line => line.replace("- ", ""));
+  const quickSummary = getSection(
+    ["Quick Summary", "⚡ 30-Second Summary"],
+    ["Action Items"]
+  );
+
+  const actionItems = parseBullets(
+    getSection(["Action Items"], [])
+  );
 
   return {
     executiveSummary,
