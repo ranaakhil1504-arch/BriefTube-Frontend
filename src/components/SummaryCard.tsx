@@ -170,10 +170,9 @@ function handleDownloadMarkdown() {
 }
 
   return (
-           <div className="animate-summary mx-auto mt-10 w-full max-w-6xl overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+           <div className="animate-summary mx-auto mt-10 w-full max-w-6xl overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl dark:border-gray-700 dark:bg-gray-900">
 
-      <div className="overflow-hidden rounded-[32px] border border-white/60 bg-white/90 shadow-2xl backdrop-blur-xl">
-
+<div className="overflow-hidden rounded-[32px] border border-white/60 bg-white/90 shadow-2xl backdrop-blur-xl dark:border-gray-700 dark:bg-gray-900/90">
         {/* Thumbnail */}
 
         <div className="relative">
@@ -190,11 +189,10 @@ function handleDownloadMarkdown() {
 
           {/* Video Badge */}
 
-          <div className="absolute left-6 top-6 flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 shadow-lg backdrop-blur">
-
+            <div className="absolute left-6 top-6 flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 shadow-lg backdrop-blur dark:bg-gray-900/80">
             <PlayCircle className="h-5 w-5 text-red-600" />
 
-            <span className="text-sm font-semibold text-gray-800">
+            <span className="text-sm font-semibold text-gray-800 dark:text-white">
               YouTube Video
             </span>
 
@@ -222,7 +220,7 @@ function handleDownloadMarkdown() {
 
         {/* Body */}
 
-        <div className="p-8">
+        <div className="p-8 dark:bg-gray-900">
 
           {/* Toolbar */}
 
@@ -230,13 +228,13 @@ function handleDownloadMarkdown() {
 
             <div>
 
-              <h3 className="text-2xl font-bold text-gray-900">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
 
                 📄 AI Generated Summary
 
               </h3>
 
-              <p className="mt-1 text-gray-500">
+              <p className="mt-1 text-gray-500 dark:text-gray-400">
 
                 Beautifully organized by Gemini AI
 
@@ -308,12 +306,12 @@ function handleDownloadMarkdown() {
 
          {/* Summary */}
 
-<div className="rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 to-slate-50 p-8 shadow-inner">
+<div className="rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 to-slate-50 p-8 shadow-inner dark:border-gray-700 dark:from-gray-900 dark:to-gray-800">
 
   {/* Executive Summary Card */}
 
   {parsed.executiveSummary && (
-  <div className="mb-8 rounded-3xl border border-blue-200 bg-gradient-to-r from-blue-50 via-white to-indigo-50 p-8 shadow-sm">
+  <div className="mb-8 rounded-3xl border border-blue-200 bg-gradient-to-r from-blue-50 via-white to-indigo-50 p-8 shadow-sm dark:border-blue-800 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800">
 
     <div className="mb-4 flex items-center gap-3">
 
@@ -323,11 +321,11 @@ function handleDownloadMarkdown() {
 
       <div>
 
-        <h3 className="text-2xl font-bold text-gray-900">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
           Executive Summary
         </h3>
 
-        <p className="text-gray-500">
+        <p className="text-gray-500 dark:text-gray-400">
           AI Generated Overview
         </p>
 
@@ -335,7 +333,7 @@ function handleDownloadMarkdown() {
 
     </div>
 
-    <p className="leading-8 text-gray-700">
+    <p className="leading-8 text-gray-700 dark:text-gray-300">
       {parsed.executiveSummary}
     </p>
 
@@ -343,7 +341,7 @@ function handleDownloadMarkdown() {
 )}
 {parsed.keyPoints.length > 0 && (
   <div className="mb-8">
-    <h3 className="mb-5 text-2xl font-bold text-gray-900">
+    <h3 className="mb-5 text-2xl font-bold text-gray-900 dark:text-white">
       ⭐ Key Points
     </h3>
 
@@ -351,13 +349,13 @@ function handleDownloadMarkdown() {
       {parsed.keyPoints.map((point, index) => (
         <div
           key={index}
-          className="flex items-start gap-4 rounded-2xl border border-blue-100 bg-white p-5 shadow-sm transition hover:shadow-md"
+          className="flex items-start gap-4 rounded-2xl border border-blue-100 bg-white p-5 shadow-sm transition hover:shadow-md dark:border-gray-700 dark:bg-gray-900"
         >
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-sm font-bold text-white">
             {index + 1}
           </div>
 
-          <p className="leading-7 text-gray-700">
+          <p className="leading-7 text-gray-700 dark:text-gray-300">
             {point}
           </p>
         </div>
@@ -367,7 +365,7 @@ function handleDownloadMarkdown() {
 )}
 {parsed.keyTakeaways.length > 0 && (
   <div className="mb-8">
-    <h3 className="mb-5 text-2xl font-bold text-gray-900">
+    <h3 className="mb-5 text-2xl font-bold text-gray-900 dark:text-white">
       💡 Key Takeaways
     </h3>
 
@@ -375,19 +373,19 @@ function handleDownloadMarkdown() {
       {parsed.keyTakeaways.map((item, index) => (
         <div
           key={index}
-          className="rounded-2xl border border-amber-200 bg-gradient-to-br from-yellow-50 to-white p-5 shadow-sm transition hover:shadow-md"
+          className="rounded-2xl border border-amber-200 bg-gradient-to-br from-yellow-50 to-white p-5 shadow-sm transition hover:shadow-md dark:border-yellow-800 dark:from-gray-900 dark:to-gray-800"
         >
           <div className="mb-3 flex items-center gap-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500 font-bold text-white">
               ✓
             </div>
 
-            <span className="font-semibold text-gray-800">
+            <span className="font-semibold text-gray-800 dark:text-white">
               Takeaway {index + 1}
             </span>
           </div>
 
-          <p className="leading-7 text-gray-700">
+            <p className="leading-7 text-gray-300">
             {item}
           </p>
         </div>
@@ -396,7 +394,7 @@ function handleDownloadMarkdown() {
   </div>
 )}
 {parsed.quickSummary && (
-  <div className="mb-8 rounded-3xl border border-green-200 bg-gradient-to-r from-green-50 to-white p-6 shadow-sm">
+  <div className="mb-8 rounded-3xl border border-green-200 bg-gradient-to-r from-green-50 to-white p-6 shadow-sm dark:border-green-800 dark:from-gray-900 dark:to-gray-800">
 
     <div className="mb-4 flex items-center gap-3">
 
@@ -406,11 +404,11 @@ function handleDownloadMarkdown() {
 
       <div>
 
-        <h3 className="text-2xl font-bold text-gray-900">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
           Quick Summary
         </h3>
 
-        <p className="text-gray-500">
+        <p className="text-gray-500 dark:text-gray-400">
           Read this in under 30 seconds
         </p>
 
@@ -418,7 +416,7 @@ function handleDownloadMarkdown() {
 
     </div>
 
-    <p className="leading-8 text-gray-700">
+    <p className="leading-8 text-gray-700 dark:text-gray-300">
       {parsed.quickSummary}
     </p>
 
@@ -427,7 +425,7 @@ function handleDownloadMarkdown() {
 {parsed.actionItems.length > 0 && (
   <div className="mb-8">
 
-    <h3 className="mb-5 text-2xl font-bold text-gray-900">
+    <h3 className="mb-5 text-2xl font-bold text-gray-900 dark:text-white">
       🎯 Action Items
     </h3>
 
@@ -437,14 +435,14 @@ function handleDownloadMarkdown() {
 
         <div
           key={index}
-          className="flex items-start gap-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm transition hover:shadow-md"
+          className="flex items-start gap-4 rounded-2xl border border-emerald-200 bg-emerald-50 p-5 shadow-sm transition hover:shadow-md dark:border-emerald-800 dark:bg-gray-900"
         >
 
           <div className="mt-1 flex h-7 w-7 items-center justify-center rounded-full bg-emerald-600 font-bold text-white">
             ✓
           </div>
 
-          <p className="leading-7 text-gray-700">
+          <p className="leading-7 text-gray-700 dark:text-gray-300">
             {item}
           </p>
 
