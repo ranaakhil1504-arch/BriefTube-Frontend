@@ -21,13 +21,13 @@ export function ThemeProvider({
   children: ReactNode;
 }) {
   const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem("theme") as Theme | null;
+  const saved = localStorage.getItem("theme") as Theme | null;
 
-if (saved) return saved;
+  if (saved) return saved;
 
-// Default theme
-return "dark";
-  });
+  // Default theme
+  return "dark";
+});
 
   useEffect(() => {
     document.documentElement.classList.toggle(
