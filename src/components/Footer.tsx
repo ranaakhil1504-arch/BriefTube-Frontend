@@ -2,7 +2,7 @@ import { Sparkles, Heart, Mail } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="mt-24 border-t border-gray-200 bg-gradient-to-b from-white via-blue-50 to-violet-50">
+    <footer className="mt-24 border-t border-gray-200 bg-gradient-to-b from-white via-blue-50 to-violet-50 transition-colors duration-300 dark:border-gray-800 dark:bg-gradient-to-b dark:from-gray-950 dark:via-gray-900 dark:to-slate-950">
       <div className="mx-auto max-w-7xl px-6 py-14">
 
         <div className="grid gap-12 md:grid-cols-3">
@@ -10,6 +10,7 @@ export default function Footer() {
           {/* Brand */}
 
           <div>
+
             <div className="flex items-center gap-3">
 
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-lg">
@@ -17,20 +18,23 @@ export default function Footer() {
               </div>
 
               <div>
-                <h2 className="text-2xl font-black text-gray-900">
+
+                <h2 className="text-2xl font-black text-gray-900 dark:text-white">
                   BriefTube
                 </h2>
 
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   AI YouTube Summarizer
                 </p>
+
               </div>
 
             </div>
 
-            <p className="mt-6 leading-7 text-gray-600">
+            <p className="mt-6 leading-7 text-gray-600 dark:text-gray-300">
               Turn long YouTube videos into clean, structured AI summaries in
-              seconds. Save time, learn faster, and export your notes with one click.
+              seconds. Save time, learn faster, and export your notes with one
+              click.
             </p>
 
           </div>
@@ -39,17 +43,24 @@ export default function Footer() {
 
           <div>
 
-            <h3 className="text-lg font-bold text-gray-900">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white">
               Features
             </h3>
 
-            <ul className="mt-5 space-y-3 text-gray-600">
+            <ul className="mt-5 space-y-3 text-gray-600 dark:text-gray-300">
+
               <li>✨ AI Generated Summaries</li>
+
               <li>📄 PDF Export</li>
+
               <li>📝 Markdown Export</li>
+
               <li>📋 Copy Summary</li>
+
               <li>🔗 Share Summary</li>
+
               <li>⚡ Lightning Fast</li>
+
             </ul>
 
           </div>
@@ -58,17 +69,17 @@ export default function Footer() {
 
           <div>
 
-            <h3 className="text-lg font-bold text-gray-900">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white">
               Contact
             </h3>
 
             <div className="mt-5">
 
-              <div className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+              <div className="flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-colors duration-300 dark:border-gray-700 dark:bg-gray-800">
 
                 <Mail className="h-5 w-5 text-blue-600" />
 
-                <span className="text-gray-700">
+                <span className="text-gray-700 dark:text-gray-200">
                   Coming Soon
                 </span>
 
@@ -76,7 +87,7 @@ export default function Footer() {
 
               <div className="mt-6">
 
-                <span className="inline-flex rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
+                <span className="inline-flex rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
                   Version 1.0
                 </span>
 
@@ -88,9 +99,9 @@ export default function Footer() {
 
         </div>
 
-        <div className="mt-14 border-t border-gray-200 pt-8">
+        <div className="mt-14 border-t border-gray-200 pt-8 dark:border-gray-800">
 
-          <p className="flex items-center justify-center gap-2 text-center text-gray-500">
+          <p className="flex items-center justify-center gap-2 text-center text-gray-500 dark:text-gray-400">
 
             Built with
 
@@ -100,7 +111,7 @@ export default function Footer() {
 
           </p>
 
-          <p className="mt-3 text-center text-sm text-gray-400">
+          <p className="mt-3 text-center text-sm text-gray-400 dark:text-gray-500">
             © 2026 BriefTube. All rights reserved.
           </p>
 
