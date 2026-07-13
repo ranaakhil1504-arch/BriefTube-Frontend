@@ -15,3 +15,20 @@ export async function getHistory(userId: string) {
 
   return data.history;
 }
+
+export async function deleteHistory(id: string) {
+  const response = await fetch(
+    `${API_URL}/api/history/${id}`,
+    {
+      method: "DELETE",
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}

@@ -16,6 +16,7 @@ import type { Session } from "@supabase/supabase-js";
 
 function App() {
   const [summary, setSummary] = useState("");
+ 
   const [loading, setLoading] = useState(false);
   const [video, setVideo] = useState<VideoInfo | null>(null);
   const [error, setError] = useState("");
@@ -156,10 +157,29 @@ const [historyOpen, setHistoryOpen] = useState(false);
       )}
 {session && (
   <HistoryDrawer
-    open={historyOpen}
-    onClose={() => setHistoryOpen(false)}
-    userId={session.user.id}
-  />
+  open={historyOpen}
+  onClose={() => setHistoryOpen(false)}
+  userId={session.user.id}
+  onSelectSummary={(item) => {
+    setSummary(item.summary);
+
+    setVideo({
+      title: item.title,
+      channel: item.channel,
+      thumbnail: item.thumbnail,
+    });
+
+  
+
+    setError("");
+
+    setTimeout(() => {
+      summaryRef.current?.scrollIntoView({
+        behavior: "smooth",
+      });
+    }, 200);
+  }}
+/>
 )}
       <Footer />
     </>
