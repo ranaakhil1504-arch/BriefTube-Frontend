@@ -1,11 +1,49 @@
-import { Sparkles, Moon, Sun } from "lucide-react";
+import {
+  Sparkles,
+  Moon,
+  Sun,
+  LogIn,
+  LogOut,
+} from "lucide-react";
 import { useTheme } from "../hooks/useTheme";
+import { signInWithGoogle, signOut } from "../services/auth";
+import type { Session } from "@supabase/supabase-js";
+import toast from "react-hot-toast";
 
-export default function Navbar() {
+type NavbarProps = {
+  session: Session | null;
+};
+
+export default function Navbar({ session }: NavbarProps) {
   const { theme, toggleTheme } = useTheme();
 
+  async function handleLogin() {
+    try {
+      await signInWithGoogle();
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to sign in");
+    }
+  }
+
+  async function handleLogout() {
+    try {
+      await signOut();
+      toast.success("Logged out");
+    } catch (error) {
+      console.error(error);
+      toast.error("Logout failed");
+    }
+  }
+
+  const user = session?.user;
+
+console.log(user);
+console.log(user?.user_metadata);
+
+
   return (
-   <header className="sticky top-0 z-50 border-b border-white/20 bg-white/70 backdrop-blur-xl transition-all duration-300 dark:border-gray-700 dark:bg-gray-900/80">
+    <header className="sticky top-0 z-50 border-b border-white/20 bg-white/70 backdrop-blur-xl transition-all duration-300 dark:border-gray-700 dark:bg-gray-900/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-8">
 
         {/* Logo */}
@@ -33,6 +71,47 @@ export default function Navbar() {
           <span className="hidden rounded-full bg-blue-100 px-4 py-1 text-sm font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 md:block">
             Gemini AI
           </span>
+
+          {!user ? (
+            <button
+              onClick={handleLogin}
+              className="hidden items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-lg transition hover:scale-105 md:flex"
+            >
+              <LogIn className="h-4 w-4" />
+              Sign in
+            </button>
+          ) : (
+            <div className="hidden items-center gap-3 md:flex">
+
+              <img
+                src={
+                  user.user_metadata.avatar_url ||
+                  "https://ui-avatars.com/api/?name=User"
+                }
+                alt="avatar"
+                className="h-10 w-10 rounded-full border"
+              />
+
+              <div className="text-right">
+                <p className="max-w-[180px] truncate text-sm font-semibold text-gray-900 dark:text-white">
+                  {user.user_metadata.full_name || "User"}
+                </p>
+
+                <p className="max-w-[180px] truncate text-xs text-gray-500 dark:text-gray-400">
+                  {user.email}
+                </p>
+              </div>
+
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 rounded-xl border border-red-200 px-3 py-2 text-sm font-medium text-red-600 transition hover:bg-red-50 dark:border-red-800 dark:hover:bg-red-900/20"
+              >
+                <LogOut className="h-4 w-4" />
+                Logout
+              </button>
+
+            </div>
+          )}
 
           <button
             onClick={toggleTheme}
