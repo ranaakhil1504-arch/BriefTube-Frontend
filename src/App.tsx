@@ -10,7 +10,7 @@ import type { VideoInfo } from "./services/api";
 import Footer from "./components/Footer";
 import toast from "react-hot-toast";
 import { supabase } from "./lib/supabase";
-
+import HistoryDrawer from "./components/HistoryDrawer";
 
 import type { Session } from "@supabase/supabase-js";
 
@@ -22,7 +22,7 @@ function App() {
 
   // 👇 Add this here
   const [session, setSession] = useState<Session | null>(null);
-
+const [historyOpen, setHistoryOpen] = useState(false);
   const summaryRef = useRef<HTMLDivElement | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
@@ -70,7 +70,14 @@ function App() {
         });
       }, 100);
 
-      const result = await generateSummary(url);
+      const result = await generateSummary(
+  url,
+  session?.user.id
+);
+//temp
+
+
+
 
       setSummary(result.summary);
       setVideo(result.video);
@@ -101,7 +108,10 @@ function App() {
 
   return (
     <>
-      <Navbar session={session} />
+     <Navbar
+  session={session}
+  onHistoryClick={() => setHistoryOpen(true)}
+/>
 
       <Hero
         onGenerate={handleGenerate}
@@ -144,7 +154,13 @@ function App() {
           />
         </div>
       )}
-
+{session && (
+  <HistoryDrawer
+    open={historyOpen}
+    onClose={() => setHistoryOpen(false)}
+    userId={session.user.id}
+  />
+)}
       <Footer />
     </>
   );

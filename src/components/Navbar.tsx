@@ -12,9 +12,13 @@ import toast from "react-hot-toast";
 
 type NavbarProps = {
   session: Session | null;
+  onHistoryClick: () => void;
 };
 
-export default function Navbar({ session }: NavbarProps) {
+export default function Navbar({
+  session,
+  onHistoryClick,
+}: NavbarProps) {
   const { theme, toggleTheme } = useTheme();
 
   async function handleLogin() {
@@ -82,6 +86,13 @@ console.log(user?.user_metadata);
             </button>
           ) : (
             <div className="hidden items-center gap-3 md:flex">
+
+  <button
+    onClick={onHistoryClick}
+    className="rounded-xl border px-4 py-2 text-sm font-semibold transition hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800"
+  >
+    📚 History
+  </button>
 
               <img
                 src={

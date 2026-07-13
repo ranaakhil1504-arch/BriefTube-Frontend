@@ -8,13 +8,19 @@ const API_URL =
   import.meta.env.VITE_API_URL ||
   "http://localhost:5000";
 
-export async function generateSummary(url: string) {
+export async function generateSummary(
+  url: string,
+  userId?: string
+) {
   const response = await fetch(`${API_URL}/api/summarize`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ url }),
+    body: JSON.stringify({
+      url,
+      userId,
+    }),
   });
 
   const data = await response.json();
