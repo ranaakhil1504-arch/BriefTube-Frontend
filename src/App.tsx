@@ -11,7 +11,7 @@ import Footer from "./components/Footer";
 import toast from "react-hot-toast";
 import { supabase } from "./lib/supabase";
 import HistoryDrawer from "./components/HistoryDrawer";
-
+import SEO from "./components/SEO";
 import type { Session } from "@supabase/supabase-js";
 
 function App() {
@@ -109,6 +109,10 @@ const [historyOpen, setHistoryOpen] = useState(false);
 
   return (
     <>
+    <SEO
+  title="AI YouTube Video Summarizer – Free & Instant | BriefTube"
+  description="Summarize any YouTube video instantly with AI. Generate accurate summaries, key takeaways, timestamps and notes for free using BriefTube."
+/>
      <Navbar
   session={session}
   onHistoryClick={() => setHistoryOpen(true)}

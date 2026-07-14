@@ -1,15 +1,17 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
-
+import { HelmetProvider } from "react-helmet-async";
 import "./index.css";
 
 import App from "./App";
 import { ThemeProvider } from "./context/AppTheme";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+ <StrictMode>
+  <HelmetProvider>
     <ThemeProvider>
+
       <Toaster
         position="top-right"
         toastOptions={{
@@ -37,6 +39,8 @@ createRoot(document.getElementById("root")!).render(
       />
 
       <App />
+
     </ThemeProvider>
-  </StrictMode>
+  </HelmetProvider>
+</StrictMode>
 );
