@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
+import Features from "../components/Features";
 import EmptyState from "../components/EmptyState";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
@@ -9,7 +9,7 @@ import SummarySkeleton from "../components/SummarySkeleton";
 import Footer from "../components/Footer";
 import HistoryDrawer from "../components/HistoryDrawer";
 import SEO from "../components/SEO";
-
+import Testimonials from "../components/Testimonials";
 import { generateSummary } from "../services/api";
 import type { VideoInfo } from "../services/api";
 
@@ -191,6 +191,8 @@ const [historyOpen, setHistoryOpen] = useState(false);
   }}
 />
 )}
+<Features />
+<Testimonials />
       <Footer />
     </>
   );
