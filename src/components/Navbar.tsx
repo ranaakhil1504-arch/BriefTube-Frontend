@@ -4,7 +4,12 @@ import {
   Sun,
   LogIn,
   LogOut,
+  Menu,
+  X,
 } from "lucide-react";
+
+import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useTheme } from "../hooks/useTheme";
 import { signInWithGoogle, signOut } from "../services/auth";
 import type { Session } from "@supabase/supabase-js";
@@ -41,7 +46,7 @@ export default function Navbar({
   }
 
   const user = session?.user;
-
+const [mobileMenu, setMobileMenu] = useState(false);
 console.log(user);
 console.log(user?.user_metadata);
 
@@ -68,6 +73,37 @@ console.log(user?.user_metadata);
           </div>
         </div>
 
+<nav className="hidden items-center gap-8 lg:flex">
+
+  <Link
+    to="/"
+    className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
+  >
+    Home
+  </Link>
+
+  <Link
+    to="/faq"
+    className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
+  >
+    FAQ
+  </Link>
+
+  <Link
+    to="/about"
+    className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
+  >
+    About
+  </Link>
+
+  <Link
+    to="/contact"
+    className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
+  >
+    Contact
+  </Link>
+
+</nav>
         {/* Right */}
 
         <div className="flex items-center gap-4">
@@ -134,10 +170,72 @@ console.log(user?.user_metadata);
               <Moon className="h-5 w-5 text-gray-700" />
             )}
           </button>
-
+<button
+  onClick={() => setMobileMenu(!mobileMenu)}
+  className="lg:hidden flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 bg-white shadow transition-all duration-300 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+>
+  {mobileMenu ? (
+    <X className="h-5 w-5" />
+  ) : (
+    <Menu className="h-5 w-5" />
+  )}
+</button>
         </div>
 
       </div>
+      {mobileMenu && (
+  <div className="border-t bg-white px-6 py-5 dark:bg-gray-900 lg:hidden">
+
+    <div className="flex flex-col gap-5">
+
+      <Link to="/" onClick={() => setMobileMenu(false)}>
+        Home
+      </Link>
+
+      <Link to="/faq" onClick={() => setMobileMenu(false)}>
+        FAQ
+      </Link>
+
+      <Link to="/about" onClick={() => setMobileMenu(false)}>
+        About
+      </Link>
+
+      <Link to="/contact" onClick={() => setMobileMenu(false)}>
+        Contact
+      </Link>
+
+      {!user ? (
+        <button
+          onClick={handleLogin}
+          className="rounded-xl bg-blue-600 py-3 text-white"
+        >
+          Sign In
+        </button>
+      ) : (
+        <>
+          <button
+            onClick={() => {
+              onHistoryClick();
+              setMobileMenu(false);
+            }}
+            className="rounded-xl border py-3"
+          >
+            📚 History
+          </button>
+
+          <button
+            onClick={handleLogout}
+            className="rounded-xl border border-red-500 py-3 text-red-500"
+          >
+            Logout
+          </button>
+        </>
+      )}
+
+    </div>
+
+  </div>
+)}
     </header>
   );
 }

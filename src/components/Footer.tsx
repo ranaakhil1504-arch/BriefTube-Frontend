@@ -1,5 +1,5 @@
 import { Sparkles, Heart, Mail } from "lucide-react";
-
+import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <footer className="mt-24 border-t border-gray-200 bg-gradient-to-b from-white via-blue-50 to-violet-50 transition-colors duration-300 dark:border-gray-800 dark:bg-gradient-to-b dark:from-gray-950 dark:via-gray-900 dark:to-slate-950">
@@ -118,6 +118,55 @@ export default function Footer() {
         </div>
 
       </div>
+      <div className="mt-10 border-t border-gray-200 pt-6 dark:border-gray-700">
+
+  <div className="flex flex-wrap items-center justify-center gap-6 text-sm">
+
+    <Link
+      to="/"
+      className="text-gray-600 transition hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+    >
+      Home
+    </Link>
+
+    <Link
+      to="/faq"
+      className="text-gray-600 transition hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+    >
+      FAQ
+    </Link>
+
+    <Link
+      to="/about"
+      className="text-gray-600 transition hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+    >
+      About
+    </Link>
+
+    <Link
+      to="/contact"
+      className="text-gray-600 transition hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+    >
+      Contact
+    </Link>
+
+    <Link
+      to="/privacy"
+      className="text-gray-600 transition hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+    >
+      Privacy Policy
+    </Link>
+
+    <Link
+      to="/terms"
+      className="text-gray-600 transition hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+    >
+      Terms of Service
+    </Link>
+
+  </div>
+
+</div>
     </footer>
   );
 }
