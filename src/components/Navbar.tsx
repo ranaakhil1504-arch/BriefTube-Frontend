@@ -88,7 +88,12 @@ console.log(user?.user_metadata);
   >
     FAQ
   </Link>
-
+<Link
+  to="/blog"
+  className="text-sm font-medium text-gray-700 transition hover:text-blue-600 dark:text-gray-300"
+>
+  Blog
+</Link>
   <Link
     to="/about"
     className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
@@ -196,6 +201,10 @@ console.log(user?.user_metadata);
         FAQ
       </Link>
 
+      <Link to="/blog" onClick={() => setMobileMenu(false)}>
+  Blog
+</Link>
+      
       <Link to="/about" onClick={() => setMobileMenu(false)}>
         About
       </Link>

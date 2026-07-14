@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
 const Privacy = lazy(() => import("./pages/Privacy"));
@@ -32,7 +33,15 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
 
         <Route path="/faq" element={<FAQ />} />
+        <Route
+  path="/blog"
+  element={<Blog />}
+/>
 
+<Route
+  path="/blog/:slug"
+  element={<BlogPost />}
+/>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

@@ -10,7 +10,7 @@ import Hero from "../components/Hero";
 import SummaryCard from "../components/SummaryCard";
 import LoadingSpinner from "../components/LoadingSpinner";
 import SummarySkeleton from "../components/SummarySkeleton";
-
+import TrustSection from "../components/TrustSection";
 import HistoryDrawer from "../components/HistoryDrawer";
 import SEO from "../components/SEO";
 import Testimonials from "../components/Testimonials";
@@ -200,6 +200,9 @@ const [historyOpen, setHistoryOpen] = useState(false);
   <Features />
 </Suspense>
 
+<Suspense fallback={null}>
+<TrustSection />
+</Suspense>
 <Suspense fallback={null}>
   <FAQ />
 </Suspense>
