@@ -1,5 +1,11 @@
+import SEO from "../components/SEO";
 export default function Contact() {
   return (
+    <>
+    <SEO
+  title="Contact BriefTube"
+  description="Get in touch with the BriefTube team for support, partnerships, or feedback."
+/>
     <section className="min-h-screen bg-gray-50 px-6 py-16 text-gray-800 transition-colors dark:bg-gray-950 dark:text-gray-100">
       <div className="mx-auto max-w-4xl">
 
@@ -51,5 +57,6 @@ export default function Contact() {
 
       </div>
     </section>
+    </>
   );
 }

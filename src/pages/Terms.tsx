@@ -1,5 +1,11 @@
+import SEO from "../components/SEO";
 export default function Terms() {
   return (
+    <>
+    <SEO
+  title="Terms of Service | BriefTube"
+  description="Read the Terms of Service for using BriefTube."
+/>
     <section className="min-h-screen bg-gray-50 px-6 py-16 text-gray-800 dark:bg-gray-950 dark:text-gray-100">
       <div className="mx-auto max-w-4xl">
 
@@ -55,5 +61,6 @@ export default function Terms() {
 
       </div>
     </section>
+    </>
   );
 }

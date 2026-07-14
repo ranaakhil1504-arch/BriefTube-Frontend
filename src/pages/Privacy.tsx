@@ -1,6 +1,11 @@
-
+import SEO from "../components/SEO";
 export default function Privacy() {
   return (
+    <>
+    <SEO
+  title="Privacy Policy | BriefTube"
+  description="Read BriefTube's Privacy Policy and learn how your data is handled."
+/>
     <section className="min-h-screen bg-gray-50 px-6 py-16 text-gray-800 transition-colors dark:bg-gray-950 dark:text-gray-100">
       <div className="mx-auto max-w-4xl">
 
@@ -90,5 +95,6 @@ export default function Privacy() {
         </div>
       </div>
     </section>
+    </>
   );
 }

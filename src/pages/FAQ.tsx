@@ -1,5 +1,4 @@
 import SEO from "../components/SEO";
-
 const faqs = [
   {
     question: "What is BriefTube?",

@@ -12,9 +12,9 @@ import SEO from "../components/SEO";
 import Testimonials from "../components/Testimonials";
 import { generateSummary } from "../services/api";
 import type { VideoInfo } from "../services/api";
-
+import FAQ from "../components/FAQ";
 import { supabase } from "../lib/supabase";
-
+import FAQSchema from "../components/FAQSchema";
 import toast from "react-hot-toast";
 
 
@@ -119,6 +119,7 @@ const [historyOpen, setHistoryOpen] = useState(false);
   title="AI YouTube Video Summarizer – Free & Instant | BriefTube"
   description="Summarize any YouTube video instantly with AI. Generate accurate summaries, key takeaways, timestamps and notes for free using BriefTube."
 />
+  <FAQSchema />
      <Navbar
   session={session}
   onHistoryClick={() => setHistoryOpen(true)}
@@ -193,6 +194,7 @@ const [historyOpen, setHistoryOpen] = useState(false);
 )}
 <Features />
 <Testimonials />
+<FAQ />
       <Footer />
     </>
   );

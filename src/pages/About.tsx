@@ -1,6 +1,12 @@
+import SEO from "../components/SEO";
 
 export default function About() {
   return (
+      <>
+    <SEO
+      title="About BriefTube | AI YouTube Video Summarizer"
+      description="Learn about BriefTube, our mission, and how we help millions summarize YouTube videos with AI."
+    />
     <section className="min-h-screen bg-gray-50 px-6 py-16 text-gray-800 transition-colors dark:bg-gray-950 dark:text-gray-100">
       <div className="mx-auto max-w-5xl">
 
@@ -66,5 +72,6 @@ export default function About() {
 
       </div>
     </section>
+      </>
   );
 }
