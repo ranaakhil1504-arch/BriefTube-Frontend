@@ -1,18 +1,22 @@
 import { useEffect, useRef, useState } from "react";
-import Features from "../components/Features";
+import { lazy, Suspense } from "react";
+
+const Features = lazy(() => import("../components/Features"));
+const FAQ = lazy(() => import("../components/FAQ"));
+const Footer = lazy(() => import("../components/Footer"));
 import EmptyState from "../components/EmptyState";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import SummaryCard from "../components/SummaryCard";
 import LoadingSpinner from "../components/LoadingSpinner";
 import SummarySkeleton from "../components/SummarySkeleton";
-import Footer from "../components/Footer";
+
 import HistoryDrawer from "../components/HistoryDrawer";
 import SEO from "../components/SEO";
 import Testimonials from "../components/Testimonials";
 import { generateSummary } from "../services/api";
 import type { VideoInfo } from "../services/api";
-import FAQ from "../components/FAQ";
+
 import { supabase } from "../lib/supabase";
 import FAQSchema from "../components/FAQSchema";
 import toast from "react-hot-toast";
@@ -192,10 +196,21 @@ const [historyOpen, setHistoryOpen] = useState(false);
   }}
 />
 )}
-<Features />
-<Testimonials />
-<FAQ />
-      <Footer />
+<Suspense fallback={null}>
+  <Features />
+</Suspense>
+
+<Suspense fallback={null}>
+  <FAQ />
+</Suspense>
+
+<Suspense fallback={null}>
+ <Testimonials />
+</Suspense>
+
+<Suspense fallback={null}>
+  <Footer />
+</Suspense>
     </>
   );
 }

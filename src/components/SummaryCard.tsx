@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { pdf } from "@react-pdf/renderer";
-import PdfDocument from "../pdf/PdfDocument";
-
 import toast from "react-hot-toast";
 import { parseSummary } from "../utils/parseSummary";
 import {
@@ -125,11 +122,16 @@ function handleDownloadMarkdown() {
 
   toast.success("Markdown downloaded!");
 }
-  async function handleDownloadPdf() {
+async function handleDownloadPdf() {
   try {
     toast.loading("Generating PDF...", {
       id: "pdf",
     });
+
+    const [{ pdf }, { default: PdfDocument }] = await Promise.all([
+      import("@react-pdf/renderer"),
+      import("../pdf/PdfDocument"),
+    ]);
 
     const blob = await pdf(
       <PdfDocument
@@ -178,10 +180,12 @@ function handleDownloadMarkdown() {
         <div className="relative">
 
           <img
-            src={video.thumbnail}
-            alt={video.title}
-            className="h-80 w-full object-cover"
-          />
+  src={video.thumbnail}
+  alt={video.title}
+  loading="lazy"
+  decoding="async"
+  className="h-80 w-full object-cover"
+/>
 
           {/* Gradient Overlay */}
 

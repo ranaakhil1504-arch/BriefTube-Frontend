@@ -3,12 +3,23 @@ import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter } from "react-router-dom";
-
+import { useEffect } from "react";
+import { loadAnalytics } from "./utils/loadAnalytics";
 import "./index.css";
 
 import App from "./App";
 import { ThemeProvider } from "./context/AppTheme";
+function AnalyticsLoader() {
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      loadAnalytics();
+    }, 3000);
 
+    return () => clearTimeout(id);
+  }, []);
+
+  return null;
+}
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
@@ -28,7 +39,7 @@ createRoot(document.getElementById("root")!).render(
               },
             }}
           />
-
+<AnalyticsLoader />
           <App />
 
         </ThemeProvider>
