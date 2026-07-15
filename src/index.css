@@ -89,3 +89,6 @@
 .animate-summary{
   animation:summaryFade .55s ease;
 }
+html {
+  scroll-behavior: smooth;
+}

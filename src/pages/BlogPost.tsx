@@ -1,4 +1,12 @@
 import { Link, useParams } from "react-router-dom";
+import {
+  Send,
+  Globe,
+  Link as LinkIcon,
+} from "lucide-react";
+import { FaXTwitter } from "react-icons/fa6";
+import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 import SEO from "../components/SEO";
 import { blogPosts } from "../data/blogPosts";
 
@@ -6,7 +14,27 @@ export default function BlogPost() {
   const { slug } = useParams();
 
   const post = blogPosts.find((p) => p.slug === slug);
+const [progress, setProgress] = useState(0);
 
+useEffect(() => {
+  const updateProgress = () => {
+    const scrollTop = window.scrollY;
+
+    const documentHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
+
+    const percentage =
+      documentHeight > 0 ? (scrollTop / documentHeight) * 100 : 0;
+
+    setProgress(percentage);
+  };
+
+  window.addEventListener("scroll", updateProgress);
+
+  updateProgress();
+
+  return () => window.removeEventListener("scroll", updateProgress);
+}, []);
   if (!post) {
     return (
       <section className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-950">
@@ -31,13 +59,55 @@ export default function BlogPost() {
       </section>
     );
   }
+const articleUrl = window.location.href;
+
+const shareOnX = () => {
+  window.open(
+    `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+      articleUrl
+    )}&text=${encodeURIComponent(post.title)}`,
+    "_blank"
+  );
+};
+
+const shareOnGlobe = () => {
+  window.open(
+    `https://www.Globe.com/sharing/share-offsite/?url=${encodeURIComponent(
+      articleUrl
+    )}`,
+    "_blank"
+  );
+};
+
+const shareOnSend = () => {
+  window.open(
+    `https://www.Send.com/sharer/sharer.php?u=${encodeURIComponent(
+      articleUrl
+    )}`,
+    "_blank"
+  );
+};
+
+const copyLink = async () => {
+  await navigator.clipboard.writeText(articleUrl);
+  toast.success("Article link copied!");
+};
 
   const relatedPosts = blogPosts
-    .filter((p) => p.slug !== post.slug)
-    .slice(0, 3);
+  .filter((p) => {
+    if (p.slug === post.slug) return false;
+
+    return p.tags.some((tag) => post.tags.includes(tag));
+  })
+  .slice(0, 3);
 
   return (
     <>
+    
+  <div
+    className="fixed left-0 top-0 z-[9999] h-1 bg-blue-600 transition-all duration-150"
+    style={{ width: `${progress}%` }}
+  />
       <SEO
         title={post.title}
         description={post.description}
@@ -52,7 +122,7 @@ export default function BlogPost() {
           <img
   src={post.image}
   alt={post.title}
-  className="h-[420px] w-full object-cover transition duration-700 group-hover:scale-105"
+  className="h-[500px] w-full object-cover transition duration-700 group-hover:scale-105"
 />
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
@@ -78,19 +148,15 @@ export default function BlogPost() {
 
             <div className="mt-8 flex flex-wrap items-center gap-6 text-white">
 
-              <span>
-                👤 {post.author}
-              </span>
+  <span>👤 {post.author}</span>
 
-              <span>
-                📅 {post.date}
-              </span>
+  <span>📅 Published: {post.date}</span>
 
-              <span>
-                ⏱ {post.readTime}
-              </span>
+  <span>🔄 Updated: {post.date}</span>
 
-            </div>
+  <span>⏱ {post.readTime}</span>
+
+</div>
 
           </div>
 
@@ -98,15 +164,113 @@ export default function BlogPost() {
 
         {/* Content */}
 
-        <div className="mx-auto max-w-5xl px-6 py-16">
+        <div className="mx-auto max-w-4xl px-6 py-16">
+                  
+                 
+<div>
+          <article className="mx-auto max-w-3xl rounded-3xl border border-gray-200 bg-white p-10 shadow-sm dark:border-gray-700 dark:bg-gray-900 prose prose-lg dark:prose-invert max-w-none prose-headings:scroll-mt-24 prose-headings:font-extrabold prose-headings:text-gray-900 dark:prose-headings:text-white prose-h2:mt-14 prose-h2:mb-6 prose-h2:text-3xl prose-h3:mt-10 prose-h3:mb-4 prose-h3:text-2xl prose-p:leading-8 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-li:leading-8 prose-li:text-gray-700 dark:prose-li:text-gray-300 prose-ul:my-6 prose-strong:text-blue-600 dark:prose-strong:text-blue-400">
 
-          <article className="space-y-8 text-lg leading-9 text-gray-700 dark:text-gray-300">
+  {post.content.split("\n").map((line, index) => {
+   if (line.startsWith("## ")) {
+  const heading = line.replace("## ", "");
+  const id = heading
+    .toLowerCase()
+    .replace(/[^\w\s]/g, "")
+    .replace(/\s+/g, "-");
 
-            {post.content.split("\n\n").map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
+  return (
+  <h2
+  key={index}
+  id={id}
+  className="mt-16 mb-8 border-l-4 border-blue-600 pl-5 text-4xl font-extrabold tracking-tight text-gray-900 dark:border-blue-500 dark:text-white"
+>
+      {heading}
+    </h2>
+  );
+}
 
-          </article>
+    if (line.startsWith("### ")) {
+      return <h3
+  key={index}
+  className="mt-10 mb-5 text-2xl font-bold text-gray-900 dark:text-white"
+>
+  {line.replace("### ", "")}</h3>;
+    }
+
+    if (line.startsWith("• ")) {
+      return (
+        <ul
+  key={index}
+  className="my-6 list-disc space-y-3 pl-8 text-lg leading-8"
+>
+  <li>{line.replace("• ", "")}</li>
+</ul>
+      );
+    }
+
+    if (line.trim() === "") return null;
+
+    return (
+ <p
+  key={index}
+  className="mb-7 text-lg leading-8 text-gray-700 dark:text-gray-300"
+>
+    {line}
+  </p>
+);
+  })}
+
+
+</article>
+{/* Share */}
+
+<div className="mt-16 rounded-3xl border border-gray-200 bg-white p-8 dark:border-gray-700 dark:bg-gray-900">
+
+  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+    Share this article
+  </h3>
+
+  <p className="mt-2 text-gray-600 dark:text-gray-400">
+    Help others discover BriefTube.
+  </p>
+
+  <div className="mt-6 flex flex-wrap gap-4">
+
+    <button
+      onClick={shareOnX}
+      className="flex items-center gap-2 rounded-xl bg-black px-5 py-3 font-semibold text-white transition hover:scale-105"
+    >
+      <FaXTwitter />
+      X
+    </button>
+
+    <button
+      onClick={shareOnGlobe}
+      className="flex items-center gap-2 rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white transition hover:scale-105"
+    >
+      <Globe size={18} />
+      Globe
+    </button>
+
+    <button
+      onClick={shareOnSend}
+      className="flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:scale-105"
+    >
+      <Send size={18} />
+      Send
+    </button>
+
+    <button
+      onClick={copyLink}
+      className="flex items-center gap-2 rounded-xl border px-5 py-3 font-semibold transition hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800"
+    >
+      <LinkIcon size={18} />
+      Copy Link
+    </button>
+
+  </div>
+
+</div>
                     {/* CTA */}
 
           <div className="mt-16 rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 p-10 text-center text-white shadow-xl">
@@ -203,11 +367,10 @@ export default function BlogPost() {
             </Link>
 
           </div>
-
-        </div>
-
-      </section>
-
+</div>
+ </div>
+      
+</section>
     </>
   );
 }
