@@ -1,5 +1,5 @@
 import {
-  Sparkles,
+
   Moon,
   Sun,
   LogIn,
@@ -57,21 +57,18 @@ console.log(user?.user_metadata);
 
         {/* Logo */}
 
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-violet-600 shadow-lg">
-            <Sparkles className="h-6 w-6 text-white" />
-          </div>
+        {/* Logo */}
 
-          <div>
-            <h1 className="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">
-              BriefTube
-            </h1>
-
-            <p className="-mt-1 text-xs text-gray-500 dark:text-gray-400">
-              AI YouTube Summarizer
-            </p>
-          </div>
-        </div>
+<Link
+  to="/"
+  className="flex items-center"
+>
+  <img
+    src="/logo.png"
+    alt="BriefTube"
+    className="h-10 w-auto transition duration-300 hover:scale-105"
+  />
+</Link>
 
 <nav className="hidden items-center gap-8 lg:flex">
 
