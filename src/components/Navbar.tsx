@@ -6,6 +6,7 @@ import {
   LogOut,
   Menu,
   X,
+  Sparkles,
 } from "lucide-react";
 
 import { Link } from "react-router-dom";
@@ -61,13 +62,21 @@ console.log(user?.user_metadata);
 
 <Link
   to="/"
-  className="flex items-center"
+  className="flex items-center gap-3 group"
 >
-  <img
-    src="/logo.png"
-    alt="BriefTube"
-    className="h-10 w-auto transition duration-300 hover:scale-105"
-  />
+  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 shadow-lg transition duration-300 group-hover:scale-105">
+    <Sparkles className="h-6 w-6 text-white" />
+  </div>
+
+  <div className="leading-tight">
+    <h2 className="text-xl font-black tracking-tight text-gray-900 dark:text-white">
+      BriefTube
+    </h2>
+
+    <p className="text-xs text-gray-500 dark:text-gray-400">
+      AI YouTube Summarizer
+    </p>
+  </div>
 </Link>
 
 <nav className="hidden items-center gap-8 lg:flex">
