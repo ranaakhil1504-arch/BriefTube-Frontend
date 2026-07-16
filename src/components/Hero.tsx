@@ -48,17 +48,15 @@ export default function Hero({
 
 
       <h1
-  style={{ contentVisibility: "visible" }} className="relative max-w-5xl text-5xl font-black leading-tight tracking-tight text-gray-900 dark:text-white md:text-7xl">
+  className="relative max-w-5xl text-5xl font-black leading-tight tracking-tight text-gray-900 dark:text-white md:text-7xl">
 
-        Summarize
+        Free AI
 
-        <span className="bg-gradient-to-r from-blue-600 via-violet-600 to-purple-600 bg-clip-text text-transparent">
-          {" "}
-          YouTube Videos{" "}
-        </span>
+<span className="bg-gradient-to-r from-blue-600 via-violet-600 to-purple-600 bg-clip-text text-transparent">
+  YouTube Video Summarizer
+</span>
 
-        in Seconds
-
+for Instant Summaries
       </h1>
 
     </div>
@@ -66,7 +64,7 @@ export default function Hero({
     {/* Description */}
 
     <p className="mt-8 max-w-3xl text-lg leading-9 text-gray-600 dark:text-gray-300 md:text-xl">
-     Transform long YouTube videos into concise, AI-powered summaries in seconds using BriefTube. Our free AI YouTube Video Summarizer helps students, professionals, researchers and creators quickly understand tutorials, lectures, podcasts, interviews and educational content. Export your summaries as PDF, Markdown or TXT in one click.
+     Turn any YouTube video into accurate AI-generated summaries in seconds using BriefTube. Save time by extracting key points, timestamps and notes from tutorials, lectures, podcasts, interviews and educational videos. Export summaries as PDF, Markdown or TXT completely free.
     </p>
 
        {/* URL Input */}
@@ -83,7 +81,17 @@ export default function Hero({
 <p className="mt-6 text-sm text-gray-500 dark:text-gray-400">
   Trusted for lectures, coding tutorials, podcasts, documentaries, interviews, online courses and educational YouTube videos.
 </p>
+<div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm font-medium text-gray-500 dark:text-gray-400">
 
+  <span>⚡ Instant AI Summary</span>
+
+  <span>🆓 Free Forever</span>
+
+  <span>📄 PDF Export</span>
+
+  <span>🎥 Works with Public YouTube Videos</span>
+
+</div>
 {/* Features */}
 
 <div className="mt-20 grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-3">
