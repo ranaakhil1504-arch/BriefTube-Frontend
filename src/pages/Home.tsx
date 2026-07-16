@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { lazy, Suspense } from "react";
-import AboutBriefTube from "../components/AboutBriefTube";
+import LazySection from "../components/LazySection";
+const AboutBriefTube = lazy(() => import("../components/AboutBriefTube"));
 const Features = lazy(() => import("../components/Features"));
 const FAQ = lazy(() => import("../components/FAQ"));
 const Footer = lazy(() => import("../components/Footer"));
@@ -10,18 +11,18 @@ import Hero from "../components/Hero";
 import SummaryCard from "../components/SummaryCard";
 import LoadingSpinner from "../components/LoadingSpinner";
 import SummarySkeleton from "../components/SummarySkeleton";
-import TrustSection from "../components/TrustSection";
+const TrustSection = lazy(() => import("../components/TrustSection"));
 import HistoryDrawer from "../components/HistoryDrawer";
 import SEO from "../components/SEO";
-import Testimonials from "../components/Testimonials";
+const Testimonials = lazy(() => import("../components/Testimonials"));
 import { generateSummary } from "../services/api";
 import type { VideoInfo } from "../services/api";
-import WhyChooseAI from "../components/WhyChooseAI";
+const WhyChooseAI = lazy(() => import("../components/WhyChooseAI"));
 import { supabase } from "../lib/supabase";
 import FAQSchema from "../components/FAQSchema";
 import toast from "react-hot-toast";
-import WhoUsesBriefTube from "../components/WhoUsesBriefTube";
-import ExploreMore from "../components/ExploreMore";
+const WhoUsesBriefTube = lazy(() => import("../components/WhoUsesBriefTube"));
+const ExploreMore = lazy(() => import("../components/ExploreMore"));
 import type { Session } from "@supabase/supabase-js";
 
 function App() {
@@ -196,41 +197,60 @@ const [historyOpen, setHistoryOpen] = useState(false);
   }}
 />
 )}
-<Suspense fallback={null}>
-  <AboutBriefTube />
-</Suspense>
+<LazySection>
+  <Suspense fallback={null}>
+    <AboutBriefTube />
+  </Suspense>
+</LazySection>
 
-<Suspense fallback={null}>
-  <Features />
-</Suspense>
+<LazySection>
+  <Suspense fallback={null}>
+    <Features />
+  </Suspense>
+</LazySection>
 
-<Suspense fallback={null}>
- <WhyChooseAI />
-</Suspense>
+<LazySection>
+  <Suspense fallback={null}>
+    <WhyChooseAI />
+  </Suspense>
+</LazySection>
 
-<Suspense fallback={null}>
- <WhoUsesBriefTube />
-</Suspense>
+<LazySection>
+  <Suspense fallback={null}>
+    <WhoUsesBriefTube />
+  </Suspense>
+</LazySection>
 
-<Suspense fallback={null}>
-<TrustSection />
-</Suspense>
-<Suspense fallback={null}>
-  <FAQ />
-</Suspense>
+<LazySection>
+  <Suspense fallback={null}>
+    <TrustSection />
+  </Suspense>
+</LazySection>
 
-<Suspense fallback={null}>
- <Testimonials />
-</Suspense>
+<LazySection>
+  <Suspense fallback={null}>
+    <FAQ />
+  </Suspense>
+</LazySection>
 
-<Suspense fallback={null}>
-  <ExploreMore />
-</Suspense>
+<LazySection>
+  <Suspense fallback={null}>
+    <Testimonials />
+  </Suspense>
+</LazySection>
+
+<LazySection>
+  <Suspense fallback={null}>
+    <ExploreMore />
+  </Suspense>
+</LazySection>
 
 
-<Suspense fallback={null}>
-  <Footer />
-</Suspense>
+<LazySection>
+  <Suspense fallback={null}>
+    <Footer />
+  </Suspense>
+</LazySection>
     </>
   );
 }

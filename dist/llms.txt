@@ -1,0 +1,44 @@
+# BriefTube
+
+BriefTube is an AI-powered YouTube summarizer that helps users quickly understand YouTube videos using artificial intelligence.
+
+Website:
+https://brieftube.co
+
+Purpose:
+Generate YouTube summaries, transcripts and study notes using AI.
+
+Main Pages
+https://brieftube.co/
+https://brieftube.co/blog
+https://brieftube.co/about
+https://brieftube.co/contact
+https://brieftube.co/faq
+
+Topics
+
+Artificial Intelligence
+AI Tools
+YouTube Learning
+Productivity
+Students
+Education
+Coding
+Programming
+Study Tips
+Online Learning
+Technology
+
+Products
+
+AI YouTube Summarizer
+YouTube Transcript Generator
+AI Study Assistant
+
+Publisher
+
+BriefTube Team
+
+License
+
+Public
