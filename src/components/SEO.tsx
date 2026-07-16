@@ -22,7 +22,15 @@ export default function SEO({
         name="description"
         content={description}
       />
+<meta
+  property="og:type"
+  content="website"
+/>
 
+<meta
+  name="robots"
+  content="index,follow"
+/>
       <meta
         property="og:title"
         content={title}

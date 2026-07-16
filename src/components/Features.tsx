@@ -63,12 +63,11 @@ export default function Features() {
         </span>
 
         <h2 className="mt-6 text-4xl font-black text-gray-900 dark:text-white md:text-5xl">
-          Everything You Need to Learn Faster
+         Everything You Need From an AI YouTube Video Summarizer
         </h2>
 
         <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-gray-600 dark:text-gray-300">
-          BriefTube combines powerful AI, beautiful design and lightning-fast
-          performance to make learning from YouTube videos effortless.
+        BriefTube is a free AI YouTube Video Summarizer that converts long YouTube videos into structured summaries, key takeaways and downloadable notes. Save time while learning from tutorials, podcasts, interviews and educational videos.
         </p>
 
       </div>

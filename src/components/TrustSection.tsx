@@ -37,8 +37,7 @@ export default function TrustSection() {
           </h2>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg text-blue-100">
-            BriefTube helps students, developers, researchers and professionals
-            learn faster with AI-powered YouTube summaries.
+           BriefTube is a free AI YouTube Video Summarizer that helps students, developers, researchers and professionals save time by converting long YouTube videos into concise summaries, key takeaways and downloadable notes.
           </p>
 
         </div>

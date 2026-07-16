@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { lazy, Suspense } from "react";
-
+import AboutBriefTube from "../components/AboutBriefTube";
 const Features = lazy(() => import("../components/Features"));
 const FAQ = lazy(() => import("../components/FAQ"));
 const Footer = lazy(() => import("../components/Footer"));
@@ -16,12 +16,12 @@ import SEO from "../components/SEO";
 import Testimonials from "../components/Testimonials";
 import { generateSummary } from "../services/api";
 import type { VideoInfo } from "../services/api";
-
+import WhyChooseAI from "../components/WhyChooseAI";
 import { supabase } from "../lib/supabase";
 import FAQSchema from "../components/FAQSchema";
 import toast from "react-hot-toast";
-
-
+import WhoUsesBriefTube from "../components/WhoUsesBriefTube";
+import ExploreMore from "../components/ExploreMore";
 import type { Session } from "@supabase/supabase-js";
 
 function App() {
@@ -197,7 +197,19 @@ const [historyOpen, setHistoryOpen] = useState(false);
 />
 )}
 <Suspense fallback={null}>
+  <AboutBriefTube />
+</Suspense>
+
+<Suspense fallback={null}>
   <Features />
+</Suspense>
+
+<Suspense fallback={null}>
+ <WhyChooseAI />
+</Suspense>
+
+<Suspense fallback={null}>
+ <WhoUsesBriefTube />
 </Suspense>
 
 <Suspense fallback={null}>
@@ -210,6 +222,11 @@ const [historyOpen, setHistoryOpen] = useState(false);
 <Suspense fallback={null}>
  <Testimonials />
 </Suspense>
+
+<Suspense fallback={null}>
+  <ExploreMore />
+</Suspense>
+
 
 <Suspense fallback={null}>
   <Footer />

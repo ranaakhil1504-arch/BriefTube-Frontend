@@ -66,9 +66,7 @@ export default function Hero({
     {/* Description */}
 
     <p className="mt-8 max-w-3xl text-lg leading-9 text-gray-600 dark:text-gray-300 md:text-xl">
-      Transform long YouTube videos into concise, AI-powered summaries in
-      seconds. Learn faster, save time, and export your notes as PDF,
-      Markdown, or TXT with a single click.
+     Transform long YouTube videos into concise, AI-powered summaries in seconds using BriefTube. Our free AI YouTube Video Summarizer helps students, professionals, researchers and creators quickly understand tutorials, lectures, podcasts, interviews and educational content. Export your summaries as PDF, Markdown or TXT in one click.
     </p>
 
        {/* URL Input */}
@@ -83,8 +81,7 @@ export default function Hero({
 {/* Small Trust Text */}
 
 <p className="mt-6 text-sm text-gray-500 dark:text-gray-400">
-  Trusted for educational videos, podcasts, interviews, coding
-  tutorials, documentaries, and more.
+  Trusted for lectures, coding tutorials, podcasts, documentaries, interviews, online courses and educational YouTube videos.
 </p>
 
 {/* Features */}
