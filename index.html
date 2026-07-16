@@ -122,7 +122,20 @@
 
     <!-- Google Analytics -->
 
-  
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W7N21X582B"></script>
+
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+
+  gtag("js", new Date());
+
+  gtag("config", "G-W7N21X582B");
+</script>
 
 
     <!-- Structured Data -->
@@ -144,16 +157,7 @@
         }
       }
     </script>
-    <script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"Organization",
-  "name":"BriefTube",
-  "url":"https://brieftube.co",
-  "logo":"https://brieftube.co/og-image.png",
-  "sameAs":[]
-}
-</script>
+    
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -161,7 +165,8 @@
   "name":"BriefTube",
   "url":"https://brieftube.co/",
   "logo":"https://brieftube.co/og-image.png",
-  "email":"support@brieftube.co"
+  "email":"support@brieftube.co",
+  "sameAs":[]
 }
 </script>
 <script type="application/ld+json">
