@@ -10,12 +10,15 @@ import { useEffect, useState, useMemo } from "react";
 import SEO from "../components/SEO";
 import BlogSchema from "../components/BlogSchema";
 import { blogPosts } from "../data/blogPosts";
+import { blogPage } from "../data/blogPage";
 import BreadcrumbSchema from "../components/BreadcrumbSchema";
 import { useHeadingObserver } from "../hooks/useHeadingObserver";
 
 export default function BlogPost() {
   const { slug } = useParams();
-  const post = blogPosts.find((p) => p.slug === slug);
+  const allPosts = [...blogPosts, ...blogPage];
+
+const post = allPosts.find((p) => p.slug === slug);
   const [progress, setProgress] = useState(0);
   const [activeHeading, setActiveHeading] = useState("");
 
@@ -82,7 +85,7 @@ export default function BlogPost() {
   }
 
   // 4. Dynamic Related posts mapping matching tag arrays (Resolves ESLint issue)
-  const relatedPosts = blogPosts
+  const relatedPosts = allPosts
     .filter((p) => {
       if (p.slug === post.slug) return false;
       return p.tags?.some((tag) => post.tags?.includes(tag));

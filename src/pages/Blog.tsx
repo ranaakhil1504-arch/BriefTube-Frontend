@@ -4,22 +4,31 @@ import { Link } from "react-router-dom";
 import blogHero from "../assets/blog-hero.jpg";
 import SEO from "../components/SEO";
 import { blogPosts } from "../data/blogPosts";
+import { blogPage } from "../data/blogPage";
 import BlogListSchema from "../components/BlogListSchema";
 export default function Blog() {
   const [search, setSearch] = useState("");
 
-  const filteredPosts = useMemo(() => {
-    return blogPosts.filter(
-      (post) =>
-        post.title.toLowerCase().includes(search.toLowerCase()) ||
-        post.description.toLowerCase().includes(search.toLowerCase()) ||
-        post.tags.join(" ").toLowerCase().includes(search.toLowerCase())
-    );
-  }, [search]);
+const allPosts = useMemo(() => {
+  return [...blogPosts, ...blogPage].sort(
+    (a, b) =>
+      new Date(b.date).getTime() -
+      new Date(a.date).getTime()
+  );
+}, []);
 
-  const featured = filteredPosts[0];
+const filteredPosts = useMemo(() => {
+  return allPosts.filter(
+    (post) =>
+      post.title.toLowerCase().includes(search.toLowerCase()) ||
+      post.description.toLowerCase().includes(search.toLowerCase()) ||
+      post.tags.join(" ").toLowerCase().includes(search.toLowerCase())
+  );
+}, [search, allPosts]);
 
-  const others = filteredPosts.slice(1);
+const featured = filteredPosts[0];
+
+const others = filteredPosts.slice(1);
 
   return (
     <>
@@ -101,7 +110,7 @@ export default function Blog() {
 
           <h3 className="text-3xl font-black text-gray-900 dark:text-white">
 
-            {blogPosts.length}+
+            {allPosts.length}+
 
           </h3>
 
@@ -387,6 +396,8 @@ className="mx-auto mt-28 max-w-7xl px-6"
                 className="group overflow-hidden rounded-[30px] border border-gray-200 bg-white shadow-md transition-all duration-500 hover:-translate-y-3 hover:border-blue-200 hover:shadow-2xl dark:border-gray-700 dark:bg-gray-900 dark:hover:border-blue-800"
               >
                 <img
+  loading="lazy"
+  decoding="async"
   src={post.image}
   alt={`${post.title} - BriefTube Blog`}
   className="h-64 w-full object-cover transition duration-700 group-hover:scale-110"
