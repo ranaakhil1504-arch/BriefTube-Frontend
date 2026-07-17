@@ -20,14 +20,12 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes("node_modules")) {
-            if (id.includes("lucide-react")) {
-              return "icons";
-            }
-            if (id.includes("react-dom") || id.includes("react-router-dom") || id.includes("/react/")) {
-              return "vendor-react";
-            }
-            return "vendor";
+          // Only group icon libraries into their own chunk.
+          // Everything else is left to Rollup's automatic splitting,
+          // which prevents unrelated code from being bundled together
+          // into one large blocking chunk.
+          if (id.includes("node_modules/lucide-react")) {
+            return "icons";
           }
         },
       },
