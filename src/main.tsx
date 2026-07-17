@@ -1,22 +1,16 @@
-import { StrictMode, useEffect } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Toaster } from "react-hot-toast";
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter } from "react-router-dom";
 
-import { loadAnalytics } from "./utils/loadAnalytics";
+
 import "./index.css";
 
 import App from "./App";
 import { ThemeProvider } from "./context/AppTheme";
 
-function AnalyticsLoader() {
-  useEffect(() => {
-    loadAnalytics();
-  }, []);
 
-  return null;
-}
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -37,7 +31,7 @@ createRoot(document.getElementById("root")!).render(
             }}
           />
 
-          <AnalyticsLoader />
+        
 
           <App />
         </ThemeProvider>
