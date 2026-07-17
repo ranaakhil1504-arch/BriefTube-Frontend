@@ -1,5 +1,4 @@
 import {
-
   Moon,
   Sun,
   LogIn,
@@ -10,7 +9,7 @@ import {
 } from "lucide-react";
 
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useTheme } from "../hooks/useTheme";
 import { signInWithGoogle, signOut } from "../services/auth";
 import type { Session } from "@supabase/supabase-js";
@@ -27,16 +26,16 @@ export default function Navbar({
 }: NavbarProps) {
   const { theme, toggleTheme } = useTheme();
 
-  async function handleLogin() {
+  const handleLogin = useCallback(async () => {
     try {
       await signInWithGoogle();
     } catch (error) {
       console.error(error);
       toast.error("Failed to sign in");
     }
-  }
+  }, []);
 
-  async function handleLogout() {
+  const handleLogout = useCallback(async () => {
     try {
       await signOut();
       toast.success("Logged out");
@@ -44,81 +43,70 @@ export default function Navbar({
       console.error(error);
       toast.error("Logout failed");
     }
-  }
+  }, []);
 
   const user = session?.user;
-const [mobileMenu, setMobileMenu] = useState(false);
-console.log(user);
-console.log(user?.user_metadata);
-
+  const [mobileMenu, setMobileMenu] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/20 bg-white/70 backdrop-blur-xl transition-all duration-300 dark:border-gray-700 dark:bg-gray-900/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-8">
-
         {/* Logo */}
+        <Link to="/" className="flex items-center gap-3 group">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 shadow-lg transition duration-300 group-hover:scale-105">
+            <Sparkles className="h-6 w-6 text-white" />
+          </div>
 
-        {/* Logo */}
+          <div className="leading-tight">
+            <span className="block text-xl font-black tracking-tight text-gray-900 dark:text-white">
+              BriefTube
+            </span>
 
-<Link
-  to="/"
-  className="flex items-center gap-3 group"
->
-  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 shadow-lg transition duration-300 group-hover:scale-105">
-    <Sparkles className="h-6 w-6 text-white" />
-  </div>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              AI YouTube Summarizer
+            </p>
+          </div>
+        </Link>
 
-  <div className="leading-tight">
-    <h2 className="text-xl font-black tracking-tight text-gray-900 dark:text-white">
-      BriefTube
-    </h2>
+        <nav className="hidden items-center gap-8 lg:flex">
+          <Link
+            to="/"
+            className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
+          >
+            Home
+          </Link>
 
-    <p className="text-xs text-gray-500 dark:text-gray-400">
-      AI YouTube Summarizer
-    </p>
-  </div>
-</Link>
+          <Link
+            to="/faq"
+            className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
+          >
+            FAQ
+          </Link>
 
-<nav className="hidden items-center gap-8 lg:flex">
+          <Link
+            to="/blog"
+            className="text-sm font-medium text-gray-700 transition hover:text-blue-600 dark:text-gray-300"
+          >
+            Blog
+          </Link>
 
-  <Link
-    to="/"
-    className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
-  >
-    Home
-  </Link>
+          <Link
+            to="/about"
+            className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
+          >
+            About
+          </Link>
 
-  <Link
-    to="/faq"
-    className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
-  >
-    FAQ
-  </Link>
-<Link
-  to="/blog"
-  className="text-sm font-medium text-gray-700 transition hover:text-blue-600 dark:text-gray-300"
->
-  Blog
-</Link>
-  <Link
-    to="/about"
-    className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
-  >
-    About
-  </Link>
+          <Link
+            to="/contact"
+            className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
+          >
+            Contact
+          </Link>
+        </nav>
 
-  <Link
-    to="/contact"
-    className="font-medium text-gray-700 hover:text-blue-600 dark:text-gray-300"
-  >
-    Contact
-  </Link>
-
-</nav>
         {/* Right */}
-
         <div className="flex items-center gap-4">
-
           <span className="hidden rounded-full bg-blue-100 px-4 py-1 text-sm font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 md:block">
             Gemini AI
           </span>
@@ -133,15 +121,18 @@ console.log(user?.user_metadata);
             </button>
           ) : (
             <div className="hidden items-center gap-3 md:flex">
-
-  <button
-    onClick={onHistoryClick}
-    className="rounded-xl border px-4 py-2 text-sm font-semibold transition hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800"
-  >
-    📚 History
-  </button>
+              <button
+                onClick={onHistoryClick}
+                className="rounded-xl border px-4 py-2 text-sm font-semibold transition hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800"
+              >
+                📚 History
+              </button>
 
               <img
+                loading="lazy"
+                decoding="async"
+                width="40"
+                height="40"
                 src={
                   user.user_metadata.avatar_url ||
                   "https://ui-avatars.com/api/?name=User"
@@ -167,12 +158,12 @@ console.log(user?.user_metadata);
                 <LogOut className="h-4 w-4" />
                 Logout
               </button>
-
             </div>
           )}
 
           <button
             onClick={toggleTheme}
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             className="flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 bg-white shadow transition-all duration-300 hover:scale-105 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
           >
             {theme === "dark" ? (
@@ -181,76 +172,75 @@ console.log(user?.user_metadata);
               <Moon className="h-5 w-5 text-gray-700" />
             )}
           </button>
-<button
-  onClick={() => setMobileMenu(!mobileMenu)}
-  className="lg:hidden flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 bg-white shadow transition-all duration-300 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
->
-  {mobileMenu ? (
-    <X className="h-5 w-5" />
-  ) : (
-    <Menu className="h-5 w-5" />
-  )}
-</button>
+
+          <button
+            onClick={() => setMobileMenu((prev) => !prev)}
+            aria-label={mobileMenu ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenu}
+            className="lg:hidden flex h-11 w-11 items-center justify-center rounded-xl border border-gray-200 bg-white shadow transition-all duration-300 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+          >
+            {mobileMenu ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
+          </button>
         </div>
-
       </div>
+
       {mobileMenu && (
-  <div className="border-t bg-white px-6 py-5 dark:bg-gray-900 lg:hidden">
+        <div className="border-t bg-white px-6 py-5 dark:bg-gray-900 lg:hidden">
+          <div className="flex flex-col gap-5">
+            <Link to="/" onClick={() => setMobileMenu(false)}>
+              Home
+            </Link>
 
-    <div className="flex flex-col gap-5">
+            <Link to="/faq" onClick={() => setMobileMenu(false)}>
+              FAQ
+            </Link>
 
-      <Link to="/" onClick={() => setMobileMenu(false)}>
-        Home
-      </Link>
+            <Link to="/blog" onClick={() => setMobileMenu(false)}>
+              Blog
+            </Link>
 
-      <Link to="/faq" onClick={() => setMobileMenu(false)}>
-        FAQ
-      </Link>
+            <Link to="/about" onClick={() => setMobileMenu(false)}>
+              About
+            </Link>
 
-      <Link to="/blog" onClick={() => setMobileMenu(false)}>
-  Blog
-</Link>
-      
-      <Link to="/about" onClick={() => setMobileMenu(false)}>
-        About
-      </Link>
+            <Link to="/contact" onClick={() => setMobileMenu(false)}>
+              Contact
+            </Link>
 
-      <Link to="/contact" onClick={() => setMobileMenu(false)}>
-        Contact
-      </Link>
+            {!user ? (
+              <button
+                onClick={handleLogin}
+                className="rounded-xl bg-blue-600 py-3 text-white"
+              >
+                Sign In
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={() => {
+                    onHistoryClick();
+                    setMobileMenu(false);
+                  }}
+                  className="rounded-xl border py-3"
+                >
+                  📚 History
+                </button>
 
-      {!user ? (
-        <button
-          onClick={handleLogin}
-          className="rounded-xl bg-blue-600 py-3 text-white"
-        >
-          Sign In
-        </button>
-      ) : (
-        <>
-          <button
-            onClick={() => {
-              onHistoryClick();
-              setMobileMenu(false);
-            }}
-            className="rounded-xl border py-3"
-          >
-            📚 History
-          </button>
-
-          <button
-            onClick={handleLogout}
-            className="rounded-xl border border-red-500 py-3 text-red-500"
-          >
-            Logout
-          </button>
-        </>
+                <button
+                  onClick={handleLogout}
+                  className="rounded-xl border border-red-500 py-3 text-red-500"
+                >
+                  Logout
+                </button>
+              </>
+            )}
+          </div>
+        </div>
       )}
-
-    </div>
-
-  </div>
-)}
     </header>
   );
 }

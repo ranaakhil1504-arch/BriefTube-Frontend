@@ -198,56 +198,92 @@ const [historyOpen, setHistoryOpen] = useState(false);
 />
 )}
 <LazySection>
-  <Suspense fallback={null}>
+  <Suspense
+  fallback={
+    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
+  }
+>
     <AboutBriefTube />
   </Suspense>
 </LazySection>
 
 <LazySection>
-  <Suspense fallback={null}>
+  <Suspense
+  fallback={
+    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
+  }
+>
     <Features />
   </Suspense>
 </LazySection>
 
 <LazySection>
-  <Suspense fallback={null}>
+  <Suspense
+  fallback={
+    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
+  }
+>
     <WhyChooseAI />
   </Suspense>
 </LazySection>
 
 <LazySection>
-  <Suspense fallback={null}>
+  <Suspense
+  fallback={
+    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
+  }
+>
     <WhoUsesBriefTube />
   </Suspense>
 </LazySection>
 
 <LazySection>
-  <Suspense fallback={null}>
+  <Suspense
+  fallback={
+    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
+  }
+>
     <TrustSection />
   </Suspense>
 </LazySection>
 
 <LazySection>
-  <Suspense fallback={null}>
+  <Suspense
+  fallback={
+    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
+  }
+>
     <FAQ />
   </Suspense>
 </LazySection>
 
 <LazySection>
-  <Suspense fallback={null}>
+  <Suspense
+  fallback={
+    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
+  }
+>
     <Testimonials />
   </Suspense>
 </LazySection>
 
 <LazySection>
-  <Suspense fallback={null}>
+  <Suspense
+  fallback={
+    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
+  }
+>
     <ExploreMore />
   </Suspense>
 </LazySection>
 
 
 <LazySection>
-  <Suspense fallback={null}>
+  <Suspense
+  fallback={
+    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
+  }
+>
     <Footer />
   </Suspense>
 </LazySection>

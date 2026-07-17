@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import SEO from "../components/SEO";
 import FAQPageSchema from "../components/FAQPageSchema";
 const faqs = [
@@ -75,20 +76,29 @@ export default function FAQ() {
       <section className="min-h-screen bg-gray-50 px-6 py-16 dark:bg-gray-950">
         <div className="mx-auto max-w-5xl">
 
-          <h1 className="mb-4 text-center text-4xl font-extrabold text-gray-900 dark:text-white">
-            Frequently Asked Questions About BriefTube
-          </h1>
+          <div className="mb-12 text-center">
+            <span className="mb-4 inline-block rounded-full border border-blue-200 bg-blue-50 px-4 py-1 text-sm font-semibold text-blue-600 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-400">
+              Got questions? We've got answers
+            </span>
 
-          <p className="mb-12 text-center text-gray-600 dark:text-gray-400">
-            Find answers to common questions about BriefTube, our AI YouTube Video Summarizer. Learn how summaries are generated, which videos are supported, export options, privacy, accounts and more.
-          </p>
+            <h1 className="mb-4 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+              Frequently Asked{" "}
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">
+                Questions
+              </span>
+            </h1>
+
+            <p className="mx-auto max-w-2xl text-gray-600 dark:text-gray-400">
+              Everything you need to know about BriefTube, our AI YouTube Video Summarizer. Learn how summaries are generated, which videos are supported, export options, privacy, accounts and more.
+            </p>
+          </div>
 
           <div className="space-y-6">
 
             {faqs.map((faq) => (
               <div
                 key={faq.question}
-                className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition hover:shadow-lg dark:border-gray-700 dark:bg-gray-900"
+                className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg dark:border-gray-700 dark:bg-gray-900"
               >
                 <h2 className="mb-3 text-xl font-bold text-gray-900 dark:text-white">
 
@@ -101,6 +111,31 @@ export default function FAQ() {
               </div>
             ))}
 
+          </div>
+
+          <div className="mt-16 rounded-3xl border border-gray-200 bg-white p-10 text-center shadow-sm dark:border-gray-700 dark:bg-gray-900">
+            <h2 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">
+              Still have questions?
+            </h2>
+            <p className="mb-8 text-gray-600 dark:text-gray-400">
+              Try BriefTube for yourself, or explore our blog for tips on getting the most out of AI-powered summaries.
+            </p>
+
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link
+                to="/"
+                className="w-full rounded-xl bg-blue-600 px-8 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700 sm:w-auto"
+              >
+                Summarize a Video Now
+              </Link>
+
+              <Link
+                to="/blog"
+                className="w-full rounded-xl border border-gray-300 bg-white px-8 py-3 font-semibold text-gray-900 transition hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800 sm:w-auto"
+              >
+                Explore the Blog
+              </Link>
+            </div>
           </div>
 
         </div>

@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
 const Privacy = lazy(() => import("./pages/Privacy"));
@@ -12,15 +12,13 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 export default function App() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center bg-white dark:bg-gray-950">
-          <div className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-            Loading...
-          </div>
-        </div>
-      }
-    >
+   <Suspense
+  fallback={
+    <div className="flex min-h-screen items-center justify-center bg-white dark:bg-gray-950">
+      <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
+    </div>
+  }
+>
       <Routes>
         <Route path="/" element={<Home />} />
 

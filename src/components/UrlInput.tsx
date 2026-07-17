@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { PlayCircle, Sparkles } from "lucide-react";
 import { extractVideoId } from "../utils/youtube";
 const SAMPLE_VIDEO =
@@ -13,8 +13,14 @@ export default function UrlInput({
 }: UrlInputProps) {
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
-
-  function handleSubmit() {
+const handleChange = useCallback(
+  (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUrl(e.target.value);
+    setError("");
+  },
+  []
+);
+  const handleSubmit = () => {
   if (!url.trim()) {
     setError("Please enter a YouTube URL.");
     return;
@@ -31,13 +37,13 @@ export default function UrlInput({
   onGenerate(url);
 }
 
-function handleSampleVideo() {
+const handleSampleVideo = () => {
   setError("");
  setUrl(SAMPLE_VIDEO);
 
-setTimeout(() => {
+requestAnimationFrame(() => {
   onGenerate(SAMPLE_VIDEO);
-}, 100);
+});
 }
 
   return (
@@ -58,13 +64,12 @@ setTimeout(() => {
         </div>
 
         <input
-          type="text"
+  autoComplete="off"
+          type="url"
+inputMode="url"
           value={url}
           disabled={loading}
-          onChange={(e) => {
-            setUrl(e.target.value);
-            setError("");
-          }}
+          onChange={handleChange}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !loading) {
               handleSubmit();

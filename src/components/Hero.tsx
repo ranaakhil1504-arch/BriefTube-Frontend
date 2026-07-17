@@ -18,6 +18,7 @@ export default function Hero({
 }: HeroProps) {
   return (
   <section
+  id="hero"
   aria-labelledby="hero-title"
   className="relative isolate overflow-hidden bg-white dark:bg-gray-950"
 >
@@ -28,7 +29,7 @@ export default function Hero({
 
   <div className="absolute left-1/2 top-24 -z-20 h-[340px] w-[340px] -translate-x-1/2 rounded-full bg-gradient-to-r from-blue-500/20 via-violet-500/20 to-cyan-400/20 blur-3xl" />
 
-  <div className="mx-auto flex min-h-[85vh] max-w-7xl flex-col items-center justify-center px-6 py-20 text-center">
+  <div className="mx-auto flex min-h-[72vh] md:min-h-[85vh] max-w-7xl flex-col items-center justify-center px-6 py-20 text-center">
 
     {/* AI Badge */}
 
@@ -48,7 +49,9 @@ export default function Hero({
 
 
       <h1
-  className="relative max-w-5xl text-5xl font-black leading-tight tracking-tight text-gray-900 dark:text-white md:text-7xl">
+  id="hero-title"
+  className="relative max-w-5xl text-5xl font-black leading-tight tracking-tight text-gray-900 dark:text-white md:text-7xl"
+>
 
         Free AI
 

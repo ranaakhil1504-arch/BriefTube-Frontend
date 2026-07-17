@@ -9,17 +9,33 @@ import "./index.css";
 
 import App from "./App";
 import { ThemeProvider } from "./context/AppTheme";
+
 function AnalyticsLoader() {
   useEffect(() => {
-    const id = window.setTimeout(() => {
-      loadAnalytics();
-    }, 3000);
+    let idleId: number | undefined;
+    let timeoutId: number | undefined;
 
-    return () => clearTimeout(id);
+    if (typeof window.requestIdleCallback === "function") {
+      idleId = window.requestIdleCallback(() => {
+        loadAnalytics();
+      });
+    } else {
+      timeoutId = window.setTimeout(() => {
+        loadAnalytics();
+      }, 3000);
+    }
+
+    return () => {
+      if (idleId !== undefined && typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
+    };
   }, []);
 
   return null;
 }
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
