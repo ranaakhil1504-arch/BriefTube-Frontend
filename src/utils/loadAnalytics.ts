@@ -1,36 +1,43 @@
+const GA_ID = "G-W7N21X582B";
+
+type GtagCommand =
+  | ["js", Date]
+  | ["config", string, Record<string, unknown>?]
+  | ["event", string, Record<string, unknown>?];
+
+declare global {
+  interface Window {
+    dataLayer: GtagCommand[];
+    gtag: (...args: GtagCommand) => void;
+    __gaLoaded?: boolean;
+  }
+}
+
 export function loadAnalytics() {
   if (typeof window === "undefined") return;
 
-  // Prevent double-loading if loadAnalytics() is ever called more than once
-  if (document.getElementById("ga-gtag-script")) return;
+  if (window.__gaLoaded) return;
+  window.__gaLoaded = true;
 
   window.dataLayer = window.dataLayer || [];
 
-  function gtag(...args: any[]) {
+  window.gtag = (...args: GtagCommand) => {
     window.dataLayer.push(args);
-  }
-
-  // Expose gtag globally so other parts of the app can fire events,
-  // e.g. window.gtag("event", "summarize_click")
-  window.gtag = gtag;
+  };
 
   const script = document.createElement("script");
   script.id = "ga-gtag-script";
   script.async = true;
-  script.src =
-    "https://www.googletagmanager.com/gtag/js?id=G-W7N21X582B";
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
 
   script.onload = () => {
-    gtag("js", new Date());
-    gtag("config", "G-W7N21X582B");
+    window.gtag("js", new Date());
+
+    window.gtag("config", GA_ID, {
+      send_page_view: true,
+      page_path: window.location.pathname,
+    });
   };
 
   document.head.appendChild(script);
-}
-
-declare global {
-  interface Window {
-    dataLayer: any[];
-    gtag: (...args: any[]) => void;
-  }
 }
