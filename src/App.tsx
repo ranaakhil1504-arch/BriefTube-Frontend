@@ -12,13 +12,20 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 export default function App() {
   return (
-   <Suspense
-  fallback={
-    <div className="flex min-h-screen items-center justify-center bg-white dark:bg-gray-950">
-      <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
-    </div>
-  }
->
+    <Suspense
+      fallback={
+        <div
+          role="status"
+          aria-live="polite"
+          className="flex min-h-screen flex-col items-center justify-center gap-3 bg-white dark:bg-gray-950"
+        >
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            Loading…
+          </span>
+        </div>
+      }
+    >
       <Routes>
         <Route path="/" element={<Home />} />
 
@@ -32,14 +39,14 @@ export default function App() {
 
         <Route path="/faq" element={<FAQ />} />
         <Route
-  path="/blog"
-  element={<Blog />}
-/>
+          path="/blog"
+          element={<Blog />}
+        />
 
-<Route
-  path="/blog/:slug"
-  element={<BlogPost />}
-/>
+        <Route
+          path="/blog/:slug"
+          element={<BlogPost />}
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

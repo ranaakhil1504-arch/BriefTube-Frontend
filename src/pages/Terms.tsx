@@ -1,66 +1,403 @@
+import { Link } from "react-router-dom";
 import SEO from "../components/SEO";
+import {
+  Scale,
+  ShieldCheck,
+  Sparkles,
+  ArrowRight,
+  CalendarDays,
+} from "lucide-react";
+
 export default function Terms() {
   return (
     <>
-    <SEO
-  title="Terms of Service | BriefTube"
-  description="Read the Terms of Service for using BriefTube."
-/>
-    <section className="min-h-screen bg-gray-50 px-6 py-16 text-gray-800 dark:bg-gray-950 dark:text-gray-100">
-      <div className="mx-auto max-w-4xl">
+      <SEO
+        title="Terms of Service | BriefTube"
+        description="Read the official Terms of Service for using BriefTube AI YouTube Summarizer."
+      />
 
-        <h1 className="mb-8 text-4xl font-extrabold">
-          Terms of Service
-        </h1>
+      <section className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-blue-50 dark:from-gray-950 dark:via-gray-950 dark:to-black">
 
-        <div className="space-y-8 leading-8">
+        {/* ================= HERO ================= */}
 
-          <section>
-            <h2 className="text-2xl font-bold">
-              Acceptance
-            </h2>
+        <div className="relative overflow-hidden">
 
-            <p>
-              By using BriefTube you agree to these Terms of Service.
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,#2563eb20,transparent_45%)]" />
+
+          <div className="relative mx-auto max-w-7xl px-6 py-24">
+
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-5 py-2 text-blue-700 dark:border-blue-800 dark:bg-blue-950/30 dark:text-blue-300">
+
+              <Scale className="h-5 w-5" />
+
+              Terms of Service
+
+            </div>
+
+            <h1 className="mt-8 max-w-4xl text-5xl font-black leading-tight text-gray-900 md:text-6xl dark:text-white">
+
+              Simple, Fair &
+              <span className="text-blue-600">
+                {" "}Transparent Terms
+              </span>
+
+            </h1>
+
+            <p className="mt-8 max-w-3xl text-xl leading-9 text-gray-600 dark:text-gray-300">
+
+              Our goal is simple — help millions of people summarize YouTube
+              videos with AI while keeping BriefTube safe, secure and fair
+              for everyone.
+
             </p>
-          </section>
 
-          <section>
-            <h2 className="text-2xl font-bold">
-              Fair Usage
-            </h2>
+            <div className="mt-10 flex flex-wrap gap-4">
 
-            <p>
-              You agree not to abuse the service or attempt to disrupt the
-              platform.
-            </p>
-          </section>
+              <Link
+                to="/"
+                className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-8 py-4 font-bold text-white transition duration-300 hover:bg-blue-700"
+              >
+                Try BriefTube
+                <ArrowRight className="h-5 w-5" />
+              </Link>
 
-          <section>
-            <h2 className="text-2xl font-bold">
-              AI Generated Content
-            </h2>
+              <div className="inline-flex items-center gap-2 rounded-2xl border border-gray-300 bg-white px-7 py-4 font-semibold text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
 
-            <p>
-              AI summaries may contain inaccuracies. Always verify important
-              information with the original video.
-            </p>
-          </section>
+                <CalendarDays className="h-5 w-5" />
 
-          <section>
-            <h2 className="text-2xl font-bold">
-              Changes
-            </h2>
+                Updated July 2026
 
-            <p>
-              These terms may be updated as BriefTube evolves.
-            </p>
-          </section>
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 
-      </div>
-    </section>
+        {/* ================= FEATURE CARDS ================= */}
+
+        <div className="mx-auto -mt-6 grid max-w-7xl gap-6 px-6 md:grid-cols-3">
+
+          <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-900">
+
+            <ShieldCheck className="mb-5 h-12 w-12 text-blue-600" />
+
+            <h2 className="text-2xl font-bold dark:text-white">
+              Fair Usage
+            </h2>
+
+            <p className="mt-4 leading-8 text-gray-600 dark:text-gray-400">
+
+              We want everyone to enjoy BriefTube. Please use the service
+              responsibly without abusing our infrastructure.
+
+            </p>
+
+          </div>
+
+          <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-900">
+
+            <Sparkles className="mb-5 h-12 w-12 text-yellow-500" />
+
+            <h2 className="text-2xl font-bold dark:text-white">
+              AI Generated
+            </h2>
+
+            <p className="mt-4 leading-8 text-gray-600 dark:text-gray-400">
+
+              Our summaries are generated by advanced AI models and should be
+              used as learning assistance, not as the original source.
+
+            </p>
+
+          </div>
+
+          <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-gray-700 dark:bg-gray-900">
+
+            <Scale className="mb-5 h-12 w-12 text-indigo-600" />
+
+            <h2 className="text-2xl font-bold dark:text-white">
+              Transparency
+            </h2>
+
+            <p className="mt-4 leading-8 text-gray-600 dark:text-gray-400">
+
+              We believe legal documents should be readable by everyone,
+              not just lawyers.
+
+            </p>
+
+          </div>
+
+        </div>
+
+        {/* ================= CONTENT START ================= */}
+
+        <div className="mx-auto mt-20 max-w-6xl px-6">
+
+          <div className="space-y-8">
+                      {/* AI Content */}
+          <section className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+            <div className="mb-5 flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-600 text-white text-xl">
+                🤖
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-bold">
+                  AI Generated Content
+                </h2>
+
+                <p className="text-gray-500 dark:text-gray-400">
+                  Understanding AI summaries
+                </p>
+              </div>
+            </div>
+
+            <p className="leading-8 text-gray-700 dark:text-gray-300">
+              BriefTube uses artificial intelligence to generate summaries,
+              key points and learning notes from publicly available YouTube
+              content.
+            </p>
+
+            <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 dark:border-amber-800 dark:bg-amber-950/30">
+              <h3 className="font-bold text-amber-700 dark:text-amber-300">
+                Important Notice
+              </h3>
+
+              <p className="mt-2 leading-7 text-gray-700 dark:text-gray-300">
+                AI may occasionally make mistakes, omit details or misunderstand
+                context. Always verify important facts directly from the original
+                YouTube video before making business, legal, financial, medical
+                or educational decisions.
+              </p>
+            </div>
+          </section>
+
+          {/* Intellectual Property */}
+          <section className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+            <div className="mb-5 flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-600 text-white text-xl">
+                📚
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-bold">
+                  Intellectual Property
+                </h2>
+
+                <p className="text-gray-500 dark:text-gray-400">
+                  Ownership of content
+                </p>
+              </div>
+            </div>
+
+            <ul className="space-y-4">
+              <li className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
+                • YouTube videos remain the property of their respective
+                creators and copyright owners.
+              </li>
+
+              <li className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
+                • BriefTube does not claim ownership of YouTube videos or their
+                original content.
+              </li>
+
+              <li className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
+                • The BriefTube platform, interface, branding, software and
+                design are owned by BriefTube.
+              </li>
+
+              <li className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
+                • Users are responsible for ensuring their use of summaries
+                complies with applicable copyright laws.
+              </li>
+            </ul>
+          </section>
+
+          {/* Availability */}
+          <section className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+            <div className="mb-5 flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-600 text-white text-xl">
+                ⚙️
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-bold">
+                  Service Availability
+                </h2>
+
+                <p className="text-gray-500 dark:text-gray-400">
+                  Reliability of the platform
+                </p>
+              </div>
+            </div>
+
+            <p className="leading-8 text-gray-700 dark:text-gray-300">
+              We work to keep BriefTube available and reliable. However, the
+              service may occasionally experience maintenance, updates,
+              temporary outages or interruptions caused by third-party services,
+              including YouTube or AI providers.
+            </p>
+          </section>
+
+          {/* Limitation */}
+          <section className="rounded-3xl border border-red-200 bg-red-50 p-8 shadow-sm dark:border-red-800 dark:bg-red-950/20">
+            <div className="mb-5 flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600 text-white text-xl">
+                ⚠️
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-bold">
+                  Limitation of Liability
+                </h2>
+
+                <p className="text-red-700 dark:text-red-300">
+                  Please read carefully
+                </p>
+              </div>
+            </div>
+
+            <p className="leading-8 text-gray-700 dark:text-gray-300">
+              BriefTube is provided on an "as available" basis. To the fullest
+              extent permitted by law, BriefTube is not responsible for losses,
+              damages or decisions resulting from reliance on AI-generated
+              summaries, temporary downtime or third-party platform changes.
+            </p>
+          </section>
+          {/* Intellectual Property */}
+<section className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+  <div className="mb-5 flex items-center gap-4">
+    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600 text-white text-xl">
+      ©
+    </div>
+
+    <div>
+      <h2 className="text-2xl font-bold">
+        Intellectual Property
+      </h2>
+
+      <p className="text-gray-500 dark:text-gray-400">
+        Ownership of content and platform
+      </p>
+    </div>
+  </div>
+
+  <p className="leading-8 text-gray-700 dark:text-gray-300">
+    BriefTube, its branding, website design, software, and original content
+    are protected by copyright and intellectual property laws. You may not
+    copy, redistribute, reverse engineer, or reproduce any part of the
+    platform without written permission.
+  </p>
+</section>
+
+{/* Service Availability */}
+<section className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+  <div className="mb-5 flex items-center gap-4">
+    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500 text-white text-xl">
+      ⚙️
+    </div>
+
+    <div>
+      <h2 className="text-2xl font-bold">
+        Service Availability
+      </h2>
+
+      <p className="text-gray-500 dark:text-gray-400">
+        We continuously improve BriefTube
+      </p>
+    </div>
+  </div>
+
+  <p className="leading-8 text-gray-700 dark:text-gray-300">
+    We strive to keep BriefTube available 24/7. However, maintenance,
+    infrastructure upgrades, AI provider outages, or unexpected technical
+    issues may temporarily interrupt the service without prior notice.
+  </p>
+</section>
+
+{/* Limitation of Liability */}
+<section className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+  <div className="mb-5 flex items-center gap-4">
+    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600 text-white text-xl">
+      ⚠️
+    </div>
+
+    <div>
+      <h2 className="text-2xl font-bold">
+        Limitation of Liability
+      </h2>
+
+      <p className="text-gray-500 dark:text-gray-400">
+        Understanding our responsibilities
+      </p>
+    </div>
+  </div>
+
+  <p className="leading-8 text-gray-700 dark:text-gray-300">
+    BriefTube is provided "as is". We are not responsible for any losses,
+    damages, or decisions made using AI-generated summaries. Users are
+    responsible for verifying important information from the original video.
+  </p>
+</section>
+
+{/* Updates */}
+<section className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+  <div className="mb-5 flex items-center gap-4">
+    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600 text-white text-xl">
+      🔄
+    </div>
+
+    <div>
+      <h2 className="text-2xl font-bold">
+        Changes to These Terms
+      </h2>
+
+      <p className="text-gray-500 dark:text-gray-400">
+        We may update these terms as BriefTube evolves
+      </p>
+    </div>
+  </div>
+
+  <p className="leading-8 text-gray-700 dark:text-gray-300">
+    These Terms of Service may be revised periodically to reflect new
+    features, legal requirements, or improvements to the platform.
+    Continued use of BriefTube after updates indicates acceptance of the
+    revised terms.
+  </p>
+</section>
+
+{/* CTA */}
+<section className="mt-12 overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 to-indigo-700 p-10 text-center text-white shadow-xl">
+  <h2 className="text-4xl font-black">
+    Ready to Summarize Any YouTube Video?
+  </h2>
+
+  <p className="mx-auto mt-4 max-w-2xl text-lg text-blue-100">
+    Join thousands of students, developers, researchers and professionals
+    using BriefTube to turn long YouTube videos into concise AI-powered
+    summaries in seconds.
+  </p>
+
+  <a
+    href="/"
+    className="mt-8 inline-flex rounded-xl bg-white px-8 py-4 text-lg font-bold text-blue-700 transition hover:scale-105 hover:bg-blue-50"
+  >
+    🚀 Launch BriefTube
+  </a>
+</section>
+
+{/* Footer Note */}
+{/* Footer Note */}
+<div className="mt-12 text-center text-sm text-gray-500 dark:text-gray-400">
+  Last updated: July 2026 • © 2026 BriefTube. All rights reserved.
+</div>
+
+          </div>
+        </div>
+      </section>
     </>
   );
 }

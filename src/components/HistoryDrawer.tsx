@@ -1,217 +1,172 @@
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import {
-  X,
-  Clock3,
-  Search,
-  Trash2,
+  Sparkles,
+  PlayCircle,
+  FileText,
+  Zap,
 } from "lucide-react";
-import {
-  getHistory,
-  deleteHistory,
-} from "../services/history";
 
-type HistoryItem = {
-  id: string;
-  video_id: string;
-  title: string;
-  channel: string;
-  thumbnail: string;
-  summary: string;
-  created_at: string;
+import UrlInput from "./UrlInput";
+
+type HeroProps = {
+  onGenerate: (url: string) => void;
+  loading: boolean;
 };
 
-type Props = {
-  userId: string;
-  open: boolean;
-  onClose: () => void;
-  onSelectSummary: (item: HistoryItem) => void;
-};
-
-export default function HistoryDrawer({
-  userId,
-  open,
-  onClose,
-  onSelectSummary,
-}: Props) {
-  const [history, setHistory] = useState<HistoryItem[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    if (!open || !userId) return;
-
-    async function loadHistory() {
-      try {
-        setLoading(true);
-
-        const data = await getHistory(userId);
-
-        setHistory(data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadHistory();
-  }, [open, userId]);
-
-  const filteredHistory = history.filter((item) => {
-    const query = search.toLowerCase();
-
-    return (
-      item.title.toLowerCase().includes(query) ||
-      item.channel.toLowerCase().includes(query)
-    );
-  });
-
+export default function Hero({
+  onGenerate,
+  loading,
+}: HeroProps) {
   return (
-    <>
-      {/* Overlay */}
+  <section
+  id="hero"
+  aria-labelledby="hero-title"
+  className="relative isolate overflow-hidden bg-white dark:bg-gray-950"
+>
 
-      <div
-        className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 ${
-          open
-            ? "opacity-100"
-            : "pointer-events-none opacity-0"
-        }`}
-        onClick={onClose}
-      />
+  {/* Background */}
 
-      {/* Drawer */}
+  <div className="absolute inset-0 -z-30 bg-gradient-to-b from-slate-50 via-white to-blue-50 dark:from-gray-950 dark:via-gray-900 dark:to-slate-900" />
 
-      <div
-        className={`fixed right-0 top-0 z-50 h-full w-full max-w-md border-l border-gray-200 bg-white shadow-2xl transition-transform duration-300 dark:border-gray-700 dark:bg-gray-900 ${
-          open ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        {/* Header */}
+  <div className="absolute left-1/2 top-24 -z-20 h-[220px] w-[220px] -translate-x-1/2 rounded-full bg-gradient-to-r from-blue-500/20 via-violet-500/20 to-cyan-400/20 blur-3xl sm:h-[280px] sm:w-[280px] md:h-[340px] md:w-[340px]" />
 
-        <div className="flex items-center justify-between border-b border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-900">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            📚 My History
-          </h2>
+  <div className="mx-auto flex min-h-0 max-w-7xl flex-col items-center justify-center px-4 py-14 text-center sm:px-6 sm:py-16 md:min-h-[85vh] md:py-20">
 
-          <button
-            onClick={onClose}
-            className="rounded-lg p-2 transition hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            <X />
-          </button>
-        </div>
+    {/* AI Badge */}
 
-        {/* Search */}
+    <div className="animate-floating mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/80 px-4 py-1.5 shadow-md backdrop-blur-sm sm:mb-8 sm:px-5 sm:py-2 dark:border-gray-700 dark:bg-gray-900/80">
 
-        <div className="border-b border-gray-200 p-4 dark:border-gray-700">
-          <div className="relative">
-            <Search
-              size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-            />
+      <Sparkles className="h-3.5 w-3.5 text-blue-600 sm:h-4 sm:w-4 dark:text-blue-400" />
 
-            <input
-              type="text"
-              placeholder="Search summaries..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border border-gray-300 bg-white py-3 pl-10 pr-4 text-gray-900 outline-none transition focus:border-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
-            />
-          </div>
-        </div>
+      <span className="text-xs font-semibold text-blue-700 sm:text-sm dark:text-blue-300">
+        Powered by Gemini AI
+      </span>
 
-        {/* Body */}
+    </div>
 
-        <div className="h-[calc(100%-160px)] overflow-y-auto p-5">
+    {/* Heading */}
 
-          {loading && (
-            <p className="text-center text-gray-500 dark:text-gray-400">
-              Loading...
-            </p>
-          )}
+    <div className="relative">
 
-          {!loading && filteredHistory.length === 0 && (
-            <div className="mt-20 text-center">
-              <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                No summaries found
-              </p>
 
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                Generate a summary or try another search.
-              </p>
-            </div>
-          )}
+      <h1
+  id="hero-title"
+  className="relative max-w-5xl text-3xl font-black leading-tight tracking-tight text-gray-900 sm:text-4xl md:text-6xl lg:text-7xl dark:text-white"
+>
 
-          <div className="space-y-5">
+        Free AI
 
-            {filteredHistory.map((item) => (
-              <div
-                key={item.id}
-                onClick={() => {
-                  onSelectSummary(item);
-                  onClose();
-                }}
-                className="cursor-pointer rounded-2xl border border-gray-200 bg-white p-3 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-              >
-                <img
-                  src={item.thumbnail}
-                  alt={item.title}
-                  className="mb-3 rounded-xl"
-                />
+<span className="bg-gradient-to-r from-blue-600 via-violet-600 to-purple-600 bg-clip-text text-transparent">
+  YouTube Video Summarizer
+</span>
 
-                <h3 className="line-clamp-2 font-semibold text-gray-900 dark:text-white">
-                  {item.title}
-                </h3>
+for Instant Summaries
+      </h1>
 
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                  {item.channel}
-                </p>
+    </div>
 
-              <div className="mt-3 flex items-center justify-between">
+    {/* Description */}
 
-  <div className="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500">
-    <Clock3 size={14} />
-    {new Date(item.created_at).toLocaleString()}
-  </div>
+    <p className="mt-5 max-w-3xl text-base leading-7 text-gray-600 sm:mt-8 sm:text-lg sm:leading-9 md:text-xl dark:text-gray-300">
+     Turn any YouTube video into accurate AI-generated summaries in seconds using BriefTube. Save time by extracting key points, timestamps and notes from tutorials, lectures, podcasts, interviews and educational videos. Export summaries as PDF, Markdown or TXT completely free.
+    </p>
 
-  <button
-    onClick={async (e) => {
-      e.stopPropagation();
+       {/* URL Input */}
 
-      const confirmed = window.confirm(
-        "Delete this summary?"
-      );
+<div className="mt-8 w-full sm:mt-12">
+  <UrlInput
+    onGenerate={onGenerate}
+    loading={loading}
+  />
+</div>
 
-      if (!confirmed) return;
+{/* Small Trust Text */}
 
-      try {
-        await deleteHistory(item.id);
+<p className="mt-5 text-xs text-gray-500 sm:mt-6 sm:text-sm dark:text-gray-400">
+  Trusted for lectures, coding tutorials, podcasts, documentaries, interviews, online courses and educational YouTube videos.
+</p>
+<div className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium text-gray-500 sm:mt-8 sm:gap-6 sm:text-sm dark:text-gray-400">
 
-        setHistory((prev) =>
-          prev.filter((history) => history.id !== item.id)
-        );
+  <span>⚡ Instant AI Summary</span>
 
-        toast.success("Summary deleted");
-      } catch (err) {
-        console.error(err);
+  <span>🆓 Free Forever</span>
 
-        toast.error("Delete failed");
-      }
-    }}
-    className="rounded-lg p-2 text-red-500 transition hover:bg-red-100 dark:hover:bg-red-900/20"
-    title="Delete Summary"
-  >
-    <Trash2 size={18} />
-  </button>
+  <span>📄 PDF Export</span>
+
+  <span>🎥 Works with Public YouTube Videos</span>
 
 </div>
-              </div>
-            ))}
+{/* Features */}
 
-          </div>
-        </div>
-      </div>
-    </>
+<div className="mt-12 grid w-full max-w-6xl grid-cols-1 gap-4 sm:mt-16 sm:gap-6 md:mt-20 md:grid-cols-3">
+
+  {/* Card 1 */}
+
+  <div className="group rounded-2xl border border-gray-100 bg-white/80 p-5 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-2xl hover:shadow-red-100 sm:rounded-3xl sm:p-8 dark:border-gray-700 dark:bg-gray-900/80">
+
+    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 sm:h-16 sm:w-16 sm:rounded-2xl dark:bg-red-900/30">
+
+      <PlayCircle className="h-6 w-6 text-red-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 sm:h-9 sm:w-9" />
+
+    </div>
+
+    <h3 className="mt-4 text-lg font-bold text-gray-900 sm:mt-6 sm:text-xl dark:text-white">
+      Any YouTube Video
+    </h3>
+
+    <p className="mt-2.5 text-sm leading-6 text-gray-600 sm:mt-3 sm:text-base sm:leading-7 dark:text-gray-300">
+      Supports tutorials, podcasts, interviews, documentaries,
+      educational content and much more.
+    </p>
+
+  </div>
+
+  {/* Card 2 */}
+
+  <div className="group rounded-2xl border border-gray-100 bg-white/80 p-5 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-yellow-200 hover:shadow-2xl hover:shadow-yellow-100 sm:rounded-3xl sm:p-8 dark:border-gray-700 dark:bg-gray-900/80">
+
+    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-yellow-50 sm:h-16 sm:w-16 sm:rounded-2xl dark:bg-yellow-900/30">
+
+      <Zap className="h-6 w-6 text-yellow-500 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3 sm:h-9 sm:w-9" />
+
+    </div>
+
+    <h3 className="mt-4 text-lg font-bold text-gray-900 sm:mt-6 sm:text-xl dark:text-white">
+      Lightning Fast AI
+    </h3>
+
+    <p className="mt-2.5 text-sm leading-6 text-gray-600 sm:mt-3 sm:text-base sm:leading-7 dark:text-gray-300">
+      Powered by Gemini AI to generate clean, structured summaries
+      within seconds.
+    </p>
+
+  </div>
+
+  {/* Card 3 */}
+
+  <div className="group rounded-2xl border border-gray-100 bg-white/80 p-5 shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-2xl hover:shadow-blue-100 sm:rounded-3xl sm:p-8 dark:border-gray-700 dark:bg-gray-900/80">
+
+    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 sm:h-16 sm:w-16 sm:rounded-2xl dark:bg-blue-900/30">
+
+      <FileText className="h-6 w-6 text-blue-600 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6 sm:h-9 sm:w-9" />
+
+    </div>
+
+    <h3 className="mt-4 text-lg font-bold text-gray-900 sm:mt-6 sm:text-xl dark:text-white">
+      Export Anywhere
+    </h3>
+
+    <p className="mt-2.5 text-sm leading-6 text-gray-600 sm:mt-3 sm:text-base sm:leading-7 dark:text-gray-300">
+      Download summaries instantly as PDF, Markdown or TXT, or copy
+      them with a single click.
+    </p>
+
+  </div>
+
+</div>
+
+</div>
+
+</section>
+  
   );
 }

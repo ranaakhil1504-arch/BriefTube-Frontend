@@ -21,7 +21,7 @@ export default function MainLayout({
         onHistoryClick={onHistoryClick}
       />
 
-      <main className="min-h-screen">
+      <main className="min-h-screen bg-white dark:bg-gray-950">
         <Outlet />
       </main>
 

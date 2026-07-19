@@ -9,26 +9,26 @@ import BlogListSchema from "../components/BlogListSchema";
 export default function Blog() {
   const [search, setSearch] = useState("");
 
-const allPosts = useMemo(() => {
-  return [...blogPosts, ...blogPage].sort(
-    (a, b) =>
-      new Date(b.date).getTime() -
-      new Date(a.date).getTime()
-  );
-}, []);
+  const allPosts = useMemo(() => {
+    return [...blogPosts, ...blogPage].sort(
+      (a, b) =>
+        new Date(b.date).getTime() -
+        new Date(a.date).getTime()
+    );
+  }, []);
 
-const filteredPosts = useMemo(() => {
-  return allPosts.filter(
-    (post) =>
-      post.title.toLowerCase().includes(search.toLowerCase()) ||
-      post.description.toLowerCase().includes(search.toLowerCase()) ||
-      post.tags.join(" ").toLowerCase().includes(search.toLowerCase())
-  );
-}, [search, allPosts]);
+  const filteredPosts = useMemo(() => {
+    return allPosts.filter(
+      (post) =>
+        post.title.toLowerCase().includes(search.toLowerCase()) ||
+        post.description.toLowerCase().includes(search.toLowerCase()) ||
+        post.tags.join(" ").toLowerCase().includes(search.toLowerCase())
+    );
+  }, [search, allPosts]);
 
-const featured = filteredPosts[0];
+  const featured = filteredPosts[0];
 
-const others = filteredPosts.slice(1);
+  const others = filteredPosts.slice(1);
 
   return (
     <>
@@ -36,376 +36,374 @@ const others = filteredPosts.slice(1);
         title="Blog | BriefTube"
         description="Read AI, productivity and YouTube learning articles from BriefTube."
       />
-<BlogListSchema />
+      <BlogListSchema />
       <section className="min-h-screen bg-gray-50 dark:bg-gray-950">
 
-       
+        {/* ================= HERO ================= */}
 
-  {/* ================= HERO ================= */}
+        <div className="relative overflow-hidden">
 
-<div className="relative overflow-hidden">
+          {/* Background */}
 
-  {/* Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-100 dark:from-gray-950 dark:via-gray-950 dark:to-gray-900" />
 
-  <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-100 dark:from-gray-950 dark:via-gray-950 dark:to-gray-900" />
+          <div className="absolute -left-32 top-10 h-72 w-72 rounded-full bg-blue-400/20 blur-3xl" />
 
-  <div className="absolute -left-32 top-10 h-72 w-72 rounded-full bg-blue-400/20 blur-3xl" />
+          <div className="absolute right-0 top-0 h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl" />
 
-  <div className="absolute right-0 top-0 h-96 w-96 rounded-full bg-indigo-500/20 blur-3xl" />
+          <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:gap-16 sm:px-6 sm:py-16 lg:grid-cols-2 lg:py-20">
 
-  <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-6 py-20 lg:grid-cols-2">
+            {/* LEFT */}
 
-    {/* LEFT */}
+            <div>
 
-    <div>
+              <div className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1.5 text-xs font-semibold text-blue-700 sm:px-4 sm:py-2 sm:text-sm dark:bg-blue-900/30 dark:text-blue-300">
 
-      <div className="inline-flex items-center rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                🚀 Official BriefTube Blog
 
-        🚀 Official BriefTube Blog
+              </div>
 
-      </div>
+              <h1 className="mt-5 text-3xl font-black leading-tight text-gray-900 sm:mt-8 sm:text-4xl md:text-5xl lg:text-6xl dark:text-white">
 
-      <h1 className="mt-8 text-5xl font-black leading-tight text-gray-900 dark:text-white md:text-6xl">
+                Learn Faster with AI
 
-        Learn Faster with AI
+              </h1>
 
-      </h1>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-gray-600 sm:mt-8 sm:text-lg sm:leading-8 md:text-xl md:leading-9 dark:text-gray-400">
 
-      <p className="mt-8 max-w-2xl text-xl leading-9 text-gray-600 dark:text-gray-400">
+                Discover AI tutorials, productivity hacks, YouTube learning guides and
+                expert articles from the creators of
 
-        Discover AI tutorials, productivity hacks, YouTube learning guides and
-        expert articles from the creators of
+                <span className="font-semibold text-blue-600"> BriefTube</span> —
 
-        <span className="font-semibold text-blue-600"> BriefTube</span> —
+                the AI YouTube Video Summarizer that helps people save hours every week.
 
-        the AI YouTube Video Summarizer that helps people save hours every week.
+              </p>
 
-      </p>
+              {/* Buttons */}
 
-      {/* Buttons */}
+              <div className="mt-6 flex flex-wrap gap-3 sm:mt-10 sm:gap-4">
 
-      <div className="mt-10 flex flex-wrap gap-4">
+                <Link
+                  to="/"
+                  className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-bold text-white transition hover:scale-105 hover:bg-blue-700 sm:px-8 sm:py-4 sm:text-lg"
+                >
+                  🚀 Try BriefTube
+                </Link>
 
-        <Link
-          to="/"
-          className="rounded-2xl bg-blue-600 px-8 py-4 text-lg font-bold text-white transition hover:scale-105 hover:bg-blue-700"
-        >
-          🚀 Try BriefTube
-        </Link>
+                <a
+                  href="#articles"
+                  className="rounded-2xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 sm:px-8 sm:py-4 sm:text-lg dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800"
+                >
+                  Browse Articles
+                </a>
 
-        <a
-          href="#articles"
-          className="rounded-2xl border border-gray-300 bg-white px-8 py-4 text-lg font-semibold text-gray-700 transition hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:text-white dark:hover:bg-gray-800"
-        >
-          Browse Articles
-        </a>
+              </div>
 
-      </div>
+              {/* Stats */}
 
-      {/* Stats */}
+              <div className="mt-8 flex flex-wrap gap-6 sm:mt-12 sm:gap-10">
 
-      <div className="mt-12 flex flex-wrap gap-10">
+                <div>
 
-        <div>
+                  <h3 className="text-2xl font-black text-gray-900 sm:text-3xl dark:text-white">
 
-          <h3 className="text-3xl font-black text-gray-900 dark:text-white">
+                    {allPosts.length}+
 
-            {allPosts.length}+
+                  </h3>
 
-          </h3>
+                  <p className="text-sm text-gray-500 sm:text-base">
 
-          <p className="text-gray-500">
+                    Articles
 
-            Articles
+                  </p>
 
-          </p>
+                </div>
+
+                <div>
+
+                  <h3 className="text-2xl font-black text-gray-900 sm:text-3xl dark:text-white">
+
+                    AI
+
+                  </h3>
+
+                  <p className="text-sm text-gray-500 sm:text-base">
+
+                    Powered Learning
+
+                  </p>
+
+                </div>
+
+                <div>
+
+                  <h3 className="text-2xl font-black text-gray-900 sm:text-3xl dark:text-white">
+
+                    Free
+
+                  </h3>
+
+                  <p className="text-sm text-gray-500 sm:text-base">
+
+                    Forever
+
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* RIGHT */}
+
+            <div>
+
+              <img
+                src={blogHero}
+                alt="BriefTube AI Blog"
+                className="mx-auto w-full max-w-xl drop-shadow-2xl"
+              />
+
+            </div>
+
+          </div>
 
         </div>
 
-        <div>
+        {/* SEARCH */}
 
-          <h3 className="text-3xl font-black text-gray-900 dark:text-white">
+        <div className="relative z-20 mx-auto -mt-6 max-w-3xl px-4 sm:-mt-10 sm:px-6">
 
-            AI
+          <div className="relative rounded-2xl border border-gray-200 bg-white p-3 shadow-xl sm:rounded-3xl sm:p-4 dark:border-gray-700 dark:bg-gray-900">
 
-          </h3>
+            <Search
+              className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 sm:left-8"
+              size={20}
+            />
 
-          <p className="text-gray-500">
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search articles, AI tools, productivity guides..."
+              className="w-full bg-transparent py-3 pl-10 pr-3 text-base outline-none sm:py-4 sm:pl-12 sm:pr-4 sm:text-lg dark:text-white"
+            />
 
-            Powered Learning
-
-          </p>
-
-        </div>
-
-        <div>
-
-          <h3 className="text-3xl font-black text-gray-900 dark:text-white">
-
-            Free
-
-          </h3>
-
-          <p className="text-gray-500">
-
-            Forever
-
-          </p>
+          </div>
 
         </div>
 
-      </div>
+        {/* ================= POPULAR TOPICS ================= */}
 
-    </div>
+        <div className="mx-auto mt-10 max-w-7xl px-4 sm:mt-14 sm:px-6">
 
-    {/* RIGHT */}
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
 
-    <div>
+            <span className="text-sm font-semibold text-gray-500 sm:text-base dark:text-gray-400">
 
-     <img
-  src={blogHero}
-  alt="BriefTube AI Blog"
-  className="mx-auto w-full max-w-xl drop-shadow-2xl"
-/>
+              Popular Topics
 
-    </div>
+            </span>
 
-  </div>
+            {[
+              "AI",
+              "YouTube",
+              "Productivity",
+              "Study",
+              "Learning",
+              "Coding",
+              "Students",
+              "ChatGPT",
+              "Gemini",
+              "Notes"
+            ].map((topic) => (
 
-</div>
+              <button
+                key={topic}
+                onClick={() => setSearch(topic)}
+                className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium transition hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600 sm:px-4 sm:py-2 sm:text-sm dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-blue-900/30"
+              >
 
-{/* SEARCH */}
+                {topic}
 
-<div className="mx-auto -mt-10 max-w-3xl px-6 relative z-20">
+              </button>
 
-  <div className="relative rounded-3xl border border-gray-200 bg-white p-4 shadow-xl dark:border-gray-700 dark:bg-gray-900">
+            ))}
 
-<Search
-className="absolute left-8 top-1/2 -translate-y-1/2 text-gray-400"
-size={22}
-/>
+          </div>
 
-<input
-value={search}
-onChange={(e)=>setSearch(e.target.value)}
-placeholder="Search articles, AI tools, productivity guides..."
-className="w-full bg-transparent pl-12 pr-4 py-4 outline-none text-lg dark:text-white"
-/>
-
-</div>
-
-</div>
-
-{/* ================= POPULAR TOPICS ================= */}
-
-<div className="mx-auto mt-14 max-w-7xl px-6">
-
-<div className="flex flex-wrap items-center gap-3">
-
-<span className="font-semibold text-gray-500 dark:text-gray-400">
-
-Popular Topics
-
-</span>
-
-{[
-"AI",
-"YouTube",
-"Productivity",
-"Study",
-"Learning",
-"Coding",
-"Students",
-"ChatGPT",
-"Gemini",
-"Notes"
-].map((topic) => (
-
-<button
-key={topic}
-onClick={() => setSearch(topic)}
-className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium transition hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-blue-900/30"
->
-
-{topic}
-
-</button>
-
-))}
-
-</div>
-
-</div>
+        </div>
 
         {/* Featured Article */}
 
-     {featured && (
+        {featured && (
 
-<section className="mx-auto mt-20 max-w-7xl px-6">
+          <section className="mx-auto mt-12 max-w-7xl px-4 sm:mt-20 sm:px-6">
 
-<div className="mb-8 flex items-center justify-between">
+            <div className="mb-6 flex items-center justify-between sm:mb-8">
 
-<div>
+              <div>
 
-<span className="rounded-full bg-yellow-100 px-4 py-2 text-sm font-bold text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300">
+                <span className="rounded-full bg-yellow-100 px-3 py-1.5 text-xs font-bold text-yellow-700 sm:px-4 sm:py-2 sm:text-sm dark:bg-yellow-900/30 dark:text-yellow-300">
 
-⭐ Featured Article
+                  ⭐ Featured Article
 
-</span>
+                </span>
 
-<h2 className="mt-5 text-4xl font-black text-gray-900 dark:text-white">
+                <h2 className="mt-4 text-2xl font-black text-gray-900 sm:mt-5 sm:text-3xl md:text-4xl dark:text-white">
 
-Editor's Pick
+                  Editor's Pick
 
-</h2>
+                </h2>
 
-<p className="mt-3 text-lg text-gray-600 dark:text-gray-400">
+                <p className="mt-2 text-base text-gray-600 sm:mt-3 sm:text-lg dark:text-gray-400">
 
-Our most recommended AI learning article this week.
+                  Our most recommended AI learning article this week.
 
-</p>
+                </p>
 
-</div>
+              </div>
 
-</div>
+            </div>
 
-<Link
-to={`/blog/${featured.slug}`}
-className="group grid overflow-hidden rounded-[32px] border border-gray-200 bg-white shadow-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl dark:border-gray-700 dark:bg-gray-900 lg:grid-cols-2"
->
+            <Link
+              to={`/blog/${featured.slug}`}
+              className="group grid overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl sm:rounded-[32px] dark:border-gray-700 dark:bg-gray-900 lg:grid-cols-2"
+            >
 
-<div className="overflow-hidden">
+              <div className="overflow-hidden">
 
-<img
-src={featured.image}
-alt={featured.title}
-className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
-/>
+                <img
+                  src={featured.image}
+                  alt={featured.title}
+                  className="h-56 w-full object-cover transition duration-700 group-hover:scale-110 sm:h-72 lg:h-full"
+                />
 
-</div>
+              </div>
 
-<div className="flex flex-col justify-center p-12">
+              <div className="flex flex-col justify-center p-6 sm:p-8 md:p-12">
 
-<div className="mb-6 flex flex-wrap gap-3">
+                <div className="mb-4 flex flex-wrap gap-2 sm:mb-6 sm:gap-3">
 
-{featured.tags.map((tag) => (
+                  {featured.tags.map((tag) => (
 
-<span
-key={tag}
-className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
->
+                    <span
+                      key={tag}
+                      className="rounded-full bg-blue-100 px-3 py-1.5 text-xs font-semibold text-blue-700 sm:px-4 sm:py-2 sm:text-sm dark:bg-blue-900/30 dark:text-blue-300"
+                    >
 
-{tag}
+                      {tag}
 
-</span>
+                    </span>
 
-))}
+                  ))}
 
-</div>
+                </div>
 
-<h2 className="text-5xl font-black leading-tight text-gray-900 transition group-hover:text-blue-600 dark:text-white">
+                <h2 className="text-2xl font-black leading-tight text-gray-900 transition group-hover:text-blue-600 sm:text-3xl md:text-5xl dark:text-white">
 
-{featured.title}
+                  {featured.title}
 
-</h2>
+                </h2>
 
-<p className="mt-6 text-xl leading-8 text-gray-600 dark:text-gray-400">
+                <p className="mt-4 text-base leading-7 text-gray-600 sm:mt-6 sm:text-xl sm:leading-8 dark:text-gray-400">
 
-{featured.description}
+                  {featured.description}
 
-</p>
+                </p>
 
-<div className="mt-10 flex flex-wrap items-center gap-6 text-gray-500 dark:text-gray-400">
+                <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-gray-500 sm:mt-10 sm:gap-6 sm:text-base dark:text-gray-400">
 
-<span>
+                  <span>
 
-👤 {featured.author}
+                    👤 {featured.author}
 
-</span>
+                  </span>
 
-<span>
+                  <span>
 
-📅 {featured.date}
+                    📅 {featured.date}
 
-</span>
+                  </span>
 
-<span>
+                  <span>
 
-⏱ {featured.readTime}
+                    ⏱ {featured.readTime}
 
-</span>
+                  </span>
 
-</div>
+                </div>
 
-<div className="mt-10">
+                <div className="mt-6 sm:mt-10">
 
-<span className="inline-flex items-center text-lg font-bold text-blue-600">
+                  <span className="inline-flex items-center text-base font-bold text-blue-600 sm:text-lg">
 
-Read Full Article →
+                    Read Full Article →
 
-</span>
+                  </span>
 
-</div>
+                </div>
 
-</div>
+              </div>
 
-</Link>
+            </Link>
 
-</section>
+          </section>
 
-)}
+        )}
 
         {/* Articles */}
 
         <div
-id="articles"
-className="mx-auto mt-28 max-w-7xl px-6"
->
+          id="articles"
+          className="mx-auto mt-16 max-w-7xl px-4 sm:mt-28 sm:px-6"
+        >
 
-          <div className="mb-12 flex items-end justify-between">
+          <div className="mb-8 flex items-end justify-between sm:mb-12">
 
-  <div>
+            <div>
 
-    <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-bold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+              <span className="rounded-full bg-blue-100 px-3 py-1.5 text-xs font-bold text-blue-700 sm:px-4 sm:py-2 sm:text-sm dark:bg-blue-900/30 dark:text-blue-300">
 
-      📚 Latest Articles
+                📚 Latest Articles
 
-    </span>
+              </span>
 
-    <h2 className="mt-5 text-4xl font-black text-gray-900 dark:text-white">
+              <h2 className="mt-4 text-2xl font-black text-gray-900 sm:mt-5 sm:text-3xl md:text-4xl dark:text-white">
 
-      Explore All Articles
+                Explore All Articles
 
-    </h2>
+              </h2>
 
-    <p className="mt-3 text-lg text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-base text-gray-600 sm:mt-3 sm:text-lg dark:text-gray-400">
 
-      AI tutorials, YouTube learning, productivity and study guides.
+                AI tutorials, YouTube learning, productivity and study guides.
 
-    </p>
+              </p>
 
-  </div>
+            </div>
 
-</div>
+          </div>
 
-          <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
-                        {others.map((post) => (
+          <div className="grid gap-6 sm:gap-8 md:grid-cols-2 md:gap-10 xl:grid-cols-3">
+            {others.map((post) => (
               <Link
                 key={post.slug}
                 to={`/blog/${post.slug}`}
-                className="group overflow-hidden rounded-[30px] border border-gray-200 bg-white shadow-md transition-all duration-500 hover:-translate-y-3 hover:border-blue-200 hover:shadow-2xl dark:border-gray-700 dark:bg-gray-900 dark:hover:border-blue-800"
+                className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md transition-all duration-500 hover:-translate-y-3 hover:border-blue-200 hover:shadow-2xl sm:rounded-[30px] dark:border-gray-700 dark:bg-gray-900 dark:hover:border-blue-800"
               >
                 <img
-  loading="lazy"
-  decoding="async"
-  src={post.image}
-  alt={`${post.title} - BriefTube Blog`}
-  className="h-64 w-full object-cover transition duration-700 group-hover:scale-110"
-/>
+                  loading="lazy"
+                  decoding="async"
+                  src={post.image}
+                  alt={`${post.title} - BriefTube Blog`}
+                  className="h-48 w-full object-cover transition duration-700 group-hover:scale-110 sm:h-56 md:h-64"
+                />
 
-                <div className="flex h-full flex-col p-7">
+                <div className="flex h-full flex-col p-5 sm:p-6 md:p-7">
 
-                  <div className="mb-4 flex flex-wrap gap-2">
+                  <div className="mb-3 flex flex-wrap gap-2 sm:mb-4">
 
                     {post.tags.map((tag) => (
                       <span
@@ -418,45 +416,45 @@ className="mx-auto mt-28 max-w-7xl px-6"
 
                   </div>
 
-                  <h3 className="line-clamp-2 text-2xl font-black leading-tight text-gray-900 transition group-hover:text-blue-600 dark:text-white">
+                  <h3 className="line-clamp-2 text-xl font-black leading-tight text-gray-900 transition group-hover:text-blue-600 sm:text-2xl dark:text-white">
                     {post.title}
                   </h3>
 
-                  <p className="mt-4 line-clamp-3 text-gray-600 dark:text-gray-400">
+                  <p className="mt-3 line-clamp-3 text-sm text-gray-600 sm:mt-4 sm:text-base dark:text-gray-400">
                     {post.description}
                   </p>
 
-                  <div className="mt-auto pt-8">
+                  <div className="mt-auto pt-6 sm:pt-8">
 
-  <div className="mb-5 flex flex-wrap gap-2">
+                    <div className="mb-4 flex flex-wrap gap-2 sm:mb-5">
 
-    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                      <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300">
 
-      👤 {post.author}
+                        👤 {post.author}
 
-    </span>
+                      </span>
 
-    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                      <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-600 dark:bg-gray-800 dark:text-gray-300">
 
-      📅 {post.date}
+                        📅 {post.date}
 
-    </span>
+                      </span>
 
-    <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                      <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
 
-      ⏱ {post.readTime}
+                        ⏱ {post.readTime}
 
-    </span>
+                      </span>
 
-  </div>
+                    </div>
 
-  <span className="font-bold text-blue-600">
+                    <span className="text-sm font-bold text-blue-600 sm:text-base">
 
-    Read Article →
+                      Read Article →
 
-  </span>
+                    </span>
 
-</div>
+                  </div>
 
                 </div>
 
@@ -466,13 +464,13 @@ className="mx-auto mt-28 max-w-7xl px-6"
           </div>
 
           {filteredPosts.length === 0 && (
-            <div className="py-24 text-center">
+            <div className="py-16 text-center sm:py-24">
 
-              <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h3 className="text-2xl font-bold text-gray-900 sm:text-3xl dark:text-white">
                 Nothing matched your search
               </h3>
 
-              <p className="mt-4 text-gray-600 dark:text-gray-400">
+              <p className="mt-3 text-sm text-gray-600 sm:mt-4 sm:text-base dark:text-gray-400">
                 Try AI, YouTube, Productivity or Study.
               </p>
 
@@ -481,71 +479,71 @@ className="mx-auto mt-28 max-w-7xl px-6"
 
         </div>
 
-{/* ================= NEWSLETTER ================= */}
+        {/* ================= NEWSLETTER ================= */}
 
-<div className="mx-auto mt-24 max-w-5xl px-6">
+        <div className="mx-auto mt-16 max-w-5xl px-4 sm:mt-24 sm:px-6">
 
-<div className="rounded-[32px] border border-gray-200 bg-white p-12 shadow-lg dark:border-gray-700 dark:bg-gray-900">
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg sm:rounded-[32px] sm:p-8 md:p-12 dark:border-gray-700 dark:bg-gray-900">
 
-<h2 className="text-center text-4xl font-black text-gray-900 dark:text-white">
+            <h2 className="text-center text-2xl font-black text-gray-900 sm:text-3xl md:text-4xl dark:text-white">
 
-Never Miss New AI Guides
+              Never Miss New AI Guides
 
-</h2>
+            </h2>
 
-<p className="mx-auto mt-5 max-w-2xl text-center text-lg text-gray-600 dark:text-gray-400">
+            <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-gray-600 sm:mt-5 sm:text-base md:text-lg dark:text-gray-400">
 
-Get notified whenever BriefTube publishes a new AI tutorial,
-productivity guide or YouTube learning article.
+              Get notified whenever BriefTube publishes a new AI tutorial,
+              productivity guide or YouTube learning article.
 
-</p>
+            </p>
 
-<div className="mx-auto mt-10 flex max-w-2xl flex-col gap-4 md:flex-row">
+            <div className="mx-auto mt-6 flex max-w-2xl flex-col gap-3 sm:mt-10 sm:gap-4 md:flex-row">
 
-<input
+              <input
 
-type="email"
+                type="email"
 
-placeholder="Enter your email"
+                placeholder="Enter your email"
 
-className="flex-1 rounded-2xl border border-gray-300 px-6 py-4 outline-none focus:border-blue-600 dark:border-gray-700 dark:bg-gray-950 dark:text-white"
+                className="flex-1 rounded-2xl border border-gray-300 px-5 py-3 text-sm outline-none focus:border-blue-600 sm:px-6 sm:py-4 sm:text-base dark:border-gray-700 dark:bg-gray-950 dark:text-white"
 
-/>
+              />
 
-<button
+              <button
 
-className="rounded-2xl bg-blue-600 px-8 py-4 font-bold text-white transition hover:bg-blue-700"
+                className="rounded-2xl bg-blue-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-blue-700 sm:px-8 sm:py-4 sm:text-base"
 
->
+              >
 
-Subscribe
+                Subscribe
 
-</button>
+              </button>
 
-</div>
+            </div>
 
-</div>
+          </div>
 
-</div>
+        </div>
 
         {/* CTA */}
 
-        <div className="mx-auto mt-24 max-w-6xl px-6 pb-24">
+        <div className="mx-auto mt-16 max-w-6xl px-4 pb-16 sm:mt-24 sm:px-6 sm:pb-24">
 
-          <div className="rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 px-10 py-16 text-center text-white shadow-2xl">
+          <div className="rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 px-6 py-10 text-center text-white shadow-2xl sm:rounded-3xl sm:px-8 sm:py-12 md:px-10 md:py-16">
 
-            <h2 className="text-4xl font-black">
+            <h2 className="text-2xl font-black sm:text-3xl md:text-4xl">
               Start Learning Smarter Today
             </h2>
 
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-blue-100">
+            <p className="mx-auto mt-4 max-w-2xl text-sm text-blue-100 sm:mt-5 sm:text-base md:text-lg">
               Save hours every week with AI-powered YouTube summaries from
               BriefTube.
             </p>
 
             <Link
               to="/"
-              className="mt-8 inline-flex rounded-2xl bg-white px-8 py-4 text-lg font-bold text-blue-700 transition hover:scale-105"
+              className="mt-6 inline-flex rounded-2xl bg-white px-6 py-3 text-sm font-bold text-blue-700 transition hover:scale-105 sm:mt-8 sm:px-8 sm:py-4 sm:text-lg"
             >
               ✨ Summarize a YouTube Video
             </Link>
@@ -553,19 +551,20 @@ Subscribe
           </div>
 
         </div>
-<button
-onClick={() =>
-window.scrollTo({
-top:0,
-behavior:"smooth"
-})
-}
-className="fixed bottom-8 right-8 rounded-full bg-blue-600 p-4 text-white shadow-xl transition hover:scale-110"
->
+        <button
+          onClick={() =>
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            })
+          }
+          aria-label="Scroll to top"
+          className="fixed bottom-6 right-6 rounded-full bg-blue-600 p-3 text-white shadow-xl transition hover:scale-110 sm:bottom-8 sm:right-8 sm:p-4"
+        >
 
-↑
+          ↑
 
-</button>
+        </button>
       </section>
 
     </>

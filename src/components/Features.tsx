@@ -54,25 +54,25 @@ export default function Features() {
   ];
 
   return (
-    <section className="mx-auto mt-28 max-w-7xl px-6">
+    <section className="mx-auto mt-16 max-w-7xl px-4 sm:mt-20 sm:px-6 lg:mt-28">
 
       <div className="text-center">
 
-        <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+        <span className="rounded-full bg-blue-100 px-3 py-1.5 text-xs font-semibold text-blue-700 sm:px-4 sm:py-2 sm:text-sm dark:bg-blue-900/30 dark:text-blue-300">
           Why Millions Choose BriefTube
         </span>
 
-        <h2 className="mt-6 text-4xl font-black text-gray-900 dark:text-white md:text-5xl">
+        <h2 className="mt-4 text-2xl font-black text-gray-900 sm:mt-6 sm:text-3xl md:text-4xl lg:text-5xl dark:text-white">
          Everything You Need From an AI YouTube Video Summarizer
         </h2>
 
-        <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-gray-600 dark:text-gray-300">
+        <p className="mx-auto mt-4 max-w-3xl text-sm leading-6 text-gray-600 sm:mt-6 sm:text-lg sm:leading-8 dark:text-gray-300">
         BriefTube is a free AI YouTube Video Summarizer that converts long YouTube videos into structured summaries, key takeaways and downloadable notes. Save time while learning from tutorials, podcasts, interviews and educational videos.
         </p>
 
       </div>
 
-      <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid gap-5 sm:mt-16 sm:gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
 
         {features.map((feature) => {
           const Icon = feature.icon;
@@ -80,22 +80,22 @@ export default function Features() {
           return (
             <div
               key={feature.title}
-              className="group rounded-3xl border border-gray-200 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl dark:border-gray-700 dark:bg-gray-900"
+              className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl sm:rounded-3xl sm:p-6 md:p-8 dark:border-gray-700 dark:bg-gray-900"
             >
 
               <div
-                className={`flex h-16 w-16 items-center justify-center rounded-2xl ${feature.bg}`}
+                className={`flex h-12 w-12 items-center justify-center rounded-xl sm:h-14 sm:w-14 sm:rounded-2xl md:h-16 md:w-16 ${feature.bg}`}
               >
                 <Icon
-                  className={`h-8 w-8 ${feature.color} transition-transform duration-300 group-hover:scale-125`}
+                  className={`h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 ${feature.color} transition-transform duration-300 group-hover:scale-125`}
                 />
               </div>
 
-              <h3 className="mt-6 text-2xl font-bold text-gray-900 dark:text-white">
+              <h3 className="mt-4 text-lg font-bold text-gray-900 sm:mt-5 sm:text-xl md:mt-6 md:text-2xl dark:text-white">
                 {feature.title}
               </h3>
 
-              <p className="mt-4 leading-8 text-gray-600 dark:text-gray-300">
+              <p className="mt-2.5 text-sm leading-6 text-gray-600 sm:mt-4 sm:text-base sm:leading-8 dark:text-gray-300">
                 {feature.desc}
               </p>
 

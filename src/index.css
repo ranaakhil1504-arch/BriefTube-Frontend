@@ -1,6 +1,26 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* =======================================
+   GLOBAL BASE BACKGROUND
+   Fixes white background showing behind/around
+   components in dark mode (overscroll areas,
+   initial paint before hydration, page gaps).
+======================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white dark:bg-gray-950;
+}
+
+#root {
+  @apply bg-white dark:bg-gray-950;
+}
+
 @keyframes floating {
 
   0% {
@@ -89,9 +109,54 @@
 .animate-summary{
   animation:summaryFade .55s ease;
 }
-html {
-  scroll-behavior: smooth;
+
+/* ======================================
+   FADE IN UP
+   Used by SummaryCard / SummarySkeleton
+   for staggered section reveals.
+====================================== */
+
+@keyframes fadeInUp {
+
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
 }
+
+.animate-fade-in-up{
+  animation:fadeInUp .4s ease-out both;
+}
+
+/* ======================================
+   FADE IN DOWN
+   Used by Navbar mobile menu panel.
+====================================== */
+
+@keyframes fadeInDown {
+
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+}
+
+.animate-fade-in-down{
+  animation:fadeInDown .25s ease-out both;
+}
+
 /* Table of Contents scrollbar */
 
 .toc-scroll::-webkit-scrollbar {
