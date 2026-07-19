@@ -7,83 +7,76 @@ export type ParsedSummary = {
 };
 
 export function parseSummary(markdown: string): ParsedSummary {
+  const clean = markdown.replace(/\r/g, "").replace(/\*\*/g, "");
 
-  function normalize(text: string) {
-    return text
-      .replace(/\r/g, "")
-      .replace(/\*\*/g, "")
-      .replace(/###/g, "#")
-      .replace(/##/g, "#");
-  }
+  const lines = clean.split("\n");
 
-  const content = normalize(markdown);
-
-  function getSection(possibleTitles: string[], nextTitles: string[]) {
-
-    const titleRegex = possibleTitles
-      .map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-      .join("|");
-
-    const nextRegex =
-      nextTitles.length > 0
-        ? nextTitles
-            .map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
-            .join("|")
-        : "$";
-
-    const regex = new RegExp(
-      `(?:#\\s*|)(?:${titleRegex})\\s*:?[\\n\\r]*([\\s\\S]*?)(?=(?:#\\s*|)(?:${nextRegex})\\s*:|$)`,
-      "i"
-    );
-
-    const match = content.match(regex);
-
-    return match ? match[1].trim() : "";
-  }
-
-  function parseBullets(text: string) {
-
-    return text
-      .split("\n")
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0)
-      .map((line) =>
-        line
-          .replace(/^[-*•]\s*/, "")
-          .replace(/^\d+\.\s*/, "")
-      );
-  }
-
-  return {
-    executiveSummary: getSection(
-      ["Executive Summary", "Overview"],
-      ["Key Points"]
-    ),
-
-    keyPoints: parseBullets(
-      getSection(
-        ["Key Points"],
-        ["Key Takeaways"]
-      )
-    ),
-
-    keyTakeaways: parseBullets(
-      getSection(
-        ["Key Takeaways"],
-        ["Quick Summary", "Action Items"]
-      )
-    ),
-
-    quickSummary: getSection(
-      ["Quick Summary"],
-      ["Action Items"]
-    ),
-
-    actionItems: parseBullets(
-      getSection(
-        ["Action Items"],
-        []
-      )
-    ),
+  const result: ParsedSummary = {
+    executiveSummary: "",
+    keyPoints: [],
+    keyTakeaways: [],
+    quickSummary: "",
+    actionItems: [],
   };
+
+  let section = "";
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+
+    if (!line) continue;
+
+    if (/^#\s*Executive Summary/i.test(line)) {
+      section = "executive";
+      continue;
+    }
+
+    if (/^#\s*Key Points/i.test(line)) {
+      section = "points";
+      continue;
+    }
+
+    if (/^#\s*Key Takeaways/i.test(line)) {
+      section = "takeaways";
+      continue;
+    }
+
+    if (/^#\s*Quick Summary/i.test(line)) {
+      section = "quick";
+      continue;
+    }
+
+    if (/^#\s*Action Items/i.test(line)) {
+      section = "actions";
+      continue;
+    }
+
+    switch (section) {
+      case "executive":
+        result.executiveSummary +=
+          (result.executiveSummary ? " " : "") +
+          line;
+        break;
+
+      case "points":
+        result.keyPoints.push(line.replace(/^[-*•]\s*/, ""));
+        break;
+
+      case "takeaways":
+        result.keyTakeaways.push(line.replace(/^[-*•]\s*/, ""));
+        break;
+
+      case "quick":
+        result.quickSummary +=
+          (result.quickSummary ? " " : "") +
+          line;
+        break;
+
+      case "actions":
+        result.actionItems.push(line.replace(/^[-*•]\s*/, ""));
+        break;
+    }
+  }
+
+  return result;
 }

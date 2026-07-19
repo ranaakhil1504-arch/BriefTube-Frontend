@@ -1,44 +1,31 @@
 # BriefTube
 
-BriefTube is an AI-powered YouTube summarizer that helps users quickly understand YouTube videos using artificial intelligence.
+> BriefTube is a free AI-powered YouTube summarizer that turns any YouTube video into accurate, AI-generated summaries, transcripts, and study notes in seconds.
 
-Website:
-https://brieftube.co
+BriefTube extracts key points, timestamps, and notes from tutorials, lectures, podcasts, interviews, and educational videos. Summaries can be exported as PDF, Markdown, or TXT.
 
-Purpose:
-Generate YouTube summaries, transcripts and study notes using AI.
+## Main Pages
 
-Main Pages
-https://brieftube.co/
-https://brieftube.co/blog
-https://brieftube.co/about
-https://brieftube.co/contact
-https://brieftube.co/faq
+- [Home](https://brieftube.co/): Generate an AI summary from any YouTube video URL.
+- [Blog](https://brieftube.co/blog): Articles on AI tools, productivity, and learning.
+- [About](https://brieftube.co/about): Information about BriefTube and its mission.
+- [Contact](https://brieftube.co/contact): Get in touch with the BriefTube team.
+- [FAQ](https://brieftube.co/faq): Frequently asked questions about BriefTube.
 
-Topics
+## Products
 
-Artificial Intelligence
-AI Tools
-YouTube Learning
-Productivity
-Students
-Education
-Coding
-Programming
-Study Tips
-Online Learning
-Technology
+- [AI YouTube Summarizer](https://brieftube.co/): Converts YouTube videos into concise AI-generated summaries.
+- YouTube Transcript Generator: Extracts full transcripts from YouTube videos.
+- AI Study Assistant: Turns video content into structured study notes.
 
-Products
+## Topics
 
-AI YouTube Summarizer
-YouTube Transcript Generator
-AI Study Assistant
+Artificial Intelligence, AI Tools, YouTube Learning, Productivity, Students, Education, Coding, Programming, Study Tips, Online Learning, Technology
 
-Publisher
+## Publisher
 
 BriefTube Team
 
-License
+## License
 
 Public
