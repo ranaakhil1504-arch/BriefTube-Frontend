@@ -1,23 +1,13 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import { getHistory } from "../services/history";
+import type { HistoryItem } from "../services/history";
 import { Inbox, AlertCircle, LogIn } from "lucide-react";
-
-type Summary = {
-  id: string;
-  title: string;
-  channel: string;
-  thumbnail: string;
-  created_at: string;
-};
-
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  "http://localhost:5000";
 
 type Status = "loading" | "signed-out" | "error" | "ready";
 
 export default function History() {
-  const [history, setHistory] = useState<Summary[]>([]);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
   const [status, setStatus] = useState<Status>("loading");
 
   useEffect(() => {
@@ -33,18 +23,12 @@ export default function History() {
           return;
         }
 
-        const res = await fetch(
-          `${API_URL}/api/history/${session.user.id}`
-        );
+        // Uses the shared history service, which attaches the
+        // signed-in user's session token — the backend now derives
+        // the user from that token instead of a URL parameter.
+        const data = await getHistory();
 
-        if (!res.ok) {
-          setStatus("error");
-          return;
-        }
-
-        const data = await res.json();
-
-        setHistory(data.history || []);
+        setHistory(data);
         setStatus("ready");
       } catch {
         setStatus("error");

@@ -82,15 +82,7 @@ const [historyOpen, setHistoryOpen] = useState(false);
         });
       }, 100);
 
-      const result = await generateSummary(
-  url,
-  session?.user.id
-);
-//temp
-
-
-
-
+      const result = await generateSummary(url);
       setSummary(result.summary);
       setVideo(result.video);
 
@@ -175,7 +167,6 @@ const [historyOpen, setHistoryOpen] = useState(false);
   <HistoryDrawer
   open={historyOpen}
   onClose={() => setHistoryOpen(false)}
-  userId={session.user.id}
   onSelectSummary={(item) => {
     setSummary(item.summary);
 
