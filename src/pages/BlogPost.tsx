@@ -5,6 +5,10 @@ import {
   Link as LinkIcon,
   ListTree,
   ChevronDown,
+  Link2,
+  ArrowUp,
+  ThumbsUp,
+  ThumbsDown,
 } from "lucide-react";
 import { FaXTwitter } from "react-icons/fa6";
 import toast from "react-hot-toast";
@@ -16,6 +20,8 @@ import { blogPage } from "../data/blogPage";
 import BreadcrumbSchema from "../components/BreadcrumbSchema";
 import { useHeadingObserver } from "../hooks/useHeadingObserver";
 
+const FONT_SIZES = ["prose-base", "prose-lg", "prose-xl"];
+
 export default function BlogPost() {
   const { slug } = useParams();
   const allPosts = [...blogPosts, ...blogPage];
@@ -24,6 +30,8 @@ export default function BlogPost() {
   const [progress, setProgress] = useState(0);
   const [activeHeading, setActiveHeading] = useState("");
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
+  const [fontLevel, setFontLevel] = useState(1);
+  const [feedback, setFeedback] = useState<"up" | "down" | null>(null);
 
   // 1. Top bar reading progress indicator
   useEffect(() => {
@@ -87,6 +95,14 @@ export default function BlogPost() {
     );
   }
 
+  // Estimated minutes remaining, derived from readTime + scroll progress
+  const totalMinutesMatch = post.readTime?.match(/\d+/);
+  const totalMinutes = totalMinutesMatch ? parseInt(totalMinutesMatch[0], 10) : null;
+  const minutesLeft =
+    totalMinutes !== null
+      ? Math.max(0, Math.round(totalMinutes * (1 - progress / 100)))
+      : null;
+
   // 4. Dynamic Related posts mapping matching tag arrays (Resolves ESLint issue)
   const relatedPosts = allPosts
     .filter((p) => {
@@ -126,6 +142,15 @@ export default function BlogPost() {
     toast.success("Article link copied!");
   };
 
+  const copyHeadingLink = async (id: string) => {
+    try {
+      await navigator.clipboard.writeText(`${articleUrl}#${id}`);
+      toast.success("Section link copied!");
+    } catch {
+      toast.error("Couldn't copy link");
+    }
+  };
+
   function scrollToHeading(id: string) {
     const element = document.getElementById(id);
     if (element) {
@@ -133,6 +158,18 @@ export default function BlogPost() {
     }
     setMobileTocOpen(false);
   }
+
+  function handleFeedback(value: "up" | "down") {
+    setFeedback(value);
+    toast.success(
+      value === "up"
+        ? "Thanks for the feedback!"
+        : "Thanks — we'll work on improving this."
+    );
+  }
+
+  const decreaseFont = () => setFontLevel((l) => Math.max(0, l - 1));
+  const increaseFont = () => setFontLevel((l) => Math.min(FONT_SIZES.length - 1, l + 1));
 
   return (
     <>
@@ -190,9 +227,16 @@ export default function BlogPost() {
           {/* Desktop sidebar TOC */}
           <aside className="hidden lg:block">
             <div className="toc-scroll sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto rounded-3xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-              <h2 className="mb-5 text-lg font-bold text-gray-900 dark:text-white">
-                Table of Contents
-              </h2>
+              <div className="mb-5 flex items-center justify-between gap-2">
+                <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+                  Table of Contents
+                </h2>
+                {minutesLeft !== null && (
+                  <span className="whitespace-nowrap rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-600 dark:bg-blue-900/30 dark:text-blue-300">
+                    {minutesLeft} min left
+                  </span>
+                )}
+              </div>
               <nav className="pr-2">
                 <ul className="space-y-2">
                   {headings.map((heading) => (
@@ -212,6 +256,31 @@ export default function BlogPost() {
                   ))}
                 </ul>
               </nav>
+
+              {/* Text size control */}
+              <div className="mt-5 flex items-center justify-between border-t border-gray-100 pt-4 dark:border-gray-800">
+                <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+                  Text Size
+                </span>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={decreaseFont}
+                    disabled={fontLevel === 0}
+                    aria-label="Decrease text size"
+                    className="rounded-lg border border-gray-200 px-2 py-1 text-xs font-bold text-gray-600 transition hover:bg-gray-50 disabled:opacity-30 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                  >
+                    A−
+                  </button>
+                  <button
+                    onClick={increaseFont}
+                    disabled={fontLevel === FONT_SIZES.length - 1}
+                    aria-label="Increase text size"
+                    className="rounded-lg border border-gray-200 px-2 py-1 text-xs font-bold text-gray-600 transition hover:bg-gray-50 disabled:opacity-30 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                  >
+                    A+
+                  </button>
+                </div>
+              </div>
             </div>
           </aside>
 
@@ -228,11 +297,18 @@ export default function BlogPost() {
                     <ListTree className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                     On this page
                   </span>
-                  <ChevronDown
-                    className={`h-4 w-4 flex-shrink-0 text-gray-500 transition-transform duration-200 dark:text-gray-400 ${
-                      mobileTocOpen ? "rotate-180" : ""
-                    }`}
-                  />
+                  <span className="flex items-center gap-2">
+                    {minutesLeft !== null && (
+                      <span className="hidden whitespace-nowrap rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-semibold text-blue-600 sm:inline-block dark:bg-blue-900/30 dark:text-blue-300">
+                        {minutesLeft} min left
+                      </span>
+                    )}
+                    <ChevronDown
+                      className={`h-4 w-4 flex-shrink-0 text-gray-500 transition-transform duration-200 dark:text-gray-400 ${
+                        mobileTocOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </span>
                 </button>
                 {mobileTocOpen && (
                   <nav className="border-t border-gray-100 px-3 pb-3 pt-1 dark:border-gray-800">
@@ -253,12 +329,39 @@ export default function BlogPost() {
                         </li>
                       ))}
                     </ul>
+
+                    {/* Text size control (mobile) */}
+                    <div className="mt-3 flex items-center justify-between border-t border-gray-100 px-1 pt-3 dark:border-gray-800">
+                      <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+                        Text Size
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <button
+                          onClick={decreaseFont}
+                          disabled={fontLevel === 0}
+                          aria-label="Decrease text size"
+                          className="rounded-lg border border-gray-200 px-2 py-1 text-xs font-bold text-gray-600 transition hover:bg-gray-50 disabled:opacity-30 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                        >
+                          A−
+                        </button>
+                        <button
+                          onClick={increaseFont}
+                          disabled={fontLevel === FONT_SIZES.length - 1}
+                          aria-label="Increase text size"
+                          className="rounded-lg border border-gray-200 px-2 py-1 text-xs font-bold text-gray-600 transition hover:bg-gray-50 disabled:opacity-30 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                        >
+                          A+
+                        </button>
+                      </div>
+                    </div>
                   </nav>
                 )}
               </div>
             )}
 
-            <article className="mx-auto max-w-3xl rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:rounded-3xl sm:p-8 md:p-10 dark:border-gray-700 dark:bg-gray-900 prose prose-lg dark:prose-invert max-w-none prose-headings:scroll-mt-40">
+            <article
+              className={`mx-auto max-w-3xl rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:rounded-3xl sm:p-8 md:p-10 dark:border-gray-700 dark:bg-gray-900 prose ${FONT_SIZES[fontLevel]} dark:prose-invert max-w-none prose-headings:scroll-mt-40`}
+            >
               {post.content.split("\n").map((line, index) => {
                 if (line.trim().startsWith("## ")) {
                   const heading = line.replace("## ", "").trim();
@@ -272,9 +375,16 @@ export default function BlogPost() {
                     <h2
                       key={index}
                       id={id}
-                      className="mt-10 mb-5 border-l-4 border-blue-600 pl-3 text-2xl font-extrabold tracking-tight text-gray-900 sm:mt-12 sm:mb-6 sm:pl-4 sm:text-3xl md:mt-16 md:mb-8 md:pl-5 md:text-4xl dark:border-blue-500 dark:text-white scroll-mt-40"
+                      className="group mt-10 mb-5 flex items-center justify-between gap-3 border-l-4 border-blue-600 pl-3 text-2xl font-extrabold tracking-tight text-gray-900 sm:mt-12 sm:mb-6 sm:pl-4 sm:text-3xl md:mt-16 md:mb-8 md:pl-5 md:text-4xl dark:border-blue-500 dark:text-white scroll-mt-40"
                     >
-                      {heading}
+                      <span>{heading}</span>
+                      <button
+                        onClick={() => copyHeadingLink(id)}
+                        aria-label="Copy link to this section"
+                        className="flex-shrink-0 rounded-lg p-1.5 text-gray-400 opacity-40 transition hover:bg-gray-100 hover:text-blue-600 md:opacity-0 md:group-hover:opacity-100 dark:hover:bg-gray-800 dark:hover:text-blue-400"
+                      >
+                        <Link2 className="h-4 w-4" />
+                      </button>
                     </h2>
                   );
                 }
@@ -314,8 +424,37 @@ export default function BlogPost() {
               })}
             </article>
 
+            {/* Was this helpful feedback */}
+            <div className="mt-6 rounded-2xl border border-gray-200 bg-white p-5 text-center sm:mt-8 sm:p-6 dark:border-gray-700 dark:bg-gray-900">
+              <p className="text-sm font-semibold text-gray-900 sm:text-base dark:text-white">
+                Was this article helpful?
+              </p>
+              <div className="mt-3 flex items-center justify-center gap-3">
+                <button
+                  onClick={() => handleFeedback("up")}
+                  className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium transition ${
+                    feedback === "up"
+                      ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
+                      : "border-gray-200 text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                  }`}
+                >
+                  <ThumbsUp className="h-4 w-4" /> Yes
+                </button>
+                <button
+                  onClick={() => handleFeedback("down")}
+                  className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium transition ${
+                    feedback === "down"
+                      ? "border-red-500 bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-300"
+                      : "border-gray-200 text-gray-600 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+                  }`}
+                >
+                  <ThumbsDown className="h-4 w-4" /> No
+                </button>
+              </div>
+            </div>
+
             {/* Main Action Project Return Button (Redirects to https://brieftube.co/) */}
-            <div className="mt-10 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-center text-white shadow-lg sm:mt-16 sm:rounded-3xl sm:p-8">
+            <div className="mt-6 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 p-5 text-center text-white shadow-lg sm:mt-8 sm:rounded-3xl sm:p-8">
               <h3 className="text-xl font-black sm:text-3xl">
                 Ready to save hours of video watching?
               </h3>
@@ -402,6 +541,17 @@ export default function BlogPost() {
             </div>
           </div>
         </div>
+
+        {/* Back to top */}
+        {progress > 15 && (
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            aria-label="Scroll to top"
+            className="fixed bottom-6 right-6 z-40 rounded-full bg-blue-600 p-3 text-white shadow-xl transition hover:scale-110 sm:bottom-8 sm:right-8 sm:p-4"
+          >
+            <ArrowUp className="h-5 w-5" />
+          </button>
+        )}
       </section>
     </>
   );

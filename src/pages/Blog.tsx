@@ -1,11 +1,25 @@
 import { useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import blogHero from "../assets/blog-hero.jpg";
 import SEO from "../components/SEO";
 import { blogPosts } from "../data/blogPosts";
 import { blogPage } from "../data/blogPage";
 import BlogListSchema from "../components/BlogListSchema";
+
+const TOPICS = [
+  "AI",
+  "YouTube",
+  "Productivity",
+  "Study",
+  "Learning",
+  "Coding",
+  "Students",
+  "ChatGPT",
+  "Gemini",
+  "Notes",
+];
+
 export default function Blog() {
   const [search, setSearch] = useState("");
 
@@ -29,6 +43,9 @@ export default function Blog() {
   const featured = filteredPosts[0];
 
   const others = filteredPosts.slice(1);
+
+  const isTopicActive = (topic: string) =>
+    search.trim().toLowerCase() === topic.toLowerCase();
 
   return (
     <>
@@ -187,8 +204,18 @@ export default function Blog() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search articles, AI tools, productivity guides..."
-              className="w-full bg-transparent py-3 pl-10 pr-3 text-base outline-none sm:py-4 sm:pl-12 sm:pr-4 sm:text-lg dark:text-white"
+              className="w-full bg-transparent py-3 pl-10 pr-9 text-base text-gray-900 outline-none sm:py-4 sm:pl-12 sm:pr-10 sm:text-lg dark:text-white"
             />
+
+            {search && (
+              <button
+                onClick={() => setSearch("")}
+                aria-label="Clear search"
+                className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600 sm:right-6 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+              >
+                <X size={16} />
+              </button>
+            )}
 
           </div>
 
@@ -206,32 +233,51 @@ export default function Blog() {
 
             </span>
 
-            {[
-              "AI",
-              "YouTube",
-              "Productivity",
-              "Study",
-              "Learning",
-              "Coding",
-              "Students",
-              "ChatGPT",
-              "Gemini",
-              "Notes"
-            ].map((topic) => (
+            <button
+              onClick={() => setSearch("")}
+              className={`rounded-full border px-3 py-1.5 text-xs font-medium transition sm:px-4 sm:py-2 sm:text-sm ${
+                search.trim() === ""
+                  ? "border-blue-600 bg-blue-600 text-white"
+                  : "border-gray-200 bg-white text-gray-700 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-blue-900/30 dark:hover:text-blue-300"
+              }`}
+            >
+              All
+            </button>
 
-              <button
-                key={topic}
-                onClick={() => setSearch(topic)}
-                className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium transition hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600 sm:px-4 sm:py-2 sm:text-sm dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-blue-900/30"
-              >
+            {TOPICS.map((topic) => {
+              const active = isTopicActive(topic);
+              return (
+                <button
+                  key={topic}
+                  onClick={() => setSearch(topic)}
+                  className={`rounded-full border px-3 py-1.5 text-xs font-medium transition sm:px-4 sm:py-2 sm:text-sm ${
+                    active
+                      ? "border-blue-600 bg-blue-600 text-white"
+                      : "border-gray-200 bg-white text-gray-700 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-blue-900/30 dark:hover:text-blue-300"
+                  }`}
+                >
 
-                {topic}
+                  {topic}
 
-              </button>
-
-            ))}
+                </button>
+              );
+            })}
 
           </div>
+
+          {search.trim() !== "" && (
+            <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+              Showing {filteredPosts.length} result{filteredPosts.length === 1 ? "" : "s"} for{" "}
+              <span className="font-semibold text-gray-700 dark:text-gray-300">"{search}"</span>
+              {" · "}
+              <button
+                onClick={() => setSearch("")}
+                className="font-semibold text-blue-600 hover:underline dark:text-blue-400"
+              >
+                Clear
+              </button>
+            </p>
+          )}
 
         </div>
 
@@ -473,6 +519,13 @@ export default function Blog() {
               <p className="mt-3 text-sm text-gray-600 sm:mt-4 sm:text-base dark:text-gray-400">
                 Try AI, YouTube, Productivity or Study.
               </p>
+
+              <button
+                onClick={() => setSearch("")}
+                className="mt-6 inline-flex rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+              >
+                Clear search
+              </button>
 
             </div>
           )}
