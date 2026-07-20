@@ -6,11 +6,16 @@ import { imagetools } from "vite-imagetools";
 import { execSync } from "node:child_process";
 
 // Runs scripts/prerender.mjs right after `vite build` finishes writing
-// dist/. This is what fixes crawler visibility: the app is a pure
-// client-side SPA (createRoot, no SSR), so a crawler that doesn't run
-// JavaScript only ever sees an empty <div id="root"></div> — this step
-// snapshots each real route (see scripts/routes.mjs) into full static
-// HTML so bots see actual page content.
+// dist/. This snapshots each route (see scripts/routes.mjs) into full
+// static HTML so crawlers that don't execute JavaScript still see real
+// page content instead of an empty <div id="root"></div>.
+//
+// IMPORTANT: wrapped in try/catch on purpose. If prerendering fails for
+// any reason (Chromium launch issue, timeout, etc.), we log it and move
+// on instead of throwing — a prerender failure must never take down the
+// whole deployment. Worst case without it: crawlers see the plain SPA
+// shell again, same as before this feature existed. That's a much
+// better failure mode than "the entire site fails to deploy."
 function prerenderPlugin() {
   return {
     name: "prerender-after-build",
@@ -19,7 +24,18 @@ function prerenderPlugin() {
       if (process.env.VITE_SKIP_PRERENDER === "true") return;
 
       console.log("\nRunning post-build prerender step...");
-      execSync("node scripts/prerender.mjs", { stdio: "inherit" });
+
+      try {
+        execSync("node scripts/prerender.mjs", { stdio: "inherit" });
+      } catch (error) {
+        console.warn(
+          "\n⚠️  Prerendering failed — deploying without it. " +
+            "The site will still work normally for real users; " +
+            "crawlers will temporarily see the unprerendered SPA shell " +
+            "until this is fixed.\n",
+          error instanceof Error ? error.message : error
+        );
+      }
     },
   };
 }
