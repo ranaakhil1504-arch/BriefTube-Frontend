@@ -1,72 +1,22 @@
 import fs from "fs";
 import { SitemapStream, streamToPromise } from "sitemap";
-import { blogPosts } from "../src/data/blogPosts.ts";
+import { getAllRoutes } from "./routes.mjs";
 
 const hostname = "https://brieftube.co";
 
-const staticPages = [
-  {
-    url: "/",
-    priority: 1.0,
-    changefreq: "daily",
-  },
-  {
-    url: "/blog",
-    priority: 0.95,
-    changefreq: "daily",
-  },
-  {
-    url: "/about",
-    priority: 0.8,
-    changefreq: "monthly",
-  },
-  {
-    url: "/contact",
-    priority: 0.7,
-    changefreq: "monthly",
-  },
-  {
-    url: "/faq",
-    priority: 0.8,
-    changefreq: "monthly",
-  },
-  {
-    url: "/history",
-    priority: 0.7,
-    changefreq: "monthly",
-  },
-  {
-    url: "/privacy",
-    priority: 0.5,
-    changefreq: "yearly",
-  },
-  {
-    url: "/terms",
-    priority: 0.5,
-    changefreq: "yearly",
-  },
-];
-
-const sitemap = new SitemapStream({
-  hostname,
-});
+const sitemap = new SitemapStream({ hostname });
 
 const today = new Date().toISOString();
 
-for (const page of staticPages) {
+// getAllRoutes() now pulls from BOTH blogPosts.ts and blogPage.ts,
+// so every article gets a sitemap entry — previously this script
+// only read blogPosts.ts directly, silently missing every post in
+// blogPage.ts.
+for (const route of getAllRoutes()) {
   sitemap.write({
-    url: page.url,
-    priority: page.priority,
-    changefreq: page.changefreq,
-    lastmod: today,
-  });
-}
-
-for (const post of blogPosts) {
-  sitemap.write({
-    url: `/blog/${post.slug}`,
-    priority: 0.9,
-    changefreq: "monthly",
+    url: route.url,
+    priority: route.priority,
+    changefreq: route.changefreq,
     lastmod: today,
   });
 }

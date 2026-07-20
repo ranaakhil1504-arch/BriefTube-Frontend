@@ -3,6 +3,26 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { visualizer } from "rollup-plugin-visualizer";
 import { imagetools } from "vite-imagetools";
+import { execSync } from "node:child_process";
+
+// Runs scripts/prerender.mjs right after `vite build` finishes writing
+// dist/. This is what fixes crawler visibility: the app is a pure
+// client-side SPA (createRoot, no SSR), so a crawler that doesn't run
+// JavaScript only ever sees an empty <div id="root"></div> — this step
+// snapshots each real route (see scripts/routes.mjs) into full static
+// HTML so bots see actual page content.
+function prerenderPlugin() {
+  return {
+    name: "prerender-after-build",
+    apply: "build" as const,
+    closeBundle() {
+      if (process.env.VITE_SKIP_PRERENDER === "true") return;
+
+      console.log("\nRunning post-build prerender step...");
+      execSync("node scripts/prerender.mjs", { stdio: "inherit" });
+    },
+  };
+}
 
 export default defineConfig({
   plugins: [
@@ -15,6 +35,7 @@ export default defineConfig({
       gzipSize: true,
       brotliSize: true,
     }),
+    prerenderPlugin(),
   ],
   build: {
     rollupOptions: {
