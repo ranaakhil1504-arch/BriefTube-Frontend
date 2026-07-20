@@ -33,6 +33,7 @@ export async function generateSummary(url: string) {
     body: JSON.stringify({ url }),
   });
 
+
   const data = await response.json();
 
   if (!response.ok) {
