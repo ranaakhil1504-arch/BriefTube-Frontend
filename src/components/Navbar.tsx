@@ -29,7 +29,6 @@ type NavbarProps = {
 
 const NAV_LINKS = [
   { to: "/", label: "Home", icon: Home },
-  { to: "/pdf-compressor", label: "PDF Compressor", icon: FileText },
   { to: "/faq", label: "FAQ", icon: HelpCircle },
   { to: "/blog", label: "Blog", icon: BookOpen },
   { to: "/about", label: "About", icon: Info },
@@ -97,7 +96,6 @@ export default function Navbar({
             <span className="block text-lg font-black tracking-tight text-gray-900 sm:text-xl dark:text-white">
               BriefTube
             </span>
-
             <p className="text-xs text-gray-500 dark:text-gray-400">
               AI YouTube Summarizer
             </p>
@@ -126,9 +124,17 @@ export default function Navbar({
               </Link>
             );
           })}
+          {/* PDF Compressor - Using regular <a> tag */}
+          <a
+            href="/pdf-compressor"
+            className="group relative py-1 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+          >
+            PDF Compressor
+            <span className="absolute -bottom-1 left-0 h-0.5 w-full rounded-full bg-gradient-to-r from-blue-600 to-violet-600" />
+          </a>
         </nav>
 
-        {/* Right */}
+        {/* Right section - same as before */}
         <div className="flex items-center gap-2.5 sm:gap-4">
           <span className="hidden rounded-full bg-blue-100 px-4 py-1 text-sm font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 md:block">
             Gemini AI
@@ -168,7 +174,6 @@ export default function Navbar({
                 <p className="max-w-[180px] truncate text-sm font-semibold text-gray-900 dark:text-white">
                   {user.user_metadata.full_name || "User"}
                 </p>
-
                 <p className="max-w-[180px] truncate text-xs text-gray-500 dark:text-gray-400">
                   {user.email}
                 </p>
@@ -233,6 +238,16 @@ export default function Navbar({
                 </Link>
               );
             })}
+            
+            {/* Mobile PDF Compressor Link */}
+            <a
+              href="/pdf-compressor"
+              onClick={() => setMobileMenu(false)}
+              className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/30"
+            >
+              <FileText className="h-4 w-4 flex-shrink-0" />
+              PDF Compressor
+            </a>
 
             <div className="mt-3 flex flex-col gap-3 border-t border-gray-100 pt-4 dark:border-gray-800">
               {!user ? (
