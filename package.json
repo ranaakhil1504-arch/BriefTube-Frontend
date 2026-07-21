@@ -1,3 +1,4 @@
+
 {
   "name": "brieftube",
   "private": true,
@@ -5,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsx scripts/generate-sitemap.mjs && tsc -b && vite build",
+    "build": "tsx scripts/generate-sitemap.mjs && tsc -b && vite build && cd pdf-compressor && npm run build",
     "preview": "vite preview",
     "sitemap": "tsx scripts/generate-sitemap.mjs",
     "prerender": "node scripts/prerender.mjs"
@@ -49,4 +50,3 @@
     "vite": "^8.1.1"
   }
 }
-

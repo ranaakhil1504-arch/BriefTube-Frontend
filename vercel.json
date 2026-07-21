@@ -1,5 +1,10 @@
+
 {
   "rewrites": [
+    {
+      "source": "/pdf-compressor/(.*)",
+      "destination": "/pdf-compressor/index.html"
+    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
