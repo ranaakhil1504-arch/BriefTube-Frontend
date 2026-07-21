@@ -1,3 +1,4 @@
+
 import {
   Moon,
   Sun,
@@ -11,6 +12,7 @@ import {
   BookOpen,
   Info,
   Mail,
+  FileText,
 } from "lucide-react";
 
 import { Link, useLocation } from "react-router-dom";
@@ -27,6 +29,7 @@ type NavbarProps = {
 
 const NAV_LINKS = [
   { to: "/", label: "Home", icon: Home },
+  { to: "/pdf-compressor", label: "PDF Compressor", icon: FileText },
   { to: "/faq", label: "FAQ", icon: HelpCircle },
   { to: "/blog", label: "Blog", icon: BookOpen },
   { to: "/about", label: "About", icon: Info },
