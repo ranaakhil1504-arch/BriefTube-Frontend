@@ -1,5 +1,18 @@
 
 {
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build"
+    },
+    {
+      "src": "pdf-compressor/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "pdf-compressor/dist"
+      }
+    }
+  ],
   "rewrites": [
     {
       "source": "/pdf-compressor/(.*)",
