@@ -1,9 +1,7 @@
-cat > .gitignore << 'EOF'
 # Dependencies
 node_modules/
 
 # Build output
-dist/
 dist-ssr/
 
 # Environment variables
@@ -30,4 +28,3 @@ yarn-error.log*
 
 # Build stats/reports
 stats.html
-EOF
