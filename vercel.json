@@ -5,6 +5,10 @@
   "installCommand": "npm install && cd pdf-compressor && npm install",
   "rewrites": [
     {
+      "source": "/pdf-compressor",
+      "destination": "/pdf-compressor/index.html"
+    },
+    {
       "source": "/pdf-compressor/(.*)",
       "destination": "/pdf-compressor/index.html"
     },
