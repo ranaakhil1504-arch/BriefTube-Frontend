@@ -23,7 +23,7 @@ export default function App() {
       <ThemeProvider>
         <AnalyticsProvider>
           <ErrorBoundary>
-            <BrowserRouter>
+            <BrowserRouter basename="/pdf-compressor">
               <MainLayout>
                 <Suspense fallback={<LoadingSpinner />}>
                   <Routes>
