@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsx scripts/generate-sitemap.mjs && tsc -b && vite build && cd pdf-compressor && npm install && npm run build",
+    "build": "tsx scripts/generate-sitemap.mjs && tsc -b && vite build && cd pdf-compressor && npm install && npm run build && mkdir -p dist && cp -r pdf-compressor/dist/* dist/pdf-compressor/",
     "preview": "vite preview",
     "sitemap": "tsx scripts/generate-sitemap.mjs",
     "prerender": "node scripts/prerender.mjs"
