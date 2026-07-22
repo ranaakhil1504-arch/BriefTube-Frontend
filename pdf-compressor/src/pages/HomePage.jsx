@@ -7,6 +7,7 @@ import useFilePicker from '../hooks/useFilePicker';
 import { compressPdf } from '../services/pdf.service';
 import { API_ROOT_URL } from '../services/api';
 import { toast } from 'react-hot-toast';
+import FreeTierBanner from '../components/common/FreeTierBanner';
 
 export default function HomePage() {
   const [compressionLevel, setCompressionLevel] = useState('recommended');
@@ -97,6 +98,9 @@ export default function HomePage() {
     <div className="min-h-screen transition-colors duration-300 dark:bg-gray-900">
       <Hero />
       
+      {/* Free Tier Banner */}
+      <FreeTierBanner />
+
       <UploadArea
         selectedFile={selectedFile}
         error={error}
@@ -127,6 +131,7 @@ export default function HomePage() {
             disabled={isCompressing}
             loading={isCompressing}
             onClick={handleCompress}
+            fileSize={selectedFile?.size}
           />
 
           {downloadUrl && (
