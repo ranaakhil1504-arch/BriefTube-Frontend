@@ -7,13 +7,13 @@ const TOOLS = [
     name: 'PDF Compressor', 
     path: '/', 
     emoji: '📄',
-    keywords: ['pdf', 'compress pdf', 'reduce pdf', 'pdf size', 'compress', 'pdf file']
+    keywords: ['pdf', 'compress pdf', 'reduce pdf', 'pdf size', 'compress']
   },
   { 
     name: 'Image Compressor', 
     path: '/image-compressor', 
     emoji: '🖼️',
-    keywords: ['image', 'compress image', 'reduce image', 'image size', 'jpg', 'png', 'webp', 'photo']
+    keywords: ['image', 'compress image', 'reduce image', 'jpg', 'png', 'webp', 'photo']
   },
   { 
     name: 'PDF Merger', 
@@ -25,7 +25,13 @@ const TOOLS = [
     name: 'Image Resizer', 
     path: '/image-resizer', 
     emoji: '📐',
-    keywords: ['resize', 'resize image', 'pixel', 'dimension', 'passport', 'photo size', 'width', 'height']
+    keywords: ['resize', 'resize image', 'pixel', 'dimension', 'passport', 'width', 'height']
+  },
+  { 
+    name: 'QR Generator', 
+    path: '/qr-generator', 
+    emoji: '📱',
+    keywords: ['qr', 'qrcode', 'qr code', 'barcode', 'scan']
   },
 ];
 
@@ -37,20 +43,6 @@ export default function SimpleChatbot() {
   const [input, setInput] = useState('');
   const navigate = useNavigate();
 
-  const findBestMatch = (input) => {
-    const lower = input.toLowerCase();
-    
-    // Check each tool's keywords
-    for (const tool of TOOLS) {
-      for (const keyword of tool.keywords) {
-        if (lower.includes(keyword)) {
-          return tool;
-        }
-      }
-    }
-    return null;
-  };
-
   const navigateTo = (path) => {
     navigate(path);
   };
@@ -61,11 +53,13 @@ export default function SimpleChatbot() {
     setMessages(prev => [...prev, { text: input, sender: 'user' }]);
 
     const lowerInput = input.toLowerCase();
-    let botResponse = "I can help you with:\n• 📄 PDF Compressor\n• 🖼️ Image Compressor\n• 📎 PDF Merger\n• 📐 Image Resizer\n\nTell me what you want to do!";
+    let botResponse = "I can help you with:\n• 📄 PDF Compressor\n• 🖼️ Image Compressor\n• 📎 PDF Merger\n• 📐 Image Resizer\n• 📱 QR Generator\n\nTell me what you want to do!";
 
-    // Check for specific actions
-    if (lowerInput.includes('resize') || lowerInput.includes('pixel') || lowerInput.includes('dimension')) {
-      botResponse = "📐 Opening Image Resizer for you... It lets you resize images to exact pixels and KB.";
+    if (lowerInput.includes('qr') || lowerInput.includes('qrcode') || lowerInput.includes('code')) {
+      botResponse = "📱 Opening QR Generator for you... It creates QR codes from any text or URL.";
+      setTimeout(() => navigateTo('/qr-generator'), 800);
+    } else if (lowerInput.includes('resize') || lowerInput.includes('pixel') || lowerInput.includes('dimension')) {
+      botResponse = "📐 Opening Image Resizer for you... It resizes images to exact pixels and KB.";
       setTimeout(() => navigateTo('/image-resizer'), 800);
     } else if (lowerInput.includes('compress image') || lowerInput.includes('reduce image') || lowerInput.includes('photo')) {
       botResponse = "🖼️ Opening Image Compressor for you... It reduces image file size without losing quality.";
@@ -77,15 +71,16 @@ export default function SimpleChatbot() {
       botResponse = "📎 Opening PDF Merger for you... It combines multiple PDFs into one file.";
       setTimeout(() => navigateTo('/pdf-merger'), 800);
     } else if (lowerInput.includes('help') || lowerInput.includes('what') || lowerInput.includes('can you')) {
-      botResponse = "Here are all my tools:\n\n📄 PDF Compressor — Reduce PDF size\n🖼️ Image Compressor — Compress images\n📎 PDF Merger — Combine PDFs\n📐 Image Resizer — Resize images\n\nJust tell me what you want to do!";
+      botResponse = "Here are all my tools:\n\n📄 PDF Compressor — Reduce PDF size\n🖼️ Image Compressor — Compress images\n📎 PDF Merger — Combine PDFs\n📐 Image Resizer — Resize images\n📱 QR Generator — Create QR codes\n\nJust tell me what you want to do!";
     } else {
-      // Try to find a match
-      const matchedTool = findBestMatch(input);
+      const matchedTool = TOOLS.find(tool => 
+        tool.keywords.some(keyword => lowerInput.includes(keyword))
+      );
       if (matchedTool) {
         botResponse = `${matchedTool.emoji} Opening ${matchedTool.name} for you...`;
         setTimeout(() => navigateTo(matchedTool.path), 800);
       } else {
-        botResponse = "I'm not sure what you want. Try saying:\n• 'Compress PDF'\n• 'Compress Image'\n• 'Merge PDFs'\n• 'Resize Image'\n\nOr click the buttons below!";
+        botResponse = "I'm not sure what you want. Try saying:\n• 'Compress PDF'\n• 'Compress Image'\n• 'Merge PDFs'\n• 'Resize Image'\n• 'Generate QR'\n\nOr click the buttons below!";
       }
     }
 

@@ -16,6 +16,7 @@ const HomePage = lazy(() => import("./pages/HomePage"));
 const ImageCompressor = lazy(() => import("./pages/ImageCompressor"));
 const PDFMerger = lazy(() => import("./pages/PDFMerger"));
 const ImageResizer = lazy(() => import("./pages/ImageResizer"));
+const QRCodeGenerator = lazy(() => import("./pages/QRCodeGenerator"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -37,6 +38,7 @@ export default function App() {
                       <Route path="/image-compressor" element={<ImageCompressor />} />
                       <Route path="/pdf-merger" element={<PDFMerger />} />
                       <Route path="/image-resizer" element={<ImageResizer />} />
+                      <Route path="/qr-generator" element={<QRCodeGenerator />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </Suspense>

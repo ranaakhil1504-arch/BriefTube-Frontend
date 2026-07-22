@@ -17,6 +17,7 @@ import {
   Image,
   Layers,
   Crop,
+  QrCode,
 } from "lucide-react";
 
 import { Link, useLocation } from "react-router-dom";
@@ -32,7 +33,6 @@ type NavbarProps = {
   onHistoryClick: () => void;
 };
 
-// Define the tool type with LucideIcon
 type Tool = {
   to: string;
   label: string;
@@ -72,6 +72,12 @@ const TOOLS: Tool[] = [
     to: "/pdf-compressor/image-resizer", 
     label: "Image Resizer", 
     icon: Crop,
+    external: true,
+  },
+  { 
+    to: "/pdf-compressor/qr-generator", 
+    label: "QR Generator", 
+    icon: QrCode,
     external: true,
   },
 ];
