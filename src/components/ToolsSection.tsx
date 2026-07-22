@@ -1,6 +1,4 @@
 
-import { Link } from 'react-router-dom';
-
 const TOOLS = [
   {
     icon: '📄',
@@ -30,6 +28,13 @@ const TOOLS = [
     link: '/pdf-compressor/image-resizer',
     color: 'from-orange-500 to-orange-600',
   },
+  {
+    icon: '📱',
+    title: 'QR Generator',
+    description: 'Create QR codes for any text or URL',
+    link: '/pdf-compressor/qr-generator',
+    color: 'from-pink-500 to-pink-600',
+  },
 ];
 
 export default function ToolsSection() {
@@ -45,11 +50,11 @@ export default function ToolsSection() {
           </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
           {TOOLS.map((tool) => (
-            <Link
+            <a
               key={tool.title}
-              to={tool.link}
+              href={tool.link}
               className="group relative overflow-hidden rounded-2xl bg-white p-6 shadow-md transition-all duration-300 hover:scale-105 hover:shadow-xl dark:bg-gray-800"
             >
               <div className={`absolute inset-0 bg-gradient-to-br ${tool.color} opacity-0 transition-opacity duration-300 group-hover:opacity-10`} />
@@ -66,7 +71,7 @@ export default function ToolsSection() {
                   Try Now →
                 </div>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
 
