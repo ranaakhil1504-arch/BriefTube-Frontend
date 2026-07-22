@@ -3,6 +3,9 @@ import { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { toast } from 'react-hot-toast';
 import FreeTierBanner from '../components/common/FreeTierBanner';
+import ToolInfo from '../components/common/ToolInfo';
+import ToolFAQ from '../components/common/ToolFAQ';
+import { imageResizerContent } from '../data/image-resizer-content';
 
 // Preset dimensions for common use cases
 const PRESETS = [
@@ -255,7 +258,6 @@ export default function ImageResizer() {
           </div>
         </div>
 
-        {/* Free Tier Banner */}
         <FreeTierBanner />
 
         {/* Main Content */}
@@ -462,6 +464,19 @@ export default function ImageResizer() {
             </div>
           )}
         </div>
+
+        {/* Tool Info & FAQ Section */}
+        <ToolInfo 
+          title={imageResizerContent.title}
+          description={imageResizerContent.description}
+          features={imageResizerContent.features}
+          useCases={imageResizerContent.useCases}
+        />
+
+        <ToolFAQ 
+          faqs={imageResizerContent.faqs}
+          title="Frequently Asked Questions"
+        />
       </div>
     </>
   );

@@ -4,6 +4,9 @@ import { Helmet } from 'react-helmet-async';
 import { PDFDocument } from 'pdf-lib';
 import { toast } from 'react-hot-toast';
 import FreeTierBanner from '../components/common/FreeTierBanner';
+import ToolInfo from '../components/common/ToolInfo';
+import ToolFAQ from '../components/common/ToolFAQ';
+import { pdfMergerContent } from '../data/pdf-merger-content';
 
 export default function PDFMerger() {
   const [files, setFiles] = useState([]);
@@ -109,7 +112,6 @@ export default function PDFMerger() {
           </div>
         </div>
 
-        {/* Free Tier Banner */}
         <FreeTierBanner />
 
         {/* Upload Area */}
@@ -215,6 +217,19 @@ export default function PDFMerger() {
             </div>
           </div>
         )}
+
+        {/* Tool Info & FAQ Section */}
+        <ToolInfo 
+          title={pdfMergerContent.title}
+          description={pdfMergerContent.description}
+          features={pdfMergerContent.features}
+          useCases={pdfMergerContent.useCases}
+        />
+
+        <ToolFAQ 
+          faqs={pdfMergerContent.faqs}
+          title="Frequently Asked Questions"
+        />
       </div>
     </>
   );

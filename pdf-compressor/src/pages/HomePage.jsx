@@ -9,6 +9,9 @@ import { compressPdf } from '../services/pdf.service';
 import { API_ROOT_URL } from '../services/api';
 import { toast } from 'react-hot-toast';
 import FreeTierBanner from '../components/common/FreeTierBanner';
+import ToolInfo from '../components/common/ToolInfo';
+import ToolFAQ from '../components/common/ToolFAQ';
+import { pdfCompressorContent } from '../data/pdf-compressor-content';
 
 export default function HomePage() {
   const [compressionLevel, setCompressionLevel] = useState('recommended');
@@ -170,6 +173,19 @@ export default function HomePage() {
             )}
           </div>
         )}
+
+        {/* Tool Info & FAQ Section - Always visible */}
+        <ToolInfo 
+          title={pdfCompressorContent.title}
+          description={pdfCompressorContent.description}
+          features={pdfCompressorContent.features}
+          useCases={pdfCompressorContent.useCases}
+        />
+
+        <ToolFAQ 
+          faqs={pdfCompressorContent.faqs}
+          title="Frequently Asked Questions"
+        />
       </div>
     </>
   );

@@ -4,6 +4,9 @@ import { Helmet } from 'react-helmet-async';
 import imageCompression from 'browser-image-compression';
 import { toast } from 'react-hot-toast';
 import FreeTierBanner from '../components/common/FreeTierBanner';
+import ToolInfo from '../components/common/ToolInfo';
+import ToolFAQ from '../components/common/ToolFAQ';
+import { imageCompressorContent } from '../data/image-compressor-content';
 
 export default function ImageCompressor() {
   const [originalImage, setOriginalImage] = useState(null);
@@ -122,7 +125,6 @@ export default function ImageCompressor() {
           </div>
         </div>
 
-        {/* Free Tier Banner */}
         <FreeTierBanner />
 
         {/* Upload Area */}
@@ -294,6 +296,19 @@ export default function ImageCompressor() {
             </div>
           </div>
         )}
+
+        {/* Tool Info & FAQ Section */}
+        <ToolInfo 
+          title={imageCompressorContent.title}
+          description={imageCompressorContent.description}
+          features={imageCompressorContent.features}
+          useCases={imageCompressorContent.useCases}
+        />
+
+        <ToolFAQ 
+          faqs={imageCompressorContent.faqs}
+          title="Frequently Asked Questions"
+        />
       </div>
     </>
   );
