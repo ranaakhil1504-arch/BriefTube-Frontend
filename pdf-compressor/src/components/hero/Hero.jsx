@@ -4,6 +4,13 @@ import Section from "../ui/Section";
 import { BRAND } from "../../constants/brand";
 
 export default function Hero() {
+  function scrollToUpload() {
+    const target = document.getElementById("upload-area");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
   return (
     <Section className="bg-gradient-to-b from-white to-slate-100">
       <div className="mx-auto max-w-4xl text-center">
@@ -27,7 +34,7 @@ export default function Hero() {
 
         {/* CTA Buttons */}
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button size="lg">
+          <Button size="lg" onClick={scrollToUpload}>
             Compress PDF
           </Button>
 

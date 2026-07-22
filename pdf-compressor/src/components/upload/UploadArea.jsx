@@ -1,4 +1,3 @@
-
 import Card from '../ui/Card';
 import DropZone from './DropZone';
 import FilePreview from './FilePreview';
@@ -11,7 +10,7 @@ export default function UploadArea({
   onRemove,
 }) {
   return (
-    <div className="mx-auto mt-16 max-w-5xl px-4">
+    <div id="upload-area" className="mx-auto mt-16 max-w-5xl px-4">
       <Card>
         {!selectedFile ? (
           <DropZone
