@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { lazy, Suspense } from "react";
 import LazySection from "../components/LazySection";
@@ -24,6 +25,7 @@ import toast from "react-hot-toast";
 const WhoUsesBriefTube = lazy(() => import("../components/WhoUsesBriefTube"));
 const ExploreMore = lazy(() => import("../components/ExploreMore"));
 import type { Session } from "@supabase/supabase-js";
+import ToolsSection from "../components/ToolsSection";
 
 function App() {
   const [summary, setSummary] = useState("");
@@ -32,9 +34,8 @@ function App() {
   const [video, setVideo] = useState<VideoInfo | null>(null);
   const [error, setError] = useState("");
 
-  // 👇 Add this here
   const [session, setSession] = useState<Session | null>(null);
-const [historyOpen, setHistoryOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const summaryRef = useRef<HTMLDivElement | null>(null);
   const loadingRef = useRef<HTMLDivElement | null>(null);
 
@@ -44,29 +45,24 @@ const [historyOpen, setHistoryOpen] = useState(false);
     setError("");
   }
 
-  // ==========================
-  // Supabase Connection Test
-  // ==========================
+  useEffect(() => {
+    async function loadSession() {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+    }
 
- useEffect(() => {
-  async function loadSession() {
-    const { data } = await supabase.auth.getSession();
+    loadSession();
 
-    setSession(data.session);
-  }
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
 
-  loadSession();
-
-  const {
-    data: { subscription },
-  } = supabase.auth.onAuthStateChange((_event, session) => {
-    setSession(session);
-  });
-
-  return () => {
-    subscription.unsubscribe();
-  };
-}, []);
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   async function handleGenerate(url: string) {
     try {
@@ -98,7 +94,6 @@ const [historyOpen, setHistoryOpen] = useState(false);
     }
   }
 
-  // Auto Scroll
   useEffect(() => {
     if (summary && video && summaryRef.current) {
       setTimeout(() => {
@@ -112,15 +107,15 @@ const [historyOpen, setHistoryOpen] = useState(false);
 
   return (
     <>
-    <SEO
-  title="AI YouTube Video Summarizer – Free & Instant | BriefTube"
-  description="Summarize any YouTube video instantly with AI. Generate accurate summaries, key takeaways, timestamps and notes for free using BriefTube."
-/>
-  <FAQSchema />
-     <Navbar
-  session={session}
-  onHistoryClick={() => setHistoryOpen(true)}
-/>
+      <SEO
+        title="AI YouTube Video Summarizer – Free & Instant | BriefTube"
+        description="Summarize any YouTube video instantly with AI. Generate accurate summaries, key takeaways, timestamps and notes for free using BriefTube."
+      />
+      <FAQSchema />
+      <Navbar
+        session={session}
+        onHistoryClick={() => setHistoryOpen(true)}
+      />
 
       <Hero
         onGenerate={handleGenerate}
@@ -135,7 +130,10 @@ const [historyOpen, setHistoryOpen] = useState(false);
       )}
 
       {!loading && !summary && !error && (
-        <EmptyState />
+        <>
+          <EmptyState />
+          <ToolsSection />
+        </>
       )}
 
       {error && (
@@ -143,11 +141,7 @@ const [historyOpen, setHistoryOpen] = useState(false);
           <h2 className="text-xl font-bold text-red-700">
             ❌ Unable to Generate Summary
           </h2>
-
-          <p className="mt-3 text-gray-700">
-            {error}
-          </p>
-
+          <p className="mt-3 text-gray-700">{error}</p>
           <p className="mt-4 text-sm text-gray-500">
             Please try another YouTube video or check your internet connection.
           </p>
@@ -163,121 +157,81 @@ const [historyOpen, setHistoryOpen] = useState(false);
           />
         </div>
       )}
-{session && (
-  <HistoryDrawer
-  open={historyOpen}
-  onClose={() => setHistoryOpen(false)}
-  onSelectSummary={(item) => {
-    setSummary(item.summary);
 
-    setVideo({
-      title: item.title,
-      channel: item.channel,
-      thumbnail: item.thumbnail,
-    });
+      {session && (
+        <HistoryDrawer
+          open={historyOpen}
+          onClose={() => setHistoryOpen(false)}
+          onSelectSummary={(item) => {
+            setSummary(item.summary);
+            setVideo({
+              title: item.title,
+              channel: item.channel,
+              thumbnail: item.thumbnail,
+            });
+            setError("");
+            setTimeout(() => {
+              summaryRef.current?.scrollIntoView({
+                behavior: "smooth",
+              });
+            }, 200);
+          }}
+        />
+      )}
 
-  
+      <LazySection>
+        <Suspense fallback={<div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />}>
+          <AboutBriefTube />
+        </Suspense>
+      </LazySection>
 
-    setError("");
+      <LazySection>
+        <Suspense fallback={<div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />}>
+          <Features />
+        </Suspense>
+      </LazySection>
 
-    setTimeout(() => {
-      summaryRef.current?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }, 200);
-  }}
-/>
-)}
-<LazySection>
-  <Suspense
-  fallback={
-    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
-  }
->
-    <AboutBriefTube />
-  </Suspense>
-</LazySection>
+      <LazySection>
+        <Suspense fallback={<div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />}>
+          <WhyChooseAI />
+        </Suspense>
+      </LazySection>
 
-<LazySection>
-  <Suspense
-  fallback={
-    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
-  }
->
-    <Features />
-  </Suspense>
-</LazySection>
+      <LazySection>
+        <Suspense fallback={<div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />}>
+          <WhoUsesBriefTube />
+        </Suspense>
+      </LazySection>
 
-<LazySection>
-  <Suspense
-  fallback={
-    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
-  }
->
-    <WhyChooseAI />
-  </Suspense>
-</LazySection>
+      <LazySection>
+        <Suspense fallback={<div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />}>
+          <TrustSection />
+        </Suspense>
+      </LazySection>
 
-<LazySection>
-  <Suspense
-  fallback={
-    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
-  }
->
-    <WhoUsesBriefTube />
-  </Suspense>
-</LazySection>
+      <LazySection>
+        <Suspense fallback={<div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />}>
+          <FAQ />
+        </Suspense>
+      </LazySection>
 
-<LazySection>
-  <Suspense
-  fallback={
-    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
-  }
->
-    <TrustSection />
-  </Suspense>
-</LazySection>
+      <LazySection>
+        <Suspense fallback={<div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />}>
+          <Testimonials />
+        </Suspense>
+      </LazySection>
 
-<LazySection>
-  <Suspense
-  fallback={
-    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
-  }
->
-    <FAQ />
-  </Suspense>
-</LazySection>
+      <LazySection>
+        <Suspense fallback={<div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />}>
+          <ExploreMore />
+        </Suspense>
+      </LazySection>
 
-<LazySection>
-  <Suspense
-  fallback={
-    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
-  }
->
-    <Testimonials />
-  </Suspense>
-</LazySection>
-
-<LazySection>
-  <Suspense
-  fallback={
-    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
-  }
->
-    <ExploreMore />
-  </Suspense>
-</LazySection>
-
-
-<LazySection>
-  <Suspense
-  fallback={
-    <div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />
-  }
->
-    <Footer />
-  </Suspense>
-</LazySection>
+      <LazySection>
+        <Suspense fallback={<div className="h-32 animate-pulse bg-gray-100 dark:bg-gray-900 rounded-2xl" />}>
+          <Footer />
+        </Suspense>
+      </LazySection>
     </>
   );
 }

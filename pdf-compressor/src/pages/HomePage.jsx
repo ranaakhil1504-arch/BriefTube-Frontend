@@ -1,5 +1,6 @@
 
 import { useState, useCallback } from 'react';
+import { Helmet } from 'react-helmet-async';
 import Hero from '../components/hero/Hero';
 import UploadArea from '../components/upload/UploadArea';
 import { CompressionOptions, CompressButton } from '../components/compression';
@@ -44,7 +45,6 @@ export default function HomePage() {
       return;
     }
 
-    // Show warning for large files (20MB+)
     const fileSizeMB = selectedFile.size / 1024 / 1024;
     if (fileSizeMB > 20) {
       toast('⏳ Large file detected. This may take 1-2 minutes.', {
@@ -95,71 +95,82 @@ export default function HomePage() {
   }, [selectedFile, compressionLevel, targetSize, showToast]);
 
   return (
-    <div className="min-h-screen transition-colors duration-300 dark:bg-gray-900">
-      <Hero />
-      
-      <FreeTierBanner />
+    <>
+      <Helmet>
+        <title>Free PDF Compressor - Reduce PDF Size Online | BriefTube</title>
+        <meta name="description" content="Compress PDF files online for free. Reduce PDF size without losing quality. No sign-up, no watermarks, files auto-deleted after 2 minutes." />
+        <meta property="og:title" content="Free PDF Compressor - Reduce PDF Size Online" />
+        <meta property="og:description" content="Compress PDF files online for free. Reduce PDF size without losing quality. No sign-up, no watermarks." />
+        <meta property="og:url" content="https://brieftube.co/pdf-compressor" />
+        <meta name="keywords" content="pdf compressor, compress pdf, reduce pdf size, pdf optimizer, pdf compression" />
+        <link rel="canonical" href="https://brieftube.co/pdf-compressor" />
+      </Helmet>
 
-      <UploadArea
-        selectedFile={selectedFile}
-        error={error}
-        loading={loading}
-        progress={progress}
-        onFileSelect={selectFile}
-        onRemove={clearFile}
-      />
+      <div className="min-h-screen transition-colors duration-300 dark:bg-gray-900">
+        <Hero />
+        
+        <FreeTierBanner />
 
-      {selectedFile && !error && (
-        <div className="mx-auto max-w-5xl px-4">
-          {/* Show file size warning for large files (20MB+) */}
-          {selectedFile.size / 1024 / 1024 > 20 && (
-            <div className="mb-4 rounded-lg bg-yellow-50 p-3 text-center text-sm text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300">
-              ⏳ Large file ({selectedFile.size / 1024 / 1024 / 1024}MB). 
-              Compression may take 1-2 minutes.
-            </div>
-          )}
+        <UploadArea
+          selectedFile={selectedFile}
+          error={error}
+          loading={loading}
+          progress={progress}
+          onFileSelect={selectFile}
+          onRemove={clearFile}
+        />
 
-          <CompressionOptions
-            selected={compressionLevel}
-            onChange={setCompressionLevel}
-            originalSize={selectedFile.size}
-            onTargetSizeChange={setTargetSize}
-          />
+        {selectedFile && !error && (
+          <div className="mx-auto max-w-5xl px-4">
+            {selectedFile.size / 1024 / 1024 > 20 && (
+              <div className="mb-4 rounded-lg bg-yellow-50 p-3 text-center text-sm text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300">
+                ⏳ Large file ({selectedFile.size / 1024 / 1024 / 1024}MB). 
+                Compression may take 1-2 minutes.
+              </div>
+            )}
 
-          <CompressButton
-            disabled={isCompressing}
-            loading={isCompressing}
-            onClick={handleCompress}
-            fileSize={selectedFile?.size}
-          />
+            <CompressionOptions
+              selected={compressionLevel}
+              onChange={setCompressionLevel}
+              originalSize={selectedFile.size}
+              onTargetSizeChange={setTargetSize}
+            />
 
-          {downloadUrl && (
-            <div className="mt-6 text-center">
-              <a
-                href={downloadUrl}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-6 py-3 text-white transition-colors hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
-              >
-                📥 Download Compressed PDF
-              </a>
-            </div>
-          )}
+            <CompressButton
+              disabled={isCompressing}
+              loading={isCompressing}
+              onClick={handleCompress}
+              fileSize={selectedFile?.size}
+            />
 
-          {compressionResult && (
-            <div className="mt-4 rounded-lg bg-blue-50 p-4 text-center transition-colors duration-300 dark:bg-blue-950/30">
-              <p className="text-sm text-slate-600 transition-colors duration-300 dark:text-gray-300">
-                Original: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB → 
-                Compressed: {(compressionResult.compressedSize / 1024 / 1024).toFixed(2)} MB
-                <span className="ml-2 font-bold text-green-600 dark:text-green-400">
-                  ({((1 - compressionResult.compressedSize / selectedFile.size) * 100).toFixed(0)}% smaller)
-                </span>
-              </p>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+            {downloadUrl && (
+              <div className="mt-6 text-center">
+                <a
+                  href={downloadUrl}
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-6 py-3 text-white transition-colors hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
+                >
+                  📥 Download Compressed PDF
+                </a>
+              </div>
+            )}
+
+            {compressionResult && (
+              <div className="mt-4 rounded-lg bg-blue-50 p-4 text-center transition-colors duration-300 dark:bg-blue-950/30">
+                <p className="text-sm text-slate-600 transition-colors duration-300 dark:text-gray-300">
+                  Original: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB → 
+                  Compressed: {(compressionResult.compressedSize / 1024 / 1024).toFixed(2)} MB
+                  <span className="ml-2 font-bold text-green-600 dark:text-green-400">
+                    ({((1 - compressionResult.compressedSize / selectedFile.size) * 100).toFixed(0)}% smaller)
+                  </span>
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </>
   );
 }

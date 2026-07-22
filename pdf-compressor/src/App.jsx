@@ -8,6 +8,7 @@ import MainLayout from "./layouts/MainLayout";
 import LoadingSpinner from "./components/ui/Spinner/LoadingSpinner";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AnalyticsProvider } from "./contexts/AnalyticsContext";
+import { HelmetProvider } from "react-helmet-async";
 import "./index.css";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -22,27 +23,29 @@ const queryClient = new QueryClient({
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <AnalyticsProvider>
-          <ErrorBoundary>
-            <BrowserRouter basename="/pdf-compressor">
-              <MainLayout>
-                <Suspense fallback={<LoadingSpinner />}>
-                  <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/image-compressor" element={<ImageCompressor />} />
-                    <Route path="/pdf-merger" element={<PDFMerger />} />
-                    <Route path="/image-resizer" element={<ImageResizer />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Suspense>
-              </MainLayout>
-            </BrowserRouter>
-            <Toaster position="bottom-right" />
-          </ErrorBoundary>
-        </AnalyticsProvider>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <AnalyticsProvider>
+            <ErrorBoundary>
+              <BrowserRouter basename="/pdf-compressor">
+                <MainLayout>
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Routes>
+                      <Route path="/" element={<HomePage />} />
+                      <Route path="/image-compressor" element={<ImageCompressor />} />
+                      <Route path="/pdf-merger" element={<PDFMerger />} />
+                      <Route path="/image-resizer" element={<ImageResizer />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </Suspense>
+                </MainLayout>
+              </BrowserRouter>
+              <Toaster position="bottom-right" />
+            </ErrorBoundary>
+          </AnalyticsProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
