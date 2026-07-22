@@ -44,7 +44,7 @@ export default function HomePage() {
       return;
     }
 
-    // Show warning for large files
+    // Show warning for large files (20MB+)
     const fileSizeMB = selectedFile.size / 1024 / 1024;
     if (fileSizeMB > 20) {
       toast('⏳ Large file detected. This may take 1-2 minutes.', {
@@ -98,7 +98,6 @@ export default function HomePage() {
     <div className="min-h-screen transition-colors duration-300 dark:bg-gray-900">
       <Hero />
       
-      {/* Free Tier Banner */}
       <FreeTierBanner />
 
       <UploadArea
@@ -112,7 +111,7 @@ export default function HomePage() {
 
       {selectedFile && !error && (
         <div className="mx-auto max-w-5xl px-4">
-          {/* Show file size warning */}
+          {/* Show file size warning for large files (20MB+) */}
           {selectedFile.size / 1024 / 1024 > 20 && (
             <div className="mb-4 rounded-lg bg-yellow-50 p-3 text-center text-sm text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300">
               ⏳ Large file ({selectedFile.size / 1024 / 1024 / 1024}MB). 

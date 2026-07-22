@@ -1,3 +1,4 @@
+
 import Button from "../ui/Button";
 
 export default function CompressButton({
@@ -6,6 +7,9 @@ export default function CompressButton({
   onClick,
   fileSize,
 }) {
+  // Check if file is large (> 10MB)
+  const isLargeFile = fileSize && fileSize / 1024 / 1024 > 10;
+
   const getEstimatedTime = () => {
     if (!fileSize) return "a few seconds";
     const mb = fileSize / 1024 / 1024;
@@ -46,15 +50,22 @@ export default function CompressButton({
               }}
             />
           </div>
+          
           <p className="mt-2 text-sm text-slate-500 dark:text-gray-400">
             ⏳ Processing {fileSize ? `${(fileSize / 1024 / 1024).toFixed(1)} MB` : ''} file...
           </p>
+          
           <p className="text-sm text-slate-500 dark:text-gray-400">
             Estimated time: {getEstimatedTime()}
           </p>
-          <p className="mt-1 text-xs text-slate-400 dark:text-gray-500">
-            💡 Running on free tier — thank you for your patience! 🙏
-          </p>
+
+          {/* Only show this message for large files (10MB+) */}
+          {isLargeFile && (
+            <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">
+              💡 Large file detected — may take 1-2 minutes. 
+              Running on free tier — thank you for your patience! 🙏
+            </p>
+          )}
         </div>
       )}
     </div>
