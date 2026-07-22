@@ -10,8 +10,8 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { AnalyticsProvider } from "./contexts/AnalyticsContext";
 import "./index.css";
 
-
 const HomePage = lazy(() => import("./pages/HomePage"));
+const ImageCompressor = lazy(() => import("./pages/ImageCompressor"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -29,6 +29,7 @@ export default function App() {
                 <Suspense fallback={<LoadingSpinner />}>
                   <Routes>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/image-compressor" element={<ImageCompressor />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Suspense>
