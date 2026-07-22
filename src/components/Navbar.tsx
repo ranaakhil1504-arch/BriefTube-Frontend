@@ -1,6 +1,4 @@
 
-
-
 import {
   Moon,
   Sun,
@@ -19,7 +17,6 @@ import {
   Image,
   Layers,
   Scissors,
-  MoreHorizontal,
 } from "lucide-react";
 
 import { Link, useLocation } from "react-router-dom";
@@ -47,7 +44,7 @@ const TOOLS = [
     to: "/pdf-compressor", 
     label: "PDF Compressor", 
     icon: FileText,
-    external: true, // This opens in a new tab/uses external link
+    external: true,
   },
   { 
     to: "/pdf-compressor/image-compressor", 
@@ -85,7 +82,6 @@ export default function Navbar({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close tools dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -261,7 +257,7 @@ export default function Navbar({
           </div>
         </nav>
 
-        {/* Right section - same as before */}
+        {/* Right section */}
         <div className="flex items-center gap-2.5 sm:gap-4">
           <span className="hidden rounded-full bg-blue-100 px-4 py-1 text-sm font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 md:block">
             Gemini AI
