@@ -43,6 +43,14 @@ export default function HomePage() {
       return;
     }
 
+    // Show warning for large files
+    const fileSizeMB = selectedFile.size / 1024 / 1024;
+    if (fileSizeMB > 20) {
+      toast('⏳ Large file detected. This may take 1-2 minutes.', {
+        duration: 5000,
+      });
+    }
+
     try {
       setIsCompressing(true);
       showToast('info', 'Compressing your PDF...');
@@ -53,6 +61,8 @@ export default function HomePage() {
         targetSize ? targetSize * 1024 * 1024 : null
       );
       
+      console.log('Compression result:', result);
+      
       if (result.success) {
         setCompressionResult(result);
         const sizeInMB = (result.compressedSize / 1024 / 1024).toFixed(2);
@@ -62,7 +72,6 @@ export default function HomePage() {
         showToast('success', `✅ PDF compressed! ${originalSizeMB}MB → ${sizeInMB}MB (${saved}% saved)`);
         
         if (result.downloadUrl) {
-          // Build the full download URL
           let downloadLink;
           if (result.downloadUrl.startsWith('http')) {
             downloadLink = result.downloadUrl;
@@ -84,51 +93,6 @@ export default function HomePage() {
     }
   }, [selectedFile, compressionLevel, targetSize, showToast]);
 
-  const handleDownload = useCallback(async () => {
-    if (!downloadUrl) return;
-
-    try {
-      console.log('📥 Downloading from:', downloadUrl);
-      
-      // Try fetch with credentials
-      const response = await fetch(downloadUrl, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/pdf',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Download failed: ${response.status}`);
-      }
-
-      // Get the blob
-      const blob = await response.blob();
-      
-      // Create download link
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      
-      // Extract filename from URL
-      const filename = downloadUrl.split('/').pop() || 'compressed.pdf';
-      link.download = filename;
-      
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      // Clean up
-      window.URL.revokeObjectURL(url);
-      
-      showToast('success', '✅ Download started!');
-      
-    } catch (error) {
-      console.error('❌ Download error:', error);
-      showToast('error', 'Failed to download. Please try again.');
-    }
-  }, [downloadUrl, showToast]);
-
   return (
     <div className="min-h-screen transition-colors duration-300 dark:bg-gray-900">
       <Hero />
@@ -144,6 +108,14 @@ export default function HomePage() {
 
       {selectedFile && !error && (
         <div className="mx-auto max-w-5xl px-4">
+          {/* Show file size warning */}
+          {selectedFile.size / 1024 / 1024 > 20 && (
+            <div className="mb-4 rounded-lg bg-yellow-50 p-3 text-center text-sm text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300">
+              ⏳ Large file ({selectedFile.size / 1024 / 1024 / 1024}MB). 
+              Compression may take 1-2 minutes.
+            </div>
+          )}
+
           <CompressionOptions
             selected={compressionLevel}
             onChange={setCompressionLevel}
@@ -159,12 +131,15 @@ export default function HomePage() {
 
           {downloadUrl && (
             <div className="mt-6 text-center">
-              <button
-                onClick={handleDownload}
+              <a
+                href={downloadUrl}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-6 py-3 text-white transition-colors hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
               >
                 📥 Download Compressed PDF
-              </button>
+              </a>
             </div>
           )}
 
