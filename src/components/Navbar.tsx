@@ -16,8 +16,7 @@ import {
   ChevronDown,
   Image,
   Layers,
-  Scissors,
-  Crop, // Added for Image Resizer
+  Crop,
 } from "lucide-react";
 
 import { Link, useLocation } from "react-router-dom";
@@ -25,11 +24,21 @@ import { useState, useCallback, useEffect } from "react";
 import { useTheme } from "../hooks/useTheme";
 import { signInWithGoogle, signOut } from "../services/auth";
 import type { Session } from "@supabase/supabase-js";
+import type { LucideIcon } from "lucide-react";
 import toast from "react-hot-toast";
 
 type NavbarProps = {
   session: Session | null;
   onHistoryClick: () => void;
+};
+
+// Define the tool type with LucideIcon
+type Tool = {
+  to: string;
+  label: string;
+  icon: LucideIcon;
+  external?: boolean;
+  comingSoon?: boolean;
 };
 
 const NAV_LINKS = [
@@ -40,7 +49,7 @@ const NAV_LINKS = [
   { to: "/contact", label: "Contact", icon: Mail },
 ];
 
-const TOOLS = [
+const TOOLS: Tool[] = [
   { 
     to: "/pdf-compressor", 
     label: "PDF Compressor", 
@@ -62,7 +71,7 @@ const TOOLS = [
   { 
     to: "/pdf-compressor/image-resizer", 
     label: "Image Resizer", 
-    icon: Crop,  // Changed from Image to Crop
+    icon: Crop,
     external: true,
   },
 ];
