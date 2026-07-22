@@ -9,6 +9,7 @@ import LoadingSpinner from "./components/ui/Spinner/LoadingSpinner";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AnalyticsProvider } from "./contexts/AnalyticsContext";
 import { HelmetProvider } from "react-helmet-async";
+import SimpleChatbot from "./components/SimpleChatbot";
 import "./index.css";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -40,6 +41,7 @@ export default function App() {
                     </Routes>
                   </Suspense>
                 </MainLayout>
+                <SimpleChatbot />
               </BrowserRouter>
               <Toaster position="bottom-right" />
             </ErrorBoundary>
