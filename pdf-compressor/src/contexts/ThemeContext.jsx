@@ -9,6 +9,7 @@ export function ThemeProvider({ children }) {
     return saved || "light";
   });
 
+  
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");

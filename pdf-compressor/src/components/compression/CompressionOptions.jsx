@@ -1,5 +1,5 @@
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import CompressionCard from './CompressionCard';
 import SizeSlider from './SizeSlider';
 import QualityIndicator from './QualityIndicator';
@@ -17,6 +17,7 @@ export default function CompressionOptions({
   onTargetSizeChange = null,
 }) {
   const [useCustomSize, setUseCustomSize] = useState(false);
+  const [customTargetValue, setCustomTargetValue] = useState(null);
 
   const maxSize = originalSize ? Math.ceil(originalSize / 1024 / 1024) : 50;
 
@@ -32,22 +33,24 @@ export default function CompressionOptions({
   }, [selected, originalSize]);
 
   // Use calculated target or custom target
-  const targetSize = useCustomSize ? null : calculatedTargetSize;
+  const targetSize = useCustomSize ? customTargetValue : calculatedTargetSize;
 
-  // Update parent when target changes
-  useState(() => {
+  // Notify parent when target changes
+  useEffect(() => {
     if (targetSize !== null && onTargetSizeChange) {
       onTargetSizeChange(targetSize);
     }
-  });
+  }, [targetSize, onTargetSizeChange]);
 
   const handlePresetClick = (id) => {
     setUseCustomSize(false);
+    setCustomTargetValue(null);
     onChange(id);
   };
 
   const handleSliderChange = (value) => {
     setUseCustomSize(true);
+    setCustomTargetValue(value);
     onChange('custom');
     if (onTargetSizeChange) {
       onTargetSizeChange(value);
@@ -87,7 +90,6 @@ export default function CompressionOptions({
           max={maxSize}
           step={0.1}
           onChange={handleSliderChange}
-          originalSize={originalSize}
         />
 
         <div className="mt-4 flex items-center justify-between">
