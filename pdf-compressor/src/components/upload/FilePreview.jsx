@@ -13,18 +13,21 @@ export default function FilePreview({ file, onRemove }) {
 
   return (
     <>
-      <div className="mt-8 rounded-xl border border-slate-200 bg-slate-50 p-4">
+      <div className="mt-8 rounded-xl border border-slate-200 bg-slate-50 p-4 transition-colors duration-300 dark:border-gray-700 dark:bg-gray-800">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <FileText className="text-red-500" size={28} />
+            <FileText className="text-red-500 transition-colors duration-300 dark:text-red-400" size={28} />
             <div>
-              <p className="font-medium text-slate-900">{file.name}</p>
-              <p className="text-sm text-slate-500">{fileSizeMB} MB</p>
+              <p className="font-medium text-slate-900 transition-colors duration-300 dark:text-white">
+                {file.name}
+              </p>
+              <p className="text-sm text-slate-500 transition-colors duration-300 dark:text-gray-400">
+                {fileSizeMB} MB
+              </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Preview Button */}
             <Button
               variant="outline"
               size="sm"
@@ -42,7 +45,6 @@ export default function FilePreview({ file, onRemove }) {
         </div>
       </div>
 
-      {/* PDF Preview Modal */}
       {showPreview && (
         <PDFPreview
           file={file}

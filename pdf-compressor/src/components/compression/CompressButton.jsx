@@ -1,3 +1,4 @@
+
 import Button from "../ui/Button";
 
 export default function CompressButton({
@@ -11,8 +12,16 @@ export default function CompressButton({
         size="lg"
         disabled={disabled || loading}
         onClick={onClick}
+        className="min-w-[200px]"
       >
-        {loading ? "Compressing..." : "Compress PDF"}
+        {loading ? (
+          <span className="flex items-center justify-center gap-2">
+            <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+            Compressing...
+          </span>
+        ) : (
+          "Compress PDF"
+        )}
       </Button>
     </div>
   );

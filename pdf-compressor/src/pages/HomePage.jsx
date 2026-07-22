@@ -47,11 +47,10 @@ export default function HomePage() {
       setIsCompressing(true);
       showToast('info', 'Compressing your PDF...');
 
-      // Pass target size to backend
       const result = await compressPdf(
         selectedFile, 
         compressionLevel,
-        targetSize ? targetSize * 1024 * 1024 : null // Convert MB to bytes
+        targetSize ? targetSize * 1024 * 1024 : null
       );
       
       if (result.success) {
@@ -77,7 +76,7 @@ export default function HomePage() {
   }, [selectedFile, compressionLevel, targetSize, showToast]);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen transition-colors duration-300 dark:bg-gray-900">
       <Hero />
       
       <UploadArea
@@ -111,7 +110,7 @@ export default function HomePage() {
                 download
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-6 py-3 text-white hover:bg-green-700"
+                className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-6 py-3 text-white transition-colors hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
               >
                 📥 Download Compressed PDF
               </a>
@@ -119,11 +118,11 @@ export default function HomePage() {
           )}
 
           {compressionResult && (
-            <div className="mt-4 rounded-lg bg-blue-50 p-4 text-center">
-              <p className="text-sm text-slate-600">
+            <div className="mt-4 rounded-lg bg-blue-50 p-4 text-center transition-colors duration-300 dark:bg-blue-950/30">
+              <p className="text-sm text-slate-600 transition-colors duration-300 dark:text-gray-300">
                 Original: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB → 
                 Compressed: {(compressionResult.compressedSize / 1024 / 1024).toFixed(2)} MB
-                <span className="ml-2 font-bold text-green-600">
+                <span className="ml-2 font-bold text-green-600 dark:text-green-400">
                   ({((1 - compressionResult.compressedSize / selectedFile.size) * 100).toFixed(0)}% smaller)
                 </span>
               </p>
