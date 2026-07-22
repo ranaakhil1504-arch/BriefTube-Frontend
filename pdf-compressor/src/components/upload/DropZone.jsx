@@ -70,12 +70,13 @@ export default function DropZone({
           </div>
         </div>
 
-        <h2 className="text-3xl font-bold">
+        <h2 className="text-2xl sm:text-3xl font-bold">
           Drag & Drop Files
         </h2>
 
         <p className="mt-3 text-slate-500">
-          or choose a file from your device
+          <span className="sm:hidden">Tap below to choose a file from your device</span>
+          <span className="hidden sm:inline">or choose a file from your device</span>
         </p>
 
         <div className="mt-8">

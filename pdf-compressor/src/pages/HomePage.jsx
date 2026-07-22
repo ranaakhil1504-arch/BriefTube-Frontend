@@ -5,6 +5,7 @@ import UploadArea from '../components/upload/UploadArea';
 import { CompressionOptions, CompressButton } from '../components/compression';
 import useFilePicker from '../hooks/useFilePicker';
 import { compressPdf } from '../services/pdf.service';
+import { API_ROOT_URL } from '../services/api';
 import { toast } from 'react-hot-toast';
 
 export default function HomePage() {
@@ -106,8 +107,10 @@ export default function HomePage() {
           {downloadUrl && (
             <div className="mt-6 text-center">
               <a
-                href={`http://localhost:5000${downloadUrl}`}
+                href={downloadUrl.startsWith('http') ? downloadUrl : `${API_ROOT_URL}${downloadUrl}`}
                 download
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-6 py-3 text-white hover:bg-green-700"
               >
                 📥 Download Compressed PDF

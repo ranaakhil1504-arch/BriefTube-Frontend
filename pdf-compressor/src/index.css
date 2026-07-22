@@ -149,3 +149,30 @@
   max-width: 100%;
   height: auto !important;
 }
+
+/* Bigger touch target for range sliders on touch devices.
+   Default browser slider thumbs are ~14px, well under the ~44px
+   Apple/Google recommend for a reliable tap/drag target, which made the
+   custom size slider fiddly to use on a phone. */
+@media (hover: none) and (pointer: coarse) {
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 9999px;
+    background: #3b82f6;
+    border: 3px solid white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+  }
+
+  input[type='range']::-moz-range-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 9999px;
+    background: #3b82f6;
+    border: 3px solid white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+  }
+}

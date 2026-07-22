@@ -1,9 +1,16 @@
 
 import { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, ExternalLink } from 'lucide-react';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 export default function PDFPreview({ file, onClose }) {
   const [fileUrl, setFileUrl] = useState(null);
+  // Mobile Safari (iOS) and many Android in-app/browser combos do not
+  // reliably render a blob: URL PDF inside an <iframe> — it often just
+  // shows a blank white box with no error. Rather than silently failing,
+  // on small screens we show a button that opens the PDF directly
+  // (window.open / new tab), which every mobile browser handles correctly.
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
     if (file) {
@@ -55,17 +62,32 @@ export default function PDFPreview({ file, onClose }) {
 
         {/* PDF Viewer */}
         <div className="flex-1 bg-slate-100 p-4 overflow-hidden min-h-0">
-          {fileUrl ? (
+          {!fileUrl ? (
+            <div className="flex h-full items-center justify-center">
+              <p className="text-slate-500">Loading PDF...</p>
+            </div>
+          ) : isMobile ? (
+            <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
+              <p className="text-slate-500">
+                Mobile browsers can't reliably preview PDFs in-page.
+              </p>
+              <a
+                href={fileUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-white hover:bg-blue-700"
+              >
+                <ExternalLink size={18} />
+                Open PDF
+              </a>
+            </div>
+          ) : (
             <iframe
               src={fileUrl}
               className="w-full h-full rounded-lg shadow-lg border-0"
               title="PDF Preview"
               style={{ minHeight: '400px' }}
             />
-          ) : (
-            <div className="flex h-full items-center justify-center">
-              <p className="text-slate-500">Loading PDF...</p>
-            </div>
           )}
         </div>
 

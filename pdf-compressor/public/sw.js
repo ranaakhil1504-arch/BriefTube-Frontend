@@ -1,5 +1,21 @@
 // Service Worker for PWA support
-const CACHE_NAME = 'docmint-v1';
+//
+// v2 changes (mobile fix):
+// - Bumped CACHE_NAME so returning mobile users (especially anyone who did
+//   "Add to Home Screen") actually get this update instead of being stuck
+//   forever on whatever was cached the first time they visited.
+// - Added self.skipWaiting() + clients.claim() so a new deployment takes
+//   over immediately instead of waiting for every tab/PWA instance to be
+//   fully closed and reopened — on mobile people almost never fully close
+//   a PWA, so without this they could stay on a broken old version indefinitely.
+// - The old fetch handler was cache-first for EVERY request, including PDF
+//   uploads and API calls (POST requests to the backend). We now only let
+//   the service worker handle simple same-origin GET requests, and always
+//   go straight to the network for anything else (uploads, API calls,
+//   cross-origin requests). This avoids the service worker interfering
+//   with the compress/upload requests, which is more likely to misbehave
+//   on mobile browsers.
+const CACHE_NAME = 'docmint-v2';
 const URLS_TO_CACHE = [
   '/',
   '/index.html',
@@ -7,18 +23,19 @@ const URLS_TO_CACHE = [
   '/favicon.svg',
 ];
 
+
 // Install event - cache assets
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Opened cache');
         return cache.addAll(URLS_TO_CACHE);
       })
   );
 });
 
-// Activate event - clean old caches
+// Activate event - clean old caches and take control immediately
 self.addEventListener('activate', (event) => {
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
@@ -30,37 +47,35 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
 });
 
-// Fetch event - serve from cache
+// Fetch event - only cache same-origin GET requests for static app shell
+// files. Everything else (PDF upload/compress/download calls to the
+// backend API, any non-GET request) bypasses the cache entirely.
 self.addEventListener('fetch', (event) => {
+  const { request } = event;
+
+  if (request.method !== 'GET' || !request.url.startsWith(self.location.origin)) {
+    return; // let the browser handle it normally, don't touch API calls
+  }
+
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Cache hit - return response
-        if (response) {
-          return response;
+    caches.match(request).then((cached) => {
+      const networkFetch = fetch(request).then((response) => {
+        if (response && response.status === 200 && response.type === 'basic') {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(request, responseToCache);
+          });
         }
-        return fetch(event.request).then(
-          (response) => {
-            // Check if we received a valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
+        return response;
+      }).catch(() => cached);
 
-            // Clone the response
-            const responseToCache = response.clone();
-
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
-
-            return response;
-          }
-        );
-      })
+      // Network-first for the app shell so updates show up promptly;
+      // fall back to cache only if the network fails (offline support).
+      return networkFetch || cached;
+    })
   );
 });
