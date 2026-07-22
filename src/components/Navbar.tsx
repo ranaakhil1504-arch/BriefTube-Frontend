@@ -52,11 +52,11 @@ const TOOLS = [
     icon: Image,
     external: true,  // ✅ FIXED: Added this line
   },
-  { 
-    to: "#", 
+   { 
+    to: "/pdf-compressor/pdf-merger", 
     label: "PDF Merger", 
     icon: Layers,
-    comingSoon: true,
+    external: true,  // <- Add this
   },
   { 
     to: "#", 
