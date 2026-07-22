@@ -50,7 +50,7 @@ const TOOLS = [
     to: "/pdf-compressor/image-compressor", 
     label: "Image Compressor", 
     icon: Image,
-    comingSoon: false,
+    external: true,  // ✅ FIXED: Added this line
   },
   { 
     to: "#", 
