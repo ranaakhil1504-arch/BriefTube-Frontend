@@ -13,6 +13,7 @@ import "./index.css";
 const HomePage = lazy(() => import("./pages/HomePage"));
 const ImageCompressor = lazy(() => import("./pages/ImageCompressor"));
 const PDFMerger = lazy(() => import("./pages/PDFMerger"));
+const ImageResizer = lazy(() => import("./pages/ImageResizer"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -32,6 +33,7 @@ export default function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/image-compressor" element={<ImageCompressor />} />
                     <Route path="/pdf-merger" element={<PDFMerger />} />
+                    <Route path="/image-resizer" element={<ImageResizer />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Suspense>

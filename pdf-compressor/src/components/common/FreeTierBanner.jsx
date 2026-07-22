@@ -1,5 +1,14 @@
 
+import { useLocation } from 'react-router-dom';
+
 export default function FreeTierBanner() {
+  const location = useLocation();
+  
+  // Only show on PDF Compressor (HomePage)
+  if (location.pathname !== '/') {
+    return null;
+  }
+
   return (
     <div className="mx-auto max-w-5xl px-4 mt-4">
       <div className="flex items-start gap-3 rounded-xl border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800 dark:border-yellow-800/30 dark:bg-yellow-900/20 dark:text-yellow-300">

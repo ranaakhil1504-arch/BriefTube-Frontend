@@ -17,6 +17,7 @@ import {
   Image,
   Layers,
   Scissors,
+  Crop, // Added for Image Resizer
 } from "lucide-react";
 
 import { Link, useLocation } from "react-router-dom";
@@ -50,19 +51,19 @@ const TOOLS = [
     to: "/pdf-compressor/image-compressor", 
     label: "Image Compressor", 
     icon: Image,
-    external: true,  // ✅ FIXED: Added this line
+    external: true,
   },
-   { 
+  { 
     to: "/pdf-compressor/pdf-merger", 
     label: "PDF Merger", 
     icon: Layers,
-    external: true,  // <- Add this
+    external: true,
   },
   { 
-    to: "#", 
-    label: "PDF Splitter", 
-    icon: Scissors,
-    comingSoon: true,
+    to: "/pdf-compressor/image-resizer", 
+    label: "Image Resizer", 
+    icon: Crop,  // Changed from Image to Crop
+    external: true,
   },
 ];
 
