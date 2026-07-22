@@ -56,9 +56,9 @@ export default function HomePage() {
       
       if (result.success) {
         setCompressionResult(result);
-        const sizeInMB = (result.size / 1024 / 1024).toFixed(2);
+        const sizeInMB = (result.compressedSize / 1024 / 1024).toFixed(2);
         const originalSizeMB = (selectedFile.size / 1024 / 1024).toFixed(2);
-        const saved = ((1 - result.size / selectedFile.size) * 100).toFixed(0);
+        const saved = ((1 - result.compressedSize / selectedFile.size) * 100).toFixed(0);
         
         showToast('success', `✅ PDF compressed! ${originalSizeMB}MB → ${sizeInMB}MB (${saved}% saved)`);
         
@@ -122,9 +122,9 @@ export default function HomePage() {
             <div className="mt-4 rounded-lg bg-blue-50 p-4 text-center">
               <p className="text-sm text-slate-600">
                 Original: {(selectedFile.size / 1024 / 1024).toFixed(2)} MB → 
-                Compressed: {(compressionResult.size / 1024 / 1024).toFixed(2)} MB
+                Compressed: {(compressionResult.compressedSize / 1024 / 1024).toFixed(2)} MB
                 <span className="ml-2 font-bold text-green-600">
-                  ({((1 - compressionResult.size / selectedFile.size) * 100).toFixed(0)}% smaller)
+                  ({((1 - compressionResult.compressedSize / selectedFile.size) * 100).toFixed(0)}% smaller)
                 </span>
               </p>
             </div>
