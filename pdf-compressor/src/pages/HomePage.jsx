@@ -62,18 +62,72 @@ export default function HomePage() {
         showToast('success', `✅ PDF compressed! ${originalSizeMB}MB → ${sizeInMB}MB (${saved}% saved)`);
         
         if (result.downloadUrl) {
-          setDownloadUrl(result.downloadUrl);
+          // Build the full download URL
+          let downloadLink;
+          if (result.downloadUrl.startsWith('http')) {
+            downloadLink = result.downloadUrl;
+          } else {
+            downloadLink = `${API_ROOT_URL}${result.downloadUrl}`;
+          }
+          setDownloadUrl(downloadLink);
+          console.log('✅ Download URL:', downloadLink);
         }
       } else {
         showToast('error', result.message || 'Compression failed');
       }
 
     } catch (err) {
+      console.error('❌ Compression error:', err);
       showToast('error', err.message || 'Compression failed');
     } finally {
       setIsCompressing(false);
     }
   }, [selectedFile, compressionLevel, targetSize, showToast]);
+
+  const handleDownload = useCallback(async () => {
+    if (!downloadUrl) return;
+
+    try {
+      console.log('📥 Downloading from:', downloadUrl);
+      
+      // Try fetch with credentials
+      const response = await fetch(downloadUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/pdf',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Download failed: ${response.status}`);
+      }
+
+      // Get the blob
+      const blob = await response.blob();
+      
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      
+      // Extract filename from URL
+      const filename = downloadUrl.split('/').pop() || 'compressed.pdf';
+      link.download = filename;
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up
+      window.URL.revokeObjectURL(url);
+      
+      showToast('success', '✅ Download started!');
+      
+    } catch (error) {
+      console.error('❌ Download error:', error);
+      showToast('error', 'Failed to download. Please try again.');
+    }
+  }, [downloadUrl, showToast]);
 
   return (
     <div className="min-h-screen transition-colors duration-300 dark:bg-gray-900">
@@ -105,15 +159,12 @@ export default function HomePage() {
 
           {downloadUrl && (
             <div className="mt-6 text-center">
-              <a
-                href={downloadUrl.startsWith('http') ? downloadUrl : `${API_ROOT_URL}${downloadUrl}`}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={handleDownload}
                 className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-6 py-3 text-white transition-colors hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
               >
                 📥 Download Compressed PDF
-              </a>
+              </button>
             </div>
           )}
 
